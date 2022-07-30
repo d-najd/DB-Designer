@@ -1,12 +1,14 @@
 package com.umldesigner.infrastructure.uml.logic;
 
+import android.util.Log;
+
 import com.umldesigner.MainActivity;
+import com.umldesigner.activities.uml_activity.SListeners;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,22 +30,37 @@ public class SSettingsSingleton {
      */
     @Getter(AccessLevel.NONE)
     private Integer appIdCounter;
-    //the tags of all existing views/constraint layouts
+    
+    /**
+     * the tags of all existing views/constraint layouts
+     */
+    
     private final HashMap<Integer, SObject> allUmlObjects;
-    //holds the data inside the uml tables
+    
+    /**
+     * holds the data inside the uml tables
+     */
+    
     private final ArrayList<STableData> umlTablesData;
+    private final SListeners sListeners;
+   
+    private final float dp;
     
     public Integer getNextId() {
         return appIdCounter++;
     }
     
     private SSettingsSingleton() {
+        Log.d("Execute:", "Create Schema Settings Singleton");
+       
         allUmlObjects = new HashMap<>();
         umlTablesData = new ArrayList<>();
         appIdCounter = 1;
         
         spacing = 19f * MainActivity.dp;
+        dp = MainActivity.dp;
         
+        sListeners = MainActivity.listeners;
     }
     
     public static SSettingsSingleton getInstance() {
@@ -57,31 +74,8 @@ public class SSettingsSingleton {
      * puts a view to the ViewTags with given id
      */
     public void allViewTagsPut(Integer id, SObject umlObject){
-        allUmlObjects.put(id, umlObject);
-    }
-    
-    /**
-     * moves uml view to given position using grid spaces
-     * @param id of the view
-     * @param x position in grid spaces, not absolute
-     * @param y position in grid spaces, not absolute
-     * @see #moveViewAbsolute(int, float, float)
-     */
-    public void moveView(int id, float x, float y){
-        x = x * getSpacing();
-        y = y * getSpacing();
+        Log.d("Execute:", "Put View in Schema Settings Singleton with parameters" + id + ", " + umlObject.toString());
         
-        Objects.requireNonNull(allUmlObjects.get(id)).move(x, y);
-    }
-    
-    /**
-     * moves uml view to a given absolute position
-     * @param id of the view
-     * @param x absolute position
-     * @param y absolute position
-     * @see #moveView(int, float, float)
-     */
-    public void moveViewAbsolute(int id, float x, float y){
-        Objects.requireNonNull(allUmlObjects.get(id)).move(x, y);
+        allUmlObjects.put(id, umlObject);
     }
 }

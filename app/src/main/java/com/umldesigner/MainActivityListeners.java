@@ -1,13 +1,14 @@
 package com.umldesigner;
 
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.View;
 
 import com.umldesigner.activities.uml_activity.CreateTableDialog;
 
-public class MainActivityListener implements View.OnClickListener {
+public class MainActivityListeners implements View.OnClickListener {
     MainActivity mainActivity;
-    public MainActivityListener(MainActivity mainActivity){
+    public MainActivityListeners(MainActivity mainActivity){
         this.mainActivity = mainActivity;
     }
     
@@ -16,6 +17,7 @@ public class MainActivityListener implements View.OnClickListener {
         Resources resources = view.getResources();
         view.getResources().getString(R.string.createTableFab);
         if (resources.getString(R.string.createTableFab).equals(view.getTag())) {
+            Log.d("Execute: ", "Create Table Fab");
             //AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             
             //https://stackoverflow.com/questions/13341560/how-to-create-a-custom-dialog-box-in-android

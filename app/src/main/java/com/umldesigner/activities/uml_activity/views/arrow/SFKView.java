@@ -1,22 +1,30 @@
 package com.umldesigner.activities.uml_activity.views.arrow;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
+import com.umldesigner.activities.uml_activity.views.arrow.Connection.SFKConnectionView;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
+import com.umldesigner.infrastructure.uml.logic.observer.BaseObservable;
+import com.umldesigner.infrastructure.uml.logic.observer.BaseObserver;
 import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.pojos.BasePojo;
+
+import java.util.HashSet;
+
+import lombok.Getter;
 
 //https://blogs.sitepointstatic.com/examples/tech/svg-curves/cubic-curve.html
 
-public class SArrowView extends View implements SObject {
+public class SFKView extends View implements SObject, BaseObservable {
     private final int color = Color.argb(255, 150, 150, 150);
-    private Paint paint;
+    @Getter
+    private ViewGroup container;
     
     private float firstX;
     private float firstY;
@@ -26,15 +34,27 @@ public class SArrowView extends View implements SObject {
     
     private SSettingsSingleton settingsInstance;
     
-    public SArrowView(Context context) {
-        super(context);
-        setupPaint();
+    public Paint paint;
+    public float center;
+    
+    
+    /**
+     * getting of values will be done through a interface which will list all of the connections and
+     * when a user pressed one of the connections it will give us the baseObserver and that should
+     * be enough
+     */
+    private HashSet<BaseObserver> arrowConnectors = new HashSet<>();
+    
+    public SFKView(ViewGroup container) {
+        super(container.getContext());
+        createPaint();
         
         settingsInstance = SSettingsSingleton.getInstance();
+        this.container = container;
         
         this.setX(1 * settingsInstance.getSpacing());
         this.setY(1 * settingsInstance.getSpacing());
-       
+        
         firstX = 0;
         firstY = 0;
         secondX = 20 * settingsInstance.getSpacing();
@@ -42,6 +62,8 @@ public class SArrowView extends View implements SObject {
     
         this.setMinimumWidth((int) secondX);
         this.setMinimumHeight((int) secondY);
+        
+        container.addView(this);
     }
     
     @Override
@@ -68,17 +90,8 @@ public class SArrowView extends View implements SObject {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
        
-       // drawArrow(canvas);
-       // drawLine(canvas);
-        drawCurve(canvas);
-    }
-    
-    /**
-     * test
-     * @param canvas
-     */
-    public void drawArrow(Canvas canvas){
-        canvas.drawLine(0, 0, 3000, 3000, paint);
+        drawLine(canvas);
+        drawBezier(canvas);
     }
     
     /**
@@ -95,7 +108,9 @@ public class SArrowView extends View implements SObject {
      * @param canvas canvas that we draw on
      */
     public void drawLine(Canvas canvas){
-        float center = secondX/2;
+        Log.d("Execute:", "drawLine");
+       
+        center = secondX/2;
         
         canvas.drawLine(center, this.getY() + settingsInstance.getSpacing(),
                center,  getHeight() - settingsInstance.getSpacing(), paint);
@@ -103,47 +118,33 @@ public class SArrowView extends View implements SObject {
     }
     
     /**
+     * draws a bezier line that connects the fields (visualizes the foreign key)
      *
+     * <pre>
+     *
+     * this is the line we are drawing, including the curve
+     *           |
+     *  ______  \/
+     * |      |---|
+     * |      |   |
+     *  ------    |    ______
+     *            |___|      |
+     *             /\ |      |
+     *             |   ------
+     *               </pre>
      * @param canvas canvas that we draw on
      */
-    public void drawCurve(Canvas canvas){
+    public void drawBezier(Canvas canvas){
+        Log.d("Execute:", "drawBezier");
         
-        float center = secondX/2;
+        SFKConnectionView arrowConnector = new SFKConnectionView(this, 10 * settingsInstance.getSpacing(), 10 * settingsInstance.getSpacing(), 0);
         
-        float firstX = center;
-        float firstY = getY() + settingsInstance.getSpacing();
-        
-        Path linePath = new Path();
-        linePath.moveTo(center, getY() + settingsInstance.getSpacing()); //starting point
-       // linePath.lineTo(center,getY() + settingsInstance.getSpacing());
-      
-        float effect = .2f; //how much we want the line to be curved
-        float ease = 0.35f; //works backwards, 0 is full ease 1 is no ease
-       
-        //applying the "effect" to the beziers (how much the line is curved)
-        float bezierX = center - (settingsInstance.getSpacing() * effect);
-        float bezierY = getY() + (settingsInstance.getSpacing() * effect);
-        
-        //applying ease to the first bezier (how far from the origin they are, closer is smoother line)
-        float firstBezierX = firstX - Math.abs(bezierX - firstX) * ease;
-        float firstBezierY = firstY - Math.abs(bezierY - firstY) * ease;
-        
-        float secondBezierX;
-        
-        linePath.cubicTo(
-                bezierX, bezierY,
-                bezierX, bezierY,
-                center - settingsInstance.getSpacing(), getY());
-        
-       // paint.setColor(R.color.red);
-        canvas.drawPath(linePath, paint);
-        
-        paint.setColor(Color.GREEN);
-    
-        canvas.drawLine(firstBezierX, firstBezierY, firstBezierX, firstBezierY, paint);
+        registerObserver(arrowConnector);
     }
     
-    private Paint setupPaint(){
+    private Paint createPaint(){
+        Log.d("Execute:", "createPaint");
+        
         paint = new Paint();
         paint.setColor(color);
         paint.setAntiAlias(true);
@@ -153,5 +154,30 @@ public class SArrowView extends View implements SObject {
         paint.setStrokeWidth(15);
         
         return paint;
+    }
+    
+    @Override
+    public void registerObserver(BaseObserver o) {
+        Log.d("Execute:", "registerObserver with parameter " + o.toString());
+        
+        arrowConnectors.add(o);
+    }
+    
+    //TODO destroy the view as well
+    @Override
+    public void removeObserver(BaseObserver o) {
+        Log.d("Execute:", "removeObserver with parameter" + o.toString());
+        //SArrowConnector arrowConnector = (SArrowConnector)o;
+        
+        arrowConnectors.remove(o);
+    }
+    
+    @Override
+    public void notifyObservers() {
+        Log.d("Execute:", "notifyObservers");
+        
+       for (BaseObserver observer : arrowConnectors){
+           observer.updateObserver(this, null);
+       }
     }
 }

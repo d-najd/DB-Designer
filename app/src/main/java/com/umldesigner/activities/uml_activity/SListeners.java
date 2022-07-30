@@ -3,12 +3,13 @@ package com.umldesigner.activities.uml_activity;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.umldesigner.activities.uml_activity.views.SBackground;
-import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
+import com.umldesigner.infrastructure.uml.utils.MoveViewUtils;
 
 /**
  * handles the schema listeners
@@ -45,6 +46,7 @@ public class SListeners implements View.OnTouchListener, View.OnLongClickListene
     @Override
     public boolean onDrag(View v, DragEvent event)
     {
+        Log.d("Execute:", "OnDrag with parameters " + v.toString() + ", " + event.toString());
         String clipData;
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_STARTED:
@@ -53,7 +55,7 @@ public class SListeners implements View.OnTouchListener, View.OnLongClickListene
                 clipData = event.getClipDescription().getLabel().toString();
                 Integer int_clipData = Integer.parseInt(clipData);
                 //moving the UmlObject
-                SSettingsSingleton.getInstance().moveViewAbsolute(int_clipData, event.getX(), event.getY());
+                MoveViewUtils.moveViewAbsolute(int_clipData, event.getX(), event.getY());
                 return true;
             default:
                 return false;

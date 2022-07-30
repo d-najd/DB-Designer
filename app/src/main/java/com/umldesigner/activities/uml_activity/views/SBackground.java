@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.View;
 
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
@@ -24,6 +25,8 @@ public class SBackground extends View {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+    
+        Log.d("Execute: ", "onDraw Schema Background");
 
         //float yOff = topbar.getHeight();
         float yOff = 0;

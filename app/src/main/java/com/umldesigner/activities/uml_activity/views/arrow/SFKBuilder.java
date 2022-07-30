@@ -7,9 +7,9 @@ import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.pojos.BasePojo;
 
-public class SArrowBuilder extends View implements SObject {
+public class SFKBuilder extends View implements SObject {
     
-    public SArrowBuilder(Context context) {
+    public SFKBuilder(Context context) {
         super(context);
     }
     

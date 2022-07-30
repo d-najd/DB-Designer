@@ -1,7 +1,9 @@
 package com.umldesigner.activities.uml_activity.views.table;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
@@ -24,31 +26,29 @@ public class STableBuilder {
     private ArrayList<SItemData> items;
     @Getter(AccessLevel.NONE)
     private final STableView sTableView;
+    private final ViewGroup container;
     
     /**
      * builder used for creating schema tables
+     * @param container a container in which the view is located at
      * @param context context for the table
      * @param title title for the table
      * @param x position in grid pieces?
      * @param y position in grid pieces?
      */
     public STableBuilder(
-            @NonNull Context context,
+            @NonNull ViewGroup container, // I HATE THIS PIECE OF ****, WHOEVER MADE THIS CAUSE STATIC MEMORY LEAK GO TO HELL
             @NonNull SListeners listeners,
             @NonNull String title,
             float x, float y){
-        this.context = context;
         this.listeners = listeners;
         this.title = title;
         this.x = x * SSettingsSingleton.getInstance().getSpacing();
         this.y = y * SSettingsSingleton.getInstance().getSpacing();
+        this.container = container;
+        this.context = container.getContext();
         
         sTableView = new STableView(this);
-    
-        //ViewGroup.LayoutParams a = sTableView.getLayoutParams();
-        //a.width = 200;
-        //sTableView.setLayoutParams(a);
-        
         sTableView.setVisibility(View.GONE);
     }
     
@@ -61,17 +61,19 @@ public class STableBuilder {
         for (SItemData item : items){
             item.setTable(sTableView.getData());
         }
-        
+        sTableView.setSItemData(items);
         this.items = items;
         return this;
     }
     
     public STableView build(){
-        sTableView.setSItemData(items);
+        Log.d("Execute:", "build with builder " + this.toString());
+        
         sTableView.updateData();
         
         sTableView.setOnTouchListener(listeners);
         sTableView.setVisibility(View.VISIBLE);
+        container.addView(sTableView);
     
         return sTableView;
     }

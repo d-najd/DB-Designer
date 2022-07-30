@@ -1,5 +1,6 @@
 package com.umldesigner.activities.uml_activity.views.table;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -88,6 +89,8 @@ public class STableView extends ConstraintLayout implements SObject {
     
     @Override
     public void move(float x, float y) {
+        Log.d("Execute:", "move with parameters " + x + ", " + y);
+    
         float newX = Math.round((x - this.getWidth() / 2f) / (umlSettingsInstance.getSpacing())) * umlSettingsInstance.getSpacing();
         float newY = Math.round((y - this.getHeight() / 2f) / (umlSettingsInstance.getSpacing())) * umlSettingsInstance.getSpacing();
         
@@ -104,11 +107,15 @@ public class STableView extends ConstraintLayout implements SObject {
     
     @Override
     public <T extends BasePojo & BaseDataInterface> void setData(T data) {
+        Log.d("Execute:", "setData with parameter " + data.toString());
+        
         this.data = (STableData) data;
     }
     
     @Override
     public void updateData() {
+        Log.d("Execute:", "updateData");
+        
         //prep
         TextView titleTextView = v.findViewById(R.id.title);
         
@@ -125,8 +132,9 @@ public class STableView extends ConstraintLayout implements SObject {
      * @see #updateData()
      */
     public void setTitle(String title) {
-        TextView titleTextView = v.findViewById(R.id.title);
+        Log.d("Execute:", "setTitle with parameter " + title);
         
+        TextView titleTextView = v.findViewById(R.id.title);
         titleTextView.setText(title);
     }
     
@@ -137,6 +145,8 @@ public class STableView extends ConstraintLayout implements SObject {
      * @see #updateData()
      */
     public void setSItemData(ArrayList<SItemData> itemDataArrayList) {
+        Log.d("Execute:", "setSItemData with parameters " + itemDataArrayList.toString());
+        
         RecyclerView umlTableRecyclerView = v.findViewById(R.id.uml_table_recyclerView);
         SAdapter adapter = new SAdapter(itemDataArrayList, v.getContext());
         

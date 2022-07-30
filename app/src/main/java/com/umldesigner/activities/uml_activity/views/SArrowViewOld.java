@@ -17,7 +17,7 @@ import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.pojos.BasePojo;
 
 /**
- * @deprecated
+ * @deprecated 
  */
 public class SArrowViewOld extends View implements SObject {
     //http://blogs.sitepointstatic.com/examples/tech/canvas-curves/bezier-curve.html
