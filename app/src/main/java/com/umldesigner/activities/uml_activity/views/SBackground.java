@@ -26,8 +26,8 @@ public class SBackground extends View {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
     
-        Log.d("Execute: ", "onDraw Schema Background");
-
+        Log.d("Execute ", "onDraw Schema Background");
+        
         //float yOff = topbar.getHeight();
         float yOff = 0;
         for (int x = 0; x < 1000; x++){

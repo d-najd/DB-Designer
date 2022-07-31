@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="sTableRowHei">52.5dp</dimen>
+    <dimen name="sTableWid">157.5dp</dimen>
+    <dimen name="spacing">17.5dp</dimen>
+    <dimen name="spacing10000x">175000dp</dimen> <!-- since there is no conversion to float in android studio I have to do this for accuracy !-->
 </resources>

@@ -7,12 +7,11 @@ import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.pojos.Ba
  * Uml Object that has only the most basic of functionality, this is android specific and should
  * not be added to the shared directory
  */
-public interface BaseSObject {
+public interface BaseSObject extends BaseDestroyable {
     float getX();
     float getY();
     int getWidth();
     int getHeight();
-    void destroy();
     
     /**
      * method used for setting up the data that is specific to the uml object, the method makes sure

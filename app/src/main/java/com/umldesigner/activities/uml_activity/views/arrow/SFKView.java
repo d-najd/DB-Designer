@@ -8,20 +8,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.umldesigner.activities.uml_activity.views.arrow.Connection.SFKConnectionView;
-import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
-import com.umldesigner.infrastructure.uml.entities.SObject;
+import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
+import com.umldesigner.infrastructure.uml.entities.Movable;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 import com.umldesigner.infrastructure.uml.logic.observer.BaseObservable;
 import com.umldesigner.infrastructure.uml.logic.observer.BaseObserver;
-import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.pojos.BasePojo;
 
 import java.util.HashSet;
+
+import javax.security.auth.Destroyable;
 
 import lombok.Getter;
 
 //https://blogs.sitepointstatic.com/examples/tech/svg-curves/cubic-curve.html
 
-public class SFKView extends View implements SObject, BaseObservable {
+public class SFKView extends View implements Movable, Destroyable, BaseObserver {
+    private SFKConnectionView firstKey;
+    private SFKConnectionView secondKey;
+    private SItemData itemData;
+    
     private final int color = Color.argb(255, 150, 150, 150);
     @Getter
     private ViewGroup container;
@@ -44,17 +49,18 @@ public class SFKView extends View implements SObject, BaseObservable {
      * be enough
      */
     private HashSet<BaseObserver> arrowConnectors = new HashSet<>();
-    
-    public SFKView(ViewGroup container) {
+   
+    public SFKView(ViewGroup container){
         super(container.getContext());
-        createPaint();
         
+        createPaint();
+    
         settingsInstance = SSettingsSingleton.getInstance();
         this.container = container;
-        
+    
         this.setX(1 * settingsInstance.getSpacing());
         this.setY(1 * settingsInstance.getSpacing());
-        
+    
         firstX = 0;
         firstY = 0;
         secondX = 20 * settingsInstance.getSpacing();
@@ -62,22 +68,20 @@ public class SFKView extends View implements SObject, BaseObservable {
     
         this.setMinimumWidth((int) secondX);
         this.setMinimumHeight((int) secondY);
-        
+    
         container.addView(this);
+    }
+    
+    public void setFirstKey(SFKConnectionView firstKey) {
+        this.firstKey = firstKey;
+    }
+    
+    public void setSecondKey(SFKConnectionView secondKey) {
+        this.secondKey = secondKey;
     }
     
     @Override
     public void destroy() {
-        throw new UnsupportedOperationException();
-    }
-    
-    @Override
-    public <T extends BasePojo & BaseDataInterface> void setData(T data) {
-        throw new UnsupportedOperationException();
-    }
-    
-    @Override
-    public void updateData() {
         throw new UnsupportedOperationException();
     }
     
@@ -108,7 +112,7 @@ public class SFKView extends View implements SObject, BaseObservable {
      * @param canvas canvas that we draw on
      */
     public void drawLine(Canvas canvas){
-        Log.d("Execute:", "drawLine");
+        Log.d("Execute", "drawLine");
        
         center = secondX/2;
         
@@ -135,15 +139,12 @@ public class SFKView extends View implements SObject, BaseObservable {
      * @param canvas canvas that we draw on
      */
     public void drawBezier(Canvas canvas){
-        Log.d("Execute:", "drawBezier");
+        Log.d("Execute", "drawBezier");
         
-        SFKConnectionView arrowConnector = new SFKConnectionView(this, 10 * settingsInstance.getSpacing(), 10 * settingsInstance.getSpacing(), 0);
-        
-        registerObserver(arrowConnector);
     }
     
     private Paint createPaint(){
-        Log.d("Execute:", "createPaint");
+        Log.d("Execute", "createPaint");
         
         paint = new Paint();
         paint.setColor(color);
@@ -157,27 +158,7 @@ public class SFKView extends View implements SObject, BaseObservable {
     }
     
     @Override
-    public void registerObserver(BaseObserver o) {
-        Log.d("Execute:", "registerObserver with parameter " + o.toString());
-        
-        arrowConnectors.add(o);
-    }
+    public void updateObserver(BaseObservable observable, Object args) {
     
-    //TODO destroy the view as well
-    @Override
-    public void removeObserver(BaseObserver o) {
-        Log.d("Execute:", "removeObserver with parameter" + o.toString());
-        //SArrowConnector arrowConnector = (SArrowConnector)o;
-        
-        arrowConnectors.remove(o);
-    }
-    
-    @Override
-    public void notifyObservers() {
-        Log.d("Execute:", "notifyObservers");
-        
-       for (BaseObserver observer : arrowConnectors){
-           observer.updateObserver(this, null);
-       }
     }
 }

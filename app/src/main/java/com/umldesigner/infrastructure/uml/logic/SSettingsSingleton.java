@@ -51,13 +51,13 @@ public class SSettingsSingleton {
     }
     
     private SSettingsSingleton() {
-        Log.d("Execute:", "Create Schema Settings Singleton");
+        Log.d("Execute", "Create Schema Settings Singleton");
        
         allUmlObjects = new HashMap<>();
         umlTablesData = new ArrayList<>();
         appIdCounter = 1;
-        
-        spacing = 19f * MainActivity.dp;
+       
+        spacing = MainActivity.spacing;
         dp = MainActivity.dp;
         
         sListeners = MainActivity.listeners;
@@ -74,7 +74,7 @@ public class SSettingsSingleton {
      * puts a view to the ViewTags with given id
      */
     public void allViewTagsPut(Integer id, SObject umlObject){
-        Log.d("Execute:", "Put View in Schema Settings Singleton with parameters" + id + ", " + umlObject.toString());
+        Log.d("Execute", "Put View in Schema Settings Singleton with parameters" + id + ", " + umlObject.toString());
         
         allUmlObjects.put(id, umlObject);
     }

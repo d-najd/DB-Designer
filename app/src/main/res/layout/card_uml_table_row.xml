@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/sTableRowHei"
     app:cardBackgroundColor="@color/transparent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:background="@color/transparent"
         android:layout_width="wrap_content"
+        android:maxLines="2"
         android:layout_height="wrap_content"
         android:id="@+id/text"
         android:padding="8dp"
         android:textSize="13sp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
         android:paddingStart="13dp"
         android:paddingEnd="8dp"
         android:textColor="@color/white"
         android:alpha=".8"
-        android:text="hello world"
+        android:text="ProductName: varchar(100)"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.cardview.widget.CardView>

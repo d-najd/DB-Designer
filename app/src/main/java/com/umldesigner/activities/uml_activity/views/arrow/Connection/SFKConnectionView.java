@@ -7,8 +7,10 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.umldesigner.activities.uml_activity.views.arrow.SFKView;
+import com.umldesigner.infrastructure.uml.entities.BaseDestroyable;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 import com.umldesigner.infrastructure.uml.logic.observer.BaseObservable;
 import com.umldesigner.infrastructure.uml.logic.observer.BaseObserver;
@@ -30,9 +32,9 @@ import com.umldesigner.infrastructure.uml.logic.observer.BaseObserver;
  *               </pre>
  */
 @SuppressLint("ViewConstructor")
-public class SFKConnectionView extends View implements BaseObserver {
-    private final float center;
-    private final Paint paint;
+public class SFKConnectionView extends View implements BaseObserver, BaseDestroyable {
+    private Paint paint;
+    private final int color = Color.argb(255, 150, 150, 150);
     
     /**
      * how much we want the line to be curved, test with no ease to be able to see the effect
@@ -44,18 +46,19 @@ public class SFKConnectionView extends View implements BaseObserver {
     float ease = .75f;
     float offset = 20 * SSettingsSingleton.getInstance().getDp();
     
-    public SFKConnectionView(SFKView sArrowConnection, float xPos, float yPos, float rotation) {
-        super(sArrowConnection.getContext());
-        center = sArrowConnection.center;
-        paint = sArrowConnection.paint;
-    
-        this.setMinimumWidth(1000);
-        this.setMinimumHeight(1000);
+    public SFKConnectionView(ViewGroup container, float xPos, float yPos, float rotation) {
+        super(container.getContext());
+        createPaint();
+        
+        this.setMinimumWidth((int) (SSettingsSingleton.getInstance().getSpacing() + offset + 20));
+        this.setMinimumHeight((int) (SSettingsSingleton.getInstance().getSpacing() + offset + 20));
+        if (rotation == 180){
+            xPos -= 20;
+        }
         this.setX(xPos);
         this.setY(yPos);
-        this.setRotation(rotation);
-        
-        sArrowConnection.getContainer().addView(this);
+        this.setRotationY(rotation);
+        container.addView(this);
     }
     
     @Override
@@ -83,7 +86,7 @@ public class SFKConnectionView extends View implements BaseObserver {
      * @param canvas canvas that we draw on
      */
     public void drawCurve(Canvas canvas){
-        Log.d("Execute:", "drawCurve");
+        Log.d("Execute", "drawCurve");
         
         SSettingsSingleton settingsInstance = SSettingsSingleton.getInstance();
         
@@ -120,10 +123,30 @@ public class SFKConnectionView extends View implements BaseObserver {
         canvas.drawLine(secondBezierX, secondBezierY, secondBezierX, secondBezierY, paint);
     }
     
+    
+    private Paint createPaint(){
+        Log.d("Execute", "createPaint");
+        
+        paint = new Paint();
+        paint.setColor(color);
+        paint.setAntiAlias(true);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(15);
+        
+        return paint;
+    }
+    
     @Override
     public void updateObserver(BaseObservable observable, Object args) {
-        SFKView sArrowConnection = (SFKView) observable;
+        SFKView container = (SFKView) observable;
         
         //define methods for stuff like moving the connector when a table is moved n stuff
+    }
+    
+    @Override
+    public void destroy() {
+    
     }
 }

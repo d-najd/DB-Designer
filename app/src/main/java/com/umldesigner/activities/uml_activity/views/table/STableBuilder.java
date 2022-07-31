@@ -67,7 +67,7 @@ public class STableBuilder {
     }
     
     public STableView build(){
-        Log.d("Execute:", "build with builder " + this.toString());
+        Log.d("Execute", "build with builder " + this.toString());
         
         sTableView.updateData();
         

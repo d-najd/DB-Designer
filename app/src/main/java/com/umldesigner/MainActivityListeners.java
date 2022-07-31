@@ -17,7 +17,7 @@ public class MainActivityListeners implements View.OnClickListener {
         Resources resources = view.getResources();
         view.getResources().getString(R.string.createTableFab);
         if (resources.getString(R.string.createTableFab).equals(view.getTag())) {
-            Log.d("Execute: ", "Create Table Fab");
+            Log.d("Execute ", "Create Table Fab");
             //AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             
             //https://stackoverflow.com/questions/13341560/how-to-create-a-custom-dialog-box-in-android

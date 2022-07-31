@@ -11,7 +11,7 @@ public class SGridCreate {
     SListeners sListeners;
     
     public SGridCreate(ViewGroup container) {
-        Log.d("Execute:", "Create Uml Grid");
+        Log.d("Execute", "Create Uml Grid");
         
         SBackground sBackground = new SBackground(container.getContext());
         sBackground.setMinimumWidth(50000);

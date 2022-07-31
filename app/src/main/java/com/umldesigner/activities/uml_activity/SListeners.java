@@ -46,7 +46,7 @@ public class SListeners implements View.OnTouchListener, View.OnLongClickListene
     @Override
     public boolean onDrag(View v, DragEvent event)
     {
-        Log.d("Execute:", "OnDrag with parameters " + v.toString() + ", " + event.toString());
+        Log.d("Execute", "OnDrag with parameters " + v.toString() + ", " + event.toString());
         String clipData;
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_STARTED:

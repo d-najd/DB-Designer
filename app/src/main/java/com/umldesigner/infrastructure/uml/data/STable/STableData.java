@@ -29,4 +29,19 @@ public class STableData extends STablePojo implements BaseDataInterface {
         this.y = y;
         this.title = title;
     }
+    
+    /**
+     * sets the x position in the data and updates the itemData n stuff
+     * @param x
+     */
+    
+    @Override
+    public void setX(Float x) {
+        super.setX(x);
+    }
+    
+    @Override
+    public void setY(Float Y) {
+        super.setX(x);
+    }
 }

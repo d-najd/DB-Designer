@@ -1,5 +1,7 @@
 package com.umldesigner.infrastructure.uml.utils;
 
+import android.util.Log;
+
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 
 import java.util.Objects;
@@ -15,10 +17,14 @@ public class MoveViewUtils {
      * @see #moveViewAbsolute(int, float, float)
      */
     public static void moveView(int id, float x, float y){
-        x = x * SSettingsSingleton.getInstance().getSpacing();
-        y = y * SSettingsSingleton.getInstance().getSpacing();
-        
-        Objects.requireNonNull(SSettingsSingleton.getInstance().getAllUmlObjects().get(id)).move(x, y);
+        float spacedX = x * SSettingsSingleton.getInstance().getSpacing();
+        float spacedY = y * SSettingsSingleton.getInstance().getSpacing();
+    
+        try {
+            Objects.requireNonNull(SSettingsSingleton.getInstance().getAllUmlObjects().get(id)).move(spacedX, spacedY);
+        } catch (NullPointerException e){
+            Log.e("ERROR", "Unable to move object with id " + id);
+        }
     }
     
     /**
@@ -29,6 +35,10 @@ public class MoveViewUtils {
      * @see #moveView(int, float, float)
      */
     public static void moveViewAbsolute(int id, float x, float y){
-        Objects.requireNonNull(SSettingsSingleton.getInstance().getAllUmlObjects().get(id)).move(x, y);
+        try {
+            Objects.requireNonNull(SSettingsSingleton.getInstance().getAllUmlObjects().get(id)).move(x, y);
+        } catch (NullPointerException e){
+            Log.e("ERROR", "Unable to move object with id " + id);
+        }
     }
 }

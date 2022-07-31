@@ -1,6 +1,7 @@
 package com.umldesigner.activities.uml_activity.recyclers;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.umldesigner.Message;
 import com.umldesigner.R;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 
@@ -32,17 +32,20 @@ public class SAdapter extends RecyclerView.Adapter<SAdapter.UmlRecyclerViewHolde
     public UmlRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_uml_table_row, parent, false);
-        Message.message(parent.getContext(), view.getX() + " " + view.getY());
+        view.setBackgroundColor(Color.RED);
+        
         return new UmlRecyclerViewHolder(view);
     }
     
     @Override
     public void onBindViewHolder(@NonNull UmlRecyclerViewHolder holder, int position) {
-        Log.d("Execute:", "onBindViewHolder with parameters " + holder.toString() + ", " + position);
+        Log.d("Execute", "onBindViewHolder with parameters " + holder.toString() + ", " + position);
         
         curData = recyclerDataArrayList.get(position);
         curHolder = holder;
         
+        holder.itemView.getX();
+        Log.d("Execute", "x pos "+ holder.itemView.getX());
         holder.title.setText(new StringBuilder().append("- ").append(curData.getValue()).append(": ").append(curData.getType()).toString());
     }
     
@@ -59,6 +62,7 @@ public class SAdapter extends RecyclerView.Adapter<SAdapter.UmlRecyclerViewHolde
         public UmlRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.text);
+            
         }
     }
 }
