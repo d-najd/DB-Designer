@@ -8,8 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.umldesigner.activities.uml_activity.SGridCreate;
 import com.umldesigner.activities.uml_activity.SListeners;
-import com.umldesigner.activities.uml_activity.views.arrow.Connection.SFKConnectionView;
-import com.umldesigner.activities.uml_activity.views.arrow.SFKView;
 import com.umldesigner.activities.uml_activity.views.table.STableBuilder;
 import com.umldesigner.activities.uml_activity.views.table.STableView;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
@@ -19,12 +17,20 @@ import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import lombok.Getter;
+
 public class MainActivity extends AppCompatActivity implements ReceiverInterface{
+    @Getter
     private ViewGroup container;
     private SObjectFactory sObjectFactory;
     public static float dp;
     public static SListeners listeners;
     public static float spacing;
+    
+    @Getter
+    private STableView sTable1;
+    @Getter
+    private STableView sTable2;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,36 +56,19 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
                 new SItemData("ProductId", "int"),
                 new SItemData("ProductId", "int"),
                 new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
                 new SItemData("ProductName", "varchar(100)")));
         
-        STableView sTableView = new STableBuilder(container, listeners, "title", 1, 1)
+        sTable1 = new STableBuilder(container, listeners, "title", 1, 1)
                 .addItems(umlAdapterFieldArrayList)
                 .build();
         
-        STableView sTableView1 = new STableBuilder(container, listeners, "title1", 13, 13)
+        sTable2 = new STableBuilder(container, listeners, "title1", 13, 13)
                 .addItems(umlAdapterFieldArrayList)
                 .build();
+        
+        //SFKConnectionView connection1 = new SFKConnectionView(container, 10 * settingsInstance.getSpacing(), 10 * settingsInstance.getSpacing(), 180);
+        //SFKConnectionView connection2 = new SFKConnectionView(container, 10 * settingsInstance.getSpacing(), 10 * settingsInstance.getSpacing(), 0);
     
-    
-        SFKConnectionView connection1 = new SFKConnectionView(container, 10 * settingsInstance.getSpacing(), 10 * settingsInstance.getSpacing(), 180);
-        SFKConnectionView connection2 = new SFKConnectionView(container, 10 * settingsInstance.getSpacing(), 10 * settingsInstance.getSpacing(), 0);
-    
-    
-        SFKView sArrowConnection = new SFKView(container);
         
         //depricated, replace with builder in future
         //container.addView((View) sObjectFactory.create("arrow",

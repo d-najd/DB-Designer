@@ -1,7 +1,6 @@
 package com.umldesigner.activities.uml_activity.recyclers;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +31,6 @@ public class SAdapter extends RecyclerView.Adapter<SAdapter.UmlRecyclerViewHolde
     public UmlRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_uml_table_row, parent, false);
-        view.setBackgroundColor(Color.RED);
-        
         return new UmlRecyclerViewHolder(view);
     }
     
@@ -62,7 +59,6 @@ public class SAdapter extends RecyclerView.Adapter<SAdapter.UmlRecyclerViewHolde
         public UmlRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.text);
-            
         }
     }
 }

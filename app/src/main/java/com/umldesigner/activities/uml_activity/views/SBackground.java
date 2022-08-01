@@ -30,13 +30,15 @@ public class SBackground extends View {
         
         //float yOff = topbar.getHeight();
         float yOff = 0;
+        
         for (int x = 0; x < 1000; x++){
             for (int y = 0; y < 1000; y++){
                 float xVal = x * SSettingsSingleton.getInstance().getSpacing();
                 float yVal = y * SSettingsSingleton.getInstance().getSpacing() + yOff;
 
-                canvas.drawCircle(xVal, yVal, 2.0f, paint);
+                canvas.drawCircle(xVal, yVal, 2.5f, paint);
             }
         }
+        paint.setColor(Color.GREEN);
     }
 }

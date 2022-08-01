@@ -19,22 +19,34 @@ import lombok.Getter;
 @Getter
 public class SSettingsSingleton {
     private static SSettingsSingleton instance;
-
-    public final float TABLE_ELEVATION = 0.5f;
-    public final float ARROW_HEAD_ELEVATION = 0.12f;
-    public final float ARROW_BACK_ELEVATION = 0.11f;
-    public final float ARROW_BODY_ELEVATION = 0.10f;
+    
+    //region general values
+    private final float dp;
     private final float spacing;
+    //endregion
+   
+    //region elevations
+    public static final float TABLE_ELEVATION = 0.5f;
+    public static final float ARROW_HEAD_ELEVATION = 0.12f;
+    public static final float ARROW_BACK_ELEVATION = 0.11f;
+    public static final float ARROW_BODY_ELEVATION = 0.10f;
+    
+    //endregion
+    
+    //region sizes
+    public static float TABLE_WIDTH = getInstance().spacing * 9;
+    
+    //endregion
+    
+    //region Data Storage Related
     /**
      * uuid counter used EXCLUSIVELY for the android app, (the server has a separate infrastructure)
      */
     @Getter(AccessLevel.NONE)
     private Integer appIdCounter;
-    
     /**
      * the tags of all existing views/constraint layouts
      */
-    
     private final HashMap<Integer, SObject> allUmlObjects;
     
     /**
@@ -43,8 +55,7 @@ public class SSettingsSingleton {
     
     private final ArrayList<STableData> umlTablesData;
     private final SListeners sListeners;
-   
-    private final float dp;
+    //endregion
     
     public Integer getNextId() {
         return appIdCounter++;
