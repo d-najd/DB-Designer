@@ -4,10 +4,8 @@ import android.util.Log;
 
 import com.umldesigner.MainActivity;
 import com.umldesigner.activities.uml_activity.SListeners;
-import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.AccessLevel;
@@ -45,15 +43,14 @@ public class SSettingsSingleton {
     @Getter(AccessLevel.NONE)
     private Integer appIdCounter;
     /**
-     * the tags of all existing views/constraint layouts
+     * the tags of all existing views/constraint layouts including their data's
      */
-    private final HashMap<Integer, SObject> allUmlObjects;
+    private final HashMap<Integer, SObject> allViews;
     
     /**
      * holds the data inside the uml tables
      */
     
-    private final ArrayList<STableData> umlTablesData;
     private final SListeners sListeners;
     //endregion
     
@@ -64,8 +61,7 @@ public class SSettingsSingleton {
     private SSettingsSingleton() {
         Log.d("Execute", "Create Schema Settings Singleton");
        
-        allUmlObjects = new HashMap<>();
-        umlTablesData = new ArrayList<>();
+        allViews = new HashMap<>();
         appIdCounter = 1;
        
         spacing = MainActivity.spacing;
@@ -87,6 +83,15 @@ public class SSettingsSingleton {
     public void allViewTagsPut(Integer id, SObject umlObject){
         Log.d("Execute", "Put View in Schema Settings Singleton with parameters" + id + ", " + umlObject.toString());
         
-        allUmlObjects.put(id, umlObject);
+        allViews.put(id, umlObject);
     }
+    
+    /**
+     * gets a field from {@link #allViews} with a given id
+     * @param id the given id
+     * @return Key and Value of the given id if it exists null if it doesn't
+     */
+     public SObject getViewById(Integer id){
+        return allViews.get(id);
+     }
 }

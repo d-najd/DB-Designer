@@ -52,13 +52,13 @@ public class SFKConnectionView extends View implements BaseObserver, BaseDestroy
         
         this.setMinimumWidth((int) (SSettingsSingleton.getInstance().getSpacing() + offset + 20));
         this.setMinimumHeight((int) (SSettingsSingleton.getInstance().getSpacing() + offset + 20));
-        if (rotation == 180){
-            xPos -= 20;
-        }
+        //if (rotation == 180){
+        //    xPos -= 20;
+        //}
         this.setX(xPos);
         this.setY(yPos);
         this.setRotationY(rotation);
-        //container.addView(this);
+        container.addView(this);
     }
     
     @Override

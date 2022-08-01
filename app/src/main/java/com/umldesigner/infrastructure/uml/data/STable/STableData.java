@@ -48,7 +48,7 @@ public class STableData extends STablePojo implements BaseDataInterface {
     }
     
     @Override
-    public void setY(Float Y) {
-        super.setX(x);
+    public void setY(Float y) {
+        super.setY(y);
     }
 }

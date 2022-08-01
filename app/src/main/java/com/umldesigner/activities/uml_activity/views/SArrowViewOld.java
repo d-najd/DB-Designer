@@ -95,7 +95,7 @@ public class SArrowViewOld extends View implements SObject {
         this.sListeners = sListeners;
         this.viewGroup = viewGroup;
         this.setId(id);
-        umlSettingsInstance.allViewTagsPut(id, this);
+        //umlSettingsInstance.allViewTagsPut(id, this);
     }
 
     /**
@@ -172,6 +172,11 @@ public class SArrowViewOld extends View implements SObject {
     @Override
     public void updateData() {
     
+    }
+    
+    @Override
+    public BaseDataInterface getData() {
+        return null;
     }
     
     /**

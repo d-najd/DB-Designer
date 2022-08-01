@@ -163,6 +163,5 @@ public class STableView extends ConstraintLayout implements SObject {
         recyclerView.setAdapter(adapter);
         
         data.setItems(itemDataArrayList);
-        umlSettingsInstance.getUmlTablesData().add(data);
     }
 }

@@ -27,4 +27,6 @@ public interface BaseSObject extends BaseDestroyable {
      * method used for updating the data object which every uml object should have
      */
      void updateData();
+     
+     BaseDataInterface getData();
 }

@@ -1,12 +1,13 @@
 package com.umldesigner;
 
 import android.content.res.Resources;
-import android.util.Log;
 import android.view.View;
 
 import com.umldesigner.activities.uml_activity.CreateTableDialog;
 import com.umldesigner.activities.uml_activity.views.arrow.SFKBuilder;
 import com.umldesigner.activities.uml_activity.views.arrow.SFKView;
+import com.umldesigner.infrastructure.uml.data.STable.STableData;
+import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 
 public class MainActivityListeners implements View.OnClickListener {
     MainActivity mainActivity;
@@ -19,12 +20,11 @@ public class MainActivityListeners implements View.OnClickListener {
         Resources resources = view.getResources();
         view.getResources().getString(R.string.createTableFab);
         if (resources.getString(R.string.createTableFab).equals(view.getTag())) {
-    
-            Log.d("TESTING", "entity x " + mainActivity.getSTable1().getX() + " y " + mainActivity.getSTable1().getY() + " data x "
-                    + mainActivity.getSTable1().getData().getX() + " y "
-            + mainActivity.getSTable1().getData().getY());
+            //NOTE this is hard coded for testing
+            STableData tableData = (STableData) SSettingsSingleton.getInstance().getViewById(1).getData();
+            STableData tableData2 = (STableData) SSettingsSingleton.getInstance().getViewById(2).getData();
             
-            SFKView builder = new SFKBuilder(mainActivity.getContainer(), mainActivity.getSTable1().getData(), 1, mainActivity.getSTable2().getData(), 2).build();
+            SFKView builder = new SFKBuilder(mainActivity.getContainer(), tableData, 1, tableData2, 2).build();
     
             //AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             

@@ -21,7 +21,7 @@ public class MoveViewUtils {
         float spacedY = y * SSettingsSingleton.getInstance().getSpacing();
     
         try {
-            Objects.requireNonNull(SSettingsSingleton.getInstance().getAllUmlObjects().get(id)).move(spacedX, spacedY);
+            Objects.requireNonNull(SSettingsSingleton.getInstance().getViewById(id)).move(spacedX, spacedY);
         } catch (NullPointerException e){
             Log.e("ERROR", "Unable to move object with id " + id);
         }
@@ -36,7 +36,7 @@ public class MoveViewUtils {
      */
     public static void moveViewAbsolute(int id, float x, float y){
         try {
-            Objects.requireNonNull(SSettingsSingleton.getInstance().getAllUmlObjects().get(id)).move(x, y);
+            Objects.requireNonNull(SSettingsSingleton.getInstance().getViewById(id)).move(x, y);
         } catch (NullPointerException e){
             Log.e("ERROR", "Unable to move object with id " + id);
         }

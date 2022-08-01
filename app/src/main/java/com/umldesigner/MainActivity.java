@@ -65,14 +65,6 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
         sTable2 = new STableBuilder(container, listeners, "title1", 13, 13)
                 .addItems(umlAdapterFieldArrayList)
                 .build();
-        
-        //SFKConnectionView connection1 = new SFKConnectionView(container, 10 * settingsInstance.getSpacing(), 10 * settingsInstance.getSpacing(), 180);
-        //SFKConnectionView connection2 = new SFKConnectionView(container, 10 * settingsInstance.getSpacing(), 10 * settingsInstance.getSpacing(), 0);
-    
-        
-        //depricated, replace with builder in future
-        //container.addView((View) sObjectFactory.create("arrow",
-        //        new float[]{3.5f * spacing, 13f * spacing, 9.5f * spacing, 18f * spacing}));
     }
     
     

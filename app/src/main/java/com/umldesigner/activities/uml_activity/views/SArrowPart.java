@@ -26,7 +26,7 @@ public class SArrowPart extends View implements SObject {
         this.type = type;
         this.parent = parent;
         this.setId(id);
-        umlSettingsInstance.allViewTagsPut(id, this);
+       // umlSettingsInstance.allViewTagsPut(id, this);
         this.setMinimumWidth((int) parent.colliderSize);
         this.setMinimumHeight((int) parent.colliderSize);
         setOnTouchListener(parent.sListeners);
@@ -98,5 +98,10 @@ public class SArrowPart extends View implements SObject {
     @Override
     public void updateData() {
         throw new UnsupportedOperationException("need to implement the method...");
+    }
+    
+    @Override
+    public BaseDataInterface getData() {
+        return null;
     }
 }
