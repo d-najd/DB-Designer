@@ -58,7 +58,7 @@ public class SFKConnectionView extends View implements BaseObserver, BaseDestroy
         this.setX(xPos);
         this.setY(yPos);
         this.setRotationY(rotation);
-        //container.addView(this);
+        container.addView(this);
     }
     
     @Override

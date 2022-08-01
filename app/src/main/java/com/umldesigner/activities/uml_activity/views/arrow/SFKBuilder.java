@@ -80,8 +80,8 @@ public class SFKBuilder {
     private SFKConnectionView buildSFKConnection(STableData tableData, int pos){
         try {
             RecyclerView recyclerView = tableData.getRecyclerView();
-            RecyclerView.ViewHolder re = recyclerView.findViewHolderForAdapterPosition(pos);
-            View item = re.itemView;
+            RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(pos);
+            View item = viewHolder.itemView;
             float itemX = tableData.getX() + recyclerView.getX() + item.getX();
             float itemY = tableData.getY() + recyclerView.getY() + item.getY();
             return new SFKConnectionView(container, itemX, itemY, 0);
