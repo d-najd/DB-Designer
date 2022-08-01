@@ -37,13 +37,13 @@ public class SArrowPart extends View implements SObject {
 
         switch (type){
             case ArrowHead:
-                this.setElevation(umlSettingsInstance.getARROW_HEAD_ELEVATION());
+                this.setElevation(SSettingsSingleton.ARROW_HEAD_ELEVATION);
                 this.setX(parent.xEnd - parent.colliderSize/2);
                 this.setY(parent.yEnd - parent.colliderSize/2);
                 this.setRotation((float) (angle + 180));
                 break;
             case ArrowBody:
-                this.setElevation(umlSettingsInstance.getARROW_BODY_ELEVATION());
+                this.setElevation(SSettingsSingleton.ARROW_BODY_ELEVATION);
                 this.setX(parent.xStart - parent.colliderSize/2);
                 this.setY(parent.yStart - parent.colliderSize/2);
                 this.setRotation((float) angle + 90);
@@ -53,7 +53,7 @@ public class SArrowPart extends View implements SObject {
                         Math.pow(parent.yStart - parent.yEnd, 2))) +  parent.colliderSize));
                 break;
             case ArrowBack:
-                this.setElevation(umlSettingsInstance.getARROW_BACK_ELEVATION());
+                this.setElevation(SSettingsSingleton.ARROW_BACK_ELEVATION);
                 this.setX(parent.xStart - parent.colliderSize/2);
                 this.setY(parent.yStart - parent.colliderSize/2);
                 this.setRotation((float) (angle + 180));

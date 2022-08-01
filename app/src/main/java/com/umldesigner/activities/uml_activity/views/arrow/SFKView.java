@@ -50,34 +50,28 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
      */
     private HashSet<BaseObserver> arrowConnectors = new HashSet<>();
    
-    public SFKView(ViewGroup container){
-        super(container.getContext());
+    public SFKView(SFKBuilder sfkBuilder){
+        super(sfkBuilder.getContainer().getContext());
         
         createPaint();
     
         settingsInstance = SSettingsSingleton.getInstance();
-        this.container = container;
+        this.container = sfkBuilder.getContainer();
     
         this.setX(1 * settingsInstance.getSpacing());
         this.setY(1 * settingsInstance.getSpacing());
-    
+        this.firstKey = (sfkBuilder.getFConnectionView());
+        this.secondKey = (sfkBuilder.getSConnectionView());
+        
         firstX = 0;
         firstY = 0;
         secondX = 20 * settingsInstance.getSpacing();
         secondY = 20 * settingsInstance.getSpacing();
     
-        this.setMinimumWidth((int) secondX);
-        this.setMinimumHeight((int) secondY);
+        this.setMinimumWidth((int) 10000);
+        this.setMinimumHeight((int) 10000);
     
         container.addView(this);
-    }
-    
-    public void setFirstKey(SFKConnectionView firstKey) {
-        this.firstKey = firstKey;
-    }
-    
-    public void setSecondKey(SFKConnectionView secondKey) {
-        this.secondKey = secondKey;
     }
     
     @Override
@@ -159,6 +153,6 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
     
     @Override
     public void updateObserver(BaseObservable observable, Object args) {
-    
+        throw new UnsupportedOperationException();
     }
 }

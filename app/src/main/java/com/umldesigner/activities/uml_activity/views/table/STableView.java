@@ -28,6 +28,10 @@ public class STableView extends ConstraintLayout implements SObject {
     @Getter
     private STableData data;
     private View v;
+
+    @Getter
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
     
     /**
      * creates UmlTableView at given position and with given listeners if given
@@ -69,7 +73,10 @@ public class STableView extends ConstraintLayout implements SObject {
         this.setId(data.getId());
         this.setX(data.getX()); //setting the absolute position
         this.setY(data.getY());
-        this.setElevation(umlSettingsInstance.getTABLE_ELEVATION());
+        this.setElevation(SSettingsSingleton.TABLE_ELEVATION);
+        this.setMaxWidth((int) SSettingsSingleton.TABLE_WIDTH);
+        this.setMinWidth((int) SSettingsSingleton.TABLE_WIDTH);
+        this.setMinimumWidth((int) SSettingsSingleton.TABLE_WIDTH);
         this.setBackgroundColor(2131034697);
         titleTextView.setText(data.getTitle());
    
@@ -123,6 +130,7 @@ public class STableView extends ConstraintLayout implements SObject {
         data.setTitle(titleTextView.getText().toString());
         data.setX(this.getX());
         data.setY(this.getY());
+        data.setRecyclerView(recyclerView);
     }
     
     /**
@@ -147,11 +155,14 @@ public class STableView extends ConstraintLayout implements SObject {
     public void setSItemData(ArrayList<SItemData> itemDataArrayList) {
         Log.d("Execute", "setSItemData with parameters " + itemDataArrayList.toString());
         
-        RecyclerView umlTableRecyclerView = v.findViewById(R.id.uml_table_recyclerView);
+        recyclerView = v.findViewById(R.id.uml_table_recyclerView);
         SAdapter adapter = new SAdapter(itemDataArrayList, v.getContext());
         
-        LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
-        umlTableRecyclerView.setLayoutManager(layoutManager);
-        umlTableRecyclerView.setAdapter(adapter);
+        layoutManager = new LinearLayoutManager(v.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+        
+        data.setItems(itemDataArrayList);
+        umlSettingsInstance.getUmlTablesData().add(data);
     }
 }

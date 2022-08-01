@@ -1,18 +1,31 @@
 package com.umldesigner.activities.uml_activity.views.arrow;
 
+import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.umldesigner.Message;
 import com.umldesigner.activities.uml_activity.views.arrow.Connection.SFKConnectionView;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
 
+import lombok.Getter;
+
 public class SFKBuilder {
     private SFKView sfkView;
+   
+    @Getter
+    private final ViewGroup container;
+    private final STableData fTableData;
+    private final STableData sTableData;
+    private final int sPos;
+    private final int fPos;
     
-    private ViewGroup container;
-    private STableData fTableData;
-    private STableData sTableData;
-    private int sPos;
-    private int fPos;
+    @Getter
+    private SFKConnectionView fConnectionView;
+    @Getter
+    private SFKConnectionView sConnectionView;
     
     /**
      * creates a SFK builder
@@ -29,14 +42,29 @@ public class SFKBuilder {
         this.fPos = fPos;
         this.sPos = sPos;
         
-        sfkView = new SFKView(container);
     }
     
     public SFKView build(){
-        SFKConnectionView fConnectionView = buildSFKConnection(fTableData, fPos);
-        SFKConnectionView sConnectionView = buildSFKConnection(sTableData, sPos);
+        fConnectionView = buildSFKConnection(fTableData, fPos);
+        sConnectionView = buildSFKConnection(sTableData, sPos);
         
-        return null;
+        if (fConnectionView == null || sConnectionView == null) {
+            rollBack();
+            return null;
+        } else {
+            sfkView = new SFKView(this);
+            return sfkView;
+        }
+    }
+    
+    public void rollBack(){
+        if (fConnectionView != null){
+            fConnectionView.destroy();
+        }
+        if (sConnectionView != null){
+            sConnectionView.destroy();
+        }
+        sfkView.destroy();
     }
     
     /**
@@ -46,9 +74,19 @@ public class SFKBuilder {
      * @return instance of SFKConnectionView
      */
     private SFKConnectionView buildSFKConnection(STableData tableData, int pos){
-       // tableData.getX();
-        
-        SFKConnectionView sfkConnection = new SFKConnectionView(container, 0, 0, 0);
-        return sfkConnection;
+        try {
+            RecyclerView recyclerView = tableData.getRecyclerView();
+            RecyclerView.ViewHolder re = recyclerView.findViewHolderForAdapterPosition(pos);
+            View item = re.itemView;
+            float itemX = tableData.getX() + recyclerView.getX() + item.getX();
+            float itemY = tableData.getY() + recyclerView.getY() + item.getY();
+            SFKConnectionView connectionView = new SFKConnectionView(container, itemX, itemY, 0);
+            return connectionView;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            Log.d("ERROR", "Can't create SFK connection with pos " + pos);
+            Message.defErrMessage(container.getContext());
+        }
+        return null;
     }
 }
