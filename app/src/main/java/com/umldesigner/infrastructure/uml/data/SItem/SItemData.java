@@ -12,15 +12,19 @@ import lombok.Getter;
 
 /**
  * data field used exclusively for android
+ *
+ * @apiNote considered changing this to a decorator but I think it will be more painful to maintain
+ * that way
  */
-public class SItemData extends SItemPojo implements BaseDataInterface, BaseObservable {
+public class SItemData extends SItemPojo implements BaseDataInterface, BaseObservable{
     @Getter
     private Integer id;
-    
+   
     /**
      * the one who is the primary key (making the connections) holds the key, the other item doesn't
      * hold anything
      */
+    @Getter
     private HashSet<SFKView> foreignKeys = new HashSet<>();
     
     public SItemData(String value, String type) {

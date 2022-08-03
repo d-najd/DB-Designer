@@ -1,6 +1,7 @@
 package com.umldesigner.activities.uml_activity.views.arrow;
 
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,10 +18,25 @@ public class SFKBuilder {
    
     @Getter
     private final ViewGroup container;
+    @Getter
     private final STableData fTableData;
+    @Getter
     private final STableData sTableData;
+    @Getter
     private final int sPos;
+    @Getter
     private final int fPos;
+    
+    /**
+     * stores the x and y positions like Pair(x, y), of the item gotten with STableData and position
+     */
+    @Getter
+    private final Pair<Float, Float> fTableItemPositions;
+    /**
+     * stores the x and y positions like Pair(x, y), of the item gotten with STableData and position
+     */
+    @Getter
+    private final Pair<Float, Float> sTableItemPositions;
     
     @Getter
     private SFKConnectionView fConnectionView;
@@ -46,11 +62,16 @@ public class SFKBuilder {
         this.sTableData = sTableData;
         this.fPos = fPos;
         this.sPos = sPos;
+        
+        this.fTableItemPositions = calItemYPos(fTableData, fPos);
+        this.sTableItemPositions = calItemYPos(sTableData, sPos);
     }
     
     public SFKView build(){
-        fConnectionView = buildSFKConnection(fTableData, fPos);
-        sConnectionView = buildSFKConnection(sTableData, sPos);
+        sfkView = new SFKView(this);
+        
+        fConnectionView = buildSFKConnection(fTableItemPositions);
+        sConnectionView = buildSFKConnection(sTableItemPositions);
         
         if (fConnectionView == null || sConnectionView == null) {
             rollBack();
@@ -61,7 +82,12 @@ public class SFKBuilder {
         }
     }
     
-    public void rollBack(){
+    private SFKView createLine(){
+        sfkView = new SFKView(this);
+        return sfkView;
+    }
+    
+    private void rollBack(){
         if (fConnectionView != null){
             fConnectionView.destroy();
         }
@@ -73,18 +99,36 @@ public class SFKBuilder {
     
     /**
      * creates the specific connection
-     * @param tableData used for getting position
-     * @param pos position of the field in the table
+     * @param positions Pair(x, y) with the positions of the given item
      * @return instance of SFKConnectionView
+     * @see #calItemYPos(STableData, int)
      */
-    private SFKConnectionView buildSFKConnection(STableData tableData, int pos){
+    private SFKConnectionView buildSFKConnection(Pair<Float, Float> positions){
+        try {
+            return new SFKConnectionView(container, positions.first, positions.second, 0);
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            Log.d("ERROR", "Can't create SFK connection with positions " + positions);
+            Message.defErrMessage(container.getContext());
+        }
+        return null;
+    }
+    
+    /**
+     * calculates the x and y position of a given item inside the table
+     * @return Pair(x, y) positions of the requested item
+     * @param tableData the data where the item is located at
+     * @param pos position in the list of the item
+     */
+    private Pair<Float, Float> calItemYPos(STableData tableData, int pos){
         try {
             RecyclerView recyclerView = tableData.getRecyclerView();
             RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(pos);
+            assert viewHolder != null;
             View item = viewHolder.itemView;
             float itemX = tableData.getX() + recyclerView.getX() + item.getX();
             float itemY = tableData.getY() + recyclerView.getY() + item.getY();
-            return new SFKConnectionView(container, itemX, itemY, 0);
+            return new Pair<>(itemX, itemY);
         } catch (NullPointerException e){
             e.printStackTrace();
             Log.d("ERROR", "Can't create SFK connection with pos " + pos);

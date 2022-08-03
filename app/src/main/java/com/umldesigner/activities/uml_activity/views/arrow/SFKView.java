@@ -7,8 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.umldesigner.activities.uml_activity.views.arrow.Connection.SFKConnectionView;
-import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.entities.Movable;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 import com.umldesigner.infrastructure.uml.logic.observer.BaseObservable;
@@ -23,24 +24,18 @@ import lombok.Getter;
 //https://blogs.sitepointstatic.com/examples/tech/svg-curves/cubic-curve.html
 
 public class SFKView extends View implements Movable, Destroyable, BaseObserver {
+    private SFKBuilder builder;
+
     private SFKConnectionView firstKey;
     private SFKConnectionView secondKey;
-    private SItemData itemData;
     
     private final int color = Color.argb(255, 150, 150, 150);
     @Getter
     private ViewGroup container;
     
-    private float firstX;
-    private float firstY;
-    
-    private float secondX;
-    private float secondY;
-    
     private SSettingsSingleton settingsInstance;
     
     public Paint paint;
-    public float center;
     
     
     /**
@@ -60,18 +55,24 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
     
         this.setX(1 * settingsInstance.getSpacing());
         this.setY(1 * settingsInstance.getSpacing());
+     
+        this.builder = sfkBuilder;
+        
         this.firstKey = (sfkBuilder.getFConnectionView());
         this.secondKey = (sfkBuilder.getSConnectionView());
         
-        firstX = 0;
-        firstY = 0;
-        secondX = 20 * settingsInstance.getSpacing();
-        secondY = 20 * settingsInstance.getSpacing();
-    
         this.setMinimumWidth((int) 10000);
         this.setMinimumHeight((int) 10000);
     
         container.addView(this);
+    }
+    
+    public void setFirstKey(SFKConnectionView firstKey) {
+        this.firstKey = firstKey;
+    }
+    
+    public void setSecondKey(SFKConnectionView secondKey) {
+        this.secondKey = secondKey;
     }
     
     @Override
@@ -89,7 +90,6 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
         super.onDraw(canvas);
        
         drawLine(canvas);
-        drawBezier(canvas);
     }
     
     /**
@@ -106,35 +106,33 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
      * @param canvas canvas that we draw on
      */
     public void drawLine(Canvas canvas){
+        float fTableStart = builder.getFTableData().getX();
+        float sTableStart = builder.getSTableData().getX();
+        
+        float fTableEnd = SSettingsSingleton.TABLE_WIDTH + fTableStart;
+        float sTableEnd = SSettingsSingleton.TABLE_WIDTH + sTableStart;
+        
+        RecyclerView recyclerView = builder.getFTableData().getRecyclerView();
+        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(builder.getFPos());
+        View item = viewHolder.itemView;
+        float itemX = builder.getFTableData().getX() + recyclerView.getX() + item.getX();
+        float itemY = builder.getFTableData().getY() + recyclerView.getY() + item.getY();
+        
+        //checking if the first table overlaps with the second
+        if ((fTableStart > sTableStart) && (fTableEnd < sTableStart)){
+            //overlapping
+   
+            canvas.drawLine(fTableEnd + settingsInstance.getSpacing(),
+                                    builder.getFTableItemPositions().second,
+                                    sTableEnd + settingsInstance.getSpacing(),
+                                    builder.getSTableItemPositions().second, paint);
+        } else if (fTableEnd > sTableStart){
+            //TODO finish this
+            //canvas.drawLine();
+        }
+        
+        
         Log.d("Execute", "drawLine");
-       
-        center = secondX/2;
-        
-        canvas.drawLine(center, this.getY() + settingsInstance.getSpacing(),
-               center,  getHeight() - settingsInstance.getSpacing(), paint);
-        
-    }
-    
-    /**
-     * draws a bezier line that connects the fields (visualizes the foreign key)
-     *
-     * <pre>
-     *
-     * this is the line we are drawing, including the curve
-     *           |
-     *  ______  \/
-     * |      |---|
-     * |      |   |
-     *  ------    |    ______
-     *            |___|      |
-     *             /\ |      |
-     *             |   ------
-     *               </pre>
-     * @param canvas canvas that we draw on
-     */
-    public void drawBezier(Canvas canvas){
-        Log.d("Execute", "drawBezier");
-        
     }
     
     private Paint createPaint(){

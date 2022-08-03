@@ -11,11 +11,13 @@ import com.umldesigner.activities.uml_activity.SListeners;
 import com.umldesigner.activities.uml_activity.views.table.STableBuilder;
 import com.umldesigner.activities.uml_activity.views.table.STableView;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
+import com.umldesigner.infrastructure.uml.entities.SObject;
 import com.umldesigner.infrastructure.uml.logic.SObjectFactory;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import lombok.Getter;
 
@@ -65,6 +67,12 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
         sTable2 = new STableBuilder(container, listeners, "title1", 13, 13)
                 .addItems(umlAdapterFieldArrayList)
                 .build();
+    
+        HashMap<Integer, SObject> a = settingsInstance.getAllViews();
+        
+    //        SFKView sfkView = new SFKBuilder(container,   k
+     //           (STableData) settingsInstance.getAllViews().get(1).getData(), 1,
+      //          (STableData) settingsInstance.getAllViews().get(2).getData(), 2).build();
     }
     
     
