@@ -7,10 +7,10 @@ import android.widget.ImageButton;
 
 import com.umldesigner.activities.uml_activity.views.SBackground;
 
-public class SGridCreate {
+public class SGridCreateColliders {
     SListeners sListeners;
     
-    public SGridCreate(ViewGroup container) {
+    public SGridCreateColliders(ViewGroup container) {
         Log.d("Execute", "Create Uml Grid");
         
         SBackground sBackground = new SBackground(container.getContext());

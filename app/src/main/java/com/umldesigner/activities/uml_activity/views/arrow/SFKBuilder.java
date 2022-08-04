@@ -142,17 +142,15 @@ public class SFKBuilder {
         float fTableEnd = SSettingsSingleton.TABLE_WIDTH + fTableStart;
         float sTableEnd = SSettingsSingleton.TABLE_WIDTH + sTableStart;
         
-        //TODO finish this
-        if (fTableStart < sTableEnd && sTableStart < fTableEnd){
+        //if overlapping
+        if (sTableStart < fTableEnd && fTableStart < sTableEnd){
+            return Math.max(fTableEnd, sTableEnd);
+        } else { //if not overlapping
             float smallerEnd =  Math.min(fTableEnd, sTableEnd);
             float biggerStart = Math.max(fTableStart, sTableStart);
             float dif = biggerStart - smallerEnd;
-            float center = biggerStart + dif;
-            
-            return center;
-            
-        } else {
-            return Math.max(fTableEnd, sTableEnd) + SSettingsSingleton.getInstance().getSpacing();
+    
+            return biggerStart - dif/2 - SSettingsSingleton.getInstance().getSpacing();
         }
     }
     

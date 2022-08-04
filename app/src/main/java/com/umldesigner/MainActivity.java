@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.umldesigner.activities.uml_activity.SGridCreate;
+import com.umldesigner.activities.uml_activity.SGridCreateColliders;
 import com.umldesigner.activities.uml_activity.SListeners;
 import com.umldesigner.activities.uml_activity.views.table.STableBuilder;
 import com.umldesigner.activities.uml_activity.views.table.STableView;
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
         View fab = findViewById(R.id.createTableFab);
         fab.setOnClickListener(new MainActivityListeners(this));
     
-        listeners = new SGridCreate(container).getListeners();
+        listeners = new SGridCreateColliders(container).getListeners();
     }
     
     @Override

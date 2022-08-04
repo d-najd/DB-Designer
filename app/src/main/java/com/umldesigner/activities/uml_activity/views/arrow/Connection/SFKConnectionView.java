@@ -73,6 +73,17 @@ public class SFKConnectionView extends View implements BaseObserver, BaseDestroy
             this.setRotationX(180);
             this.setY(this.getY() + SSettingsSingleton.getInstance().getSpacing()/2);
         }
+    
+        STableData tableData;
+        if (firstKey){
+            tableData = builder.getFTableData();
+        } else {
+            tableData = builder.getSTableData();
+        }
+        
+        if (builder.getLineX() < tableData.getX()){
+            //this.setRotationY(180); //doesnt work for osme reason
+        }
         
         return 0;
     }
