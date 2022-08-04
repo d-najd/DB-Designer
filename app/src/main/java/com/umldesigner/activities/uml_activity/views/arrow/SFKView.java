@@ -7,8 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.umldesigner.activities.uml_activity.views.arrow.Connection.SFKConnectionView;
 import com.umldesigner.infrastructure.uml.entities.Movable;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
@@ -19,24 +17,19 @@ import java.util.HashSet;
 
 import javax.security.auth.Destroyable;
 
-import lombok.Getter;
-
 //https://blogs.sitepointstatic.com/examples/tech/svg-curves/cubic-curve.html
 
 public class SFKView extends View implements Movable, Destroyable, BaseObserver {
-    private SFKBuilder builder;
-
+    private final SFKBuilder sfkBuilder;
+    private final SSettingsSingleton settingsInstance;
+    
     private SFKConnectionView firstKey;
     private SFKConnectionView secondKey;
     
     private final int color = Color.argb(255, 150, 150, 150);
-    @Getter
-    private ViewGroup container;
-    
-    private SSettingsSingleton settingsInstance;
-    
     public Paint paint;
     
+    private final float lineX;
     
     /**
      * getting of values will be done through a interface which will list all of the connections and
@@ -51,12 +44,13 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
         createPaint();
     
         settingsInstance = SSettingsSingleton.getInstance();
-        this.container = sfkBuilder.getContainer();
+        ViewGroup container = sfkBuilder.getContainer();
     
         this.setX(1 * settingsInstance.getSpacing());
         this.setY(1 * settingsInstance.getSpacing());
-     
-        this.builder = sfkBuilder;
+        this.lineX = sfkBuilder.getLineX();
+        
+        this.sfkBuilder = sfkBuilder;
         
         this.firstKey = (sfkBuilder.getFConnectionView());
         this.secondKey = (sfkBuilder.getSConnectionView());
@@ -66,6 +60,7 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
     
         container.addView(this);
     }
+    
     
     public void setFirstKey(SFKConnectionView firstKey) {
         this.firstKey = firstKey;
@@ -106,33 +101,14 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
      * @param canvas canvas that we draw on
      */
     public void drawLine(Canvas canvas){
-        float fTableStart = builder.getFTableData().getX();
-        float sTableStart = builder.getSTableData().getX();
-        
-        float fTableEnd = SSettingsSingleton.TABLE_WIDTH + fTableStart;
-        float sTableEnd = SSettingsSingleton.TABLE_WIDTH + sTableStart;
-        
-        RecyclerView recyclerView = builder.getFTableData().getRecyclerView();
-        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(builder.getFPos());
-        View item = viewHolder.itemView;
-        float itemX = builder.getFTableData().getX() + recyclerView.getX() + item.getX();
-        float itemY = builder.getFTableData().getY() + recyclerView.getY() + item.getY();
-        
-        //checking if the first table overlaps with the second
-        if ((fTableStart > sTableStart) && (fTableEnd < sTableStart)){
-            //overlapping
-   
-            canvas.drawLine(fTableEnd + settingsInstance.getSpacing(),
-                                    builder.getFTableItemPositions().second,
-                                    sTableEnd + settingsInstance.getSpacing(),
-                                    builder.getSTableItemPositions().second, paint);
-        } else if (fTableEnd > sTableStart){
-            //TODO finish this
-            //canvas.drawLine();
-        }
-        
-        
         Log.d("Execute", "drawLine");
+        
+        float fTableY = sfkBuilder.getFTableItemPositions().second;
+        float sTableY = sfkBuilder.getSTableItemPositions().second;
+    
+        canvas.drawLine(lineX, fTableY,
+                lineX, sTableY, paint);
+        
     }
     
     private Paint createPaint(){

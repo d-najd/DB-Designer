@@ -6,10 +6,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
-import android.view.ViewGroup;
 
+import com.umldesigner.activities.uml_activity.views.arrow.SFKBuilder;
 import com.umldesigner.activities.uml_activity.views.arrow.SFKView;
+import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.entities.BaseDestroyable;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 import com.umldesigner.infrastructure.uml.logic.observer.BaseObservable;
@@ -33,6 +35,10 @@ import com.umldesigner.infrastructure.uml.logic.observer.BaseObserver;
  */
 @SuppressLint("ViewConstructor")
 public class SFKConnectionView extends View implements BaseObserver, BaseDestroyable {
+    private final Pair<Float, Float> positions;
+    private final boolean firstKey;
+    private SFKBuilder builder;
+    
     private Paint paint;
     private final int color = Color.argb(255, 150, 150, 150);
     
@@ -46,27 +52,60 @@ public class SFKConnectionView extends View implements BaseObserver, BaseDestroy
     float ease = .75f;
     float offset = 20 * SSettingsSingleton.getInstance().getDp();
     
-    public SFKConnectionView(ViewGroup container, float xPos, float yPos, float rotation) {
-        super(container.getContext());
-        createPaint();
+    public SFKConnectionView(SFKBuilder builder, Pair<Float, Float> positions, boolean firstKey){
+        super(builder.getContainer().getContext());
+   
+        this.builder = builder;
+        this.positions = positions;
+        this.firstKey = firstKey;
+        this.setMinimumWidth(9999999);
+        this.setMinimumHeight((int) (SSettingsSingleton.getInstance().getSpacing() + offset));
+        this.setX(builder.getLineX() - offset/2);
+        this.setY(positions.second - offset/2 + SSettingsSingleton.getInstance().getSpacing()/2);
         
-        this.setMinimumWidth((int) (SSettingsSingleton.getInstance().getSpacing() + offset + 20));
-        this.setMinimumHeight((int) (SSettingsSingleton.getInstance().getSpacing() + offset + 20));
-        //if (rotation == 180){
-        //    xPos -= 20;
-        //}
-        this.setX(xPos);
-        this.setY(yPos);
-        this.setRotationY(rotation);
-        container.addView(this);
+        calRotation();
+        
+        builder.getContainer().addView(this);
+    }
+    
+    private float calRotation(){
+        if (this.getY() > builder.getLineCenterY()){
+            this.setRotationX(180);
+            this.setY(this.getY() + SSettingsSingleton.getInstance().getSpacing()/2);
+        }
+        
+        return 0;
     }
     
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        
+    
+        createPaint();
         drawCurve(canvas);
+        drawLine(canvas);
     }
+    
+    private void drawLine(Canvas canvas){
+        STableData tableData;
+        if (firstKey){
+            tableData = builder.getFTableData();
+        } else {
+            tableData = builder.getSTableData();
+        }
+        
+        float lineX = builder.getLineX();
+        float tableX = tableData.getX();
+        
+        if(lineX > tableX + SSettingsSingleton.TABLE_WIDTH){
+            tableX += SSettingsSingleton.TABLE_WIDTH;
+        }
+       
+        
+        canvas.drawLine(lineX, this.getY(), tableX, this.getY(), paint);
+        
+    }
+    
     
     /**
      * draws a bezier line that connects the fields (visualizes the foreign key)
@@ -90,11 +129,11 @@ public class SFKConnectionView extends View implements BaseObserver, BaseDestroy
         
         SSettingsSingleton settingsInstance = SSettingsSingleton.getInstance();
         
-        float firstX = settingsInstance.getSpacing() + offset;
-        float firstY = settingsInstance.getSpacing() + offset;
-    
-        float secondX = 0 + offset;
-        float secondY = 0 + offset;
+        float firstX = settingsInstance.getSpacing() + offset/2;
+        float firstY = settingsInstance.getSpacing() + offset/2;
+        
+        float secondX = 0 + offset/2;
+        float secondY = 0 + offset/2;
     
         //setting up the bezier lines
         //applying the "effect" to the beziers (how much the line is curved)
@@ -116,11 +155,6 @@ public class SFKConnectionView extends View implements BaseObserver, BaseDestroy
                 secondBezierX, secondBezierY, //bezier point no 2
                 secondX, secondY); //ending point
         canvas.drawPath(linePath, paint);
-        //testing
-        paint.setColor(Color.GREEN);
-    
-        canvas.drawLine(firstBezierX, firstBezierY, firstBezierX, firstBezierY, paint);
-        canvas.drawLine(secondBezierX, secondBezierY, secondBezierX, secondBezierY, paint);
     }
     
     

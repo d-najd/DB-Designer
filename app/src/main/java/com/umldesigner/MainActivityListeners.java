@@ -24,7 +24,7 @@ public class MainActivityListeners implements View.OnClickListener {
             STableData tableData = (STableData) SSettingsSingleton.getInstance().getViewById(1).getData();
             STableData tableData2 = (STableData) SSettingsSingleton.getInstance().getViewById(2).getData();
             
-            SFKView builder = new SFKBuilder(mainActivity.getContainer(), tableData, 1, tableData2, 2).build();
+            SFKView builder = new SFKBuilder(mainActivity.getContainer(), tableData, 0, tableData2, 3).build();
     
             //AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             

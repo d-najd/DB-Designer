@@ -10,38 +10,36 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.umldesigner.Message;
 import com.umldesigner.activities.uml_activity.views.arrow.Connection.SFKConnectionView;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
+import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 
+@Getter
 public class SFKBuilder {
+    @Getter(AccessLevel.NONE)
     private SFKView sfkView;
    
-    @Getter
     private final ViewGroup container;
-    @Getter
     private final STableData fTableData;
-    @Getter
     private final STableData sTableData;
-    @Getter
     private final int sPos;
-    @Getter
     private final int fPos;
     
     /**
      * stores the x and y positions like Pair(x, y), of the item gotten with STableData and position
      */
-    @Getter
     private final Pair<Float, Float> fTableItemPositions;
     /**
      * stores the x and y positions like Pair(x, y), of the item gotten with STableData and position
      */
-    @Getter
     private final Pair<Float, Float> sTableItemPositions;
     
-    @Getter
     private SFKConnectionView fConnectionView;
-    @Getter
     private SFKConnectionView sConnectionView;
+    
+    private final float lineX;
+    private float lineCenterY;
     
     /**
      * creates a SFK builder
@@ -50,7 +48,7 @@ public class SFKBuilder {
      * @param fPos position of the field in the field table, the "primary key"
      * @param sTableData data of the second table, this is used for getting position of the table n stuff
      * @param sPos position of the first in the second table, the "secondary key"
-     * @apiNote it is possible to swap this is {@link com.umldesigner.infrastructure.uml.data.BaseDataInterface}
+     * @implNote it is possible to swap this is {@link com.umldesigner.infrastructure.uml.data.BaseDataInterface}
      * if need arise, we may be able to get the position of the recyclerview when instantiating a
      * table and the position of the item when instantiation the items and this will lead to fewer
      * dependencies and possibility to extend to more than just a simple table, but I have no plans for
@@ -65,27 +63,27 @@ public class SFKBuilder {
         
         this.fTableItemPositions = calItemYPos(fTableData, fPos);
         this.sTableItemPositions = calItemYPos(sTableData, sPos);
+        this.lineX = calLineX();
+        this.lineCenterY = calLineCenterY();
     }
     
     public SFKView build(){
         sfkView = new SFKView(this);
         
-        fConnectionView = buildSFKConnection(fTableItemPositions);
-        sConnectionView = buildSFKConnection(sTableItemPositions);
+        fConnectionView = buildSFKConnection(fTableItemPositions, true);
+        sConnectionView = buildSFKConnection(sTableItemPositions, false);
         
         if (fConnectionView == null || sConnectionView == null) {
             rollBack();
             return null;
         } else {
-            sfkView = new SFKView(this);
+            sfkView.setFirstKey(fConnectionView);
+            sfkView.setSecondKey(sConnectionView);
+       
             return sfkView;
         }
     }
     
-    private SFKView createLine(){
-        sfkView = new SFKView(this);
-        return sfkView;
-    }
     
     private void rollBack(){
         if (fConnectionView != null){
@@ -103,9 +101,9 @@ public class SFKBuilder {
      * @return instance of SFKConnectionView
      * @see #calItemYPos(STableData, int)
      */
-    private SFKConnectionView buildSFKConnection(Pair<Float, Float> positions){
+    private SFKConnectionView buildSFKConnection(Pair<Float, Float> positions, boolean firstKey){
         try {
-            return new SFKConnectionView(container, positions.first, positions.second, 0);
+            return new SFKConnectionView(this, positions, firstKey);
         } catch (NullPointerException e){
             e.printStackTrace();
             Log.d("ERROR", "Can't create SFK connection with positions " + positions);
@@ -135,5 +133,38 @@ public class SFKBuilder {
             Message.defErrMessage(container.getContext());
         }
         return null;
+    }
+    
+    private float calLineX(){
+        float fTableStart = getFTableData().getX();
+        float sTableStart = getSTableData().getX();
+        
+        float fTableEnd = SSettingsSingleton.TABLE_WIDTH + fTableStart;
+        float sTableEnd = SSettingsSingleton.TABLE_WIDTH + sTableStart;
+        
+        //TODO finish this
+        if (fTableStart < sTableEnd && sTableStart < fTableEnd){
+            float smallerEnd =  Math.min(fTableEnd, sTableEnd);
+            float biggerStart = Math.max(fTableStart, sTableStart);
+            float dif = biggerStart - smallerEnd;
+            float center = biggerStart + dif;
+            
+            return center;
+            
+        } else {
+            return Math.max(fTableEnd, sTableEnd) + SSettingsSingleton.getInstance().getSpacing();
+        }
+    }
+    
+    /**
+     * method for calculating the center of the SFKView line
+     * @return the center y position
+     */
+    private float calLineCenterY(){
+        float fTableY = getFTableItemPositions().second;
+        float sTableY = getSTableItemPositions().second;
+    
+        float lineDifY = Math.max(fTableY, sTableY) - Math.min(fTableY, sTableY);
+        return Math.max(fTableY, sTableY) - lineDifY;
     }
 }
