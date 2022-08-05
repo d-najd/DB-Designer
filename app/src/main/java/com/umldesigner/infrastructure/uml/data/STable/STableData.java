@@ -2,11 +2,15 @@ package com.umldesigner.infrastructure.uml.data.STable;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.umldesigner.activities.uml_activity.views.sfk.SFKView;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
+import com.umldesigner.infrastructure.uml.logic.observer.BaseObservable;
+import com.umldesigner.infrastructure.uml.logic.observer.BaseObserver;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +18,15 @@ import lombok.Setter;
 /**
  * data field used exclusively for android
  */
-public class STableData extends STablePojo implements BaseDataInterface {
+public class STableData extends STablePojo implements BaseDataInterface, BaseObservable {
+    
+    /**
+     * the one who is the primary key (making the connections) holds the key, the other item doesn't
+     * hold anything
+     */
+    @Getter
+    private HashSet<SFKView> foreignKeys = new HashSet<>();
+    
     @Getter
     private Integer id;
    
@@ -50,5 +62,23 @@ public class STableData extends STablePojo implements BaseDataInterface {
     @Override
     public void setY(Float y) {
         super.setY(y);
+    }
+    
+    @Override
+    public void registerObserver(BaseObserver o) {
+        foreignKeys.add((SFKView) o);
+    }
+    
+    @Override
+    public void removeObserver(BaseObserver o) {
+        foreignKeys.remove((SFKView) o);
+        ((SFKView) o).destroy();
+    }
+    
+    @Override
+    public void notifyObservers() {
+        for(SFKView sfk : foreignKeys){
+            sfk.updateObserver(this, null);
+        }
     }
 }

@@ -130,7 +130,7 @@ public class STableView extends ConstraintLayout implements SObject {
         data.setTitle(titleTextView.getText().toString());
         data.setX(this.getX());
         data.setY(this.getY());
-        data.setRecyclerView(recyclerView);
+        data.notifyObservers();
     }
     
     /**
@@ -163,5 +163,6 @@ public class STableView extends ConstraintLayout implements SObject {
         recyclerView.setAdapter(adapter);
         
         data.setItems(itemDataArrayList);
+        data.setRecyclerView(recyclerView);
     }
 }

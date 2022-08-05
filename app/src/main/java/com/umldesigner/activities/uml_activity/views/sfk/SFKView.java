@@ -98,7 +98,7 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
         boolean overLapping = isOverLapping();
         Paint paint = createPaint();
         
-        Pair<Float, Float> fTableItemPositions = calItemPositions(fTableData, fTablePos);
+        Pair<Float, Float> fTableItemPositions = calItemPositions(sfkBuilder.getFTableData(), fTablePos);
         Pair<Float, Float> sTableItemPositions = calItemPositions(sTableData, sTablePos);
         
         if (fTableItemPositions == null || sTableItemPositions == null){
@@ -140,6 +140,7 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
      * @param pos position in the list of the item
      */
     private Pair<Float, Float> calItemPositions(STableData tableData, int pos){
+        Log.d("Execute", "calItemPositions with parameters: tableData (toString doesn't work), pos " + pos);
         try {
             RecyclerView recyclerView = tableData.getRecyclerView();
             RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(pos);
@@ -161,6 +162,8 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
      * @return x pos of the main line
      */
     private float calLineX(){
+        Log.d("Execute", "calLineX");
+        
         float fTableStart = fTableData.getX();
         float sTableStart = sTableData.getX();
         
@@ -184,6 +187,7 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
       * @return true if the tables are overlapping false if the are not
      */
     private boolean isOverLapping() {
+        Log.d("Execute", "isOverlapping");
         float fTableStart = fTableData.getX();
         float sTableStart = sTableData.getX();
     
