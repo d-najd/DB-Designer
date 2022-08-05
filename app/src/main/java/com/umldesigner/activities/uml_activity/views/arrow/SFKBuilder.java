@@ -1,15 +1,8 @@
 package com.umldesigner.activities.uml_activity.views.arrow;
 
-import android.util.Log;
-import android.util.Pair;
-import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.umldesigner.Message;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
-import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,18 +17,6 @@ public class SFKBuilder {
     private final STableData sTableData;
     private final int sPos;
     private final int fPos;
-    
-    /**
-     * stores the x and y positions like Pair(x, y), of the item gotten with STableData and position
-     */
-    private final Pair<Float, Float> fTableItemPositions;
-    /**
-     * stores the x and y positions like Pair(x, y), of the item gotten with STableData and position
-     */
-    private final Pair<Float, Float> sTableItemPositions;
-    
-    private final float lineX;
-    private boolean overLapping;
     
     /**
      * creates a SFK builder
@@ -56,57 +37,10 @@ public class SFKBuilder {
         this.sTableData = sTableData;
         this.fPos = fPos;
         this.sPos = sPos;
-        
-        this.fTableItemPositions = calItemYPos(fTableData, fPos);
-        this.sTableItemPositions = calItemYPos(sTableData, sPos);
-        this.lineX = calLineX();
     }
     
     public SFKView build(){
         sfkView = new SFKView(this);
         return sfkView;
-    }
-    
-    /**
-     * calculates the x and y position of a given item inside the table
-     * @return Pair(x, y) positions of the requested item
-     * @param tableData the data where the item is located at
-     * @param pos position in the list of the item
-     */
-    private Pair<Float, Float> calItemYPos(STableData tableData, int pos){
-        try {
-            RecyclerView recyclerView = tableData.getRecyclerView();
-            RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(pos);
-            assert viewHolder != null;
-            View item = viewHolder.itemView;
-            float itemX = tableData.getX() + recyclerView.getX() + item.getX();
-            float itemY = tableData.getY() + recyclerView.getY() + item.getY();
-            return new Pair<>(itemX, itemY);
-        } catch (NullPointerException e){
-            e.printStackTrace();
-            Log.d("ERROR", "Can't create SFK connection with pos " + pos);
-            Message.defErrMessage(container.getContext());
-        }
-        return null;
-    }
-    
-    private float calLineX(){
-        float fTableStart = getFTableData().getX();
-        float sTableStart = getSTableData().getX();
-        
-        float fTableEnd = SSettingsSingleton.TABLE_WIDTH + fTableStart;
-        float sTableEnd = SSettingsSingleton.TABLE_WIDTH + sTableStart;
-        
-        //if overlapping
-        if (sTableStart < fTableEnd && fTableStart < sTableEnd){
-            overLapping = true;
-            return Math.max(fTableEnd, sTableEnd);
-        } else { //if not overlapping
-            float smallerEnd =  Math.min(fTableEnd, sTableEnd);
-            float biggerStart = Math.max(fTableStart, sTableStart);
-            float dif = biggerStart - smallerEnd;
-    
-            return biggerStart - dif/2 - SSettingsSingleton.getInstance().getSpacing();
-        }
     }
 }
