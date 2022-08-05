@@ -7,13 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.umldesigner.activities.uml_activity.views.arrow.Connection.SFKConnectionView;
 import com.umldesigner.infrastructure.uml.entities.Movable;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 import com.umldesigner.infrastructure.uml.logic.observer.BaseObservable;
 import com.umldesigner.infrastructure.uml.logic.observer.BaseObserver;
-
-import java.util.HashSet;
 
 import javax.security.auth.Destroyable;
 
@@ -22,22 +19,12 @@ import javax.security.auth.Destroyable;
 public class SFKView extends View implements Movable, Destroyable, BaseObserver {
     private final SFKBuilder sfkBuilder;
     private final SSettingsSingleton settingsInstance;
-    
-    private SFKConnectionView firstKey;
-    private SFKConnectionView secondKey;
-    
+   
     private final int color = Color.argb(255, 150, 150, 150);
     public Paint paint;
     
     private final float lineX;
     
-    /**
-     * getting of values will be done through a interface which will list all of the connections and
-     * when a user pressed one of the connections it will give us the baseObserver and that should
-     * be enough
-     */
-    private HashSet<BaseObserver> arrowConnectors = new HashSet<>();
-   
     public SFKView(SFKBuilder sfkBuilder){
         super(sfkBuilder.getContainer().getContext());
         
@@ -52,22 +39,10 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
         
         this.sfkBuilder = sfkBuilder;
         
-        this.firstKey = (sfkBuilder.getFConnectionView());
-        this.secondKey = (sfkBuilder.getSConnectionView());
-        
-        this.setMinimumWidth((int) 10000);
-        this.setMinimumHeight((int) 10000);
+        this.setMinimumWidth((int) 100000);
+        this.setMinimumHeight((int) 100000);
     
         container.addView(this);
-    }
-    
-    
-    public void setFirstKey(SFKConnectionView firstKey) {
-        this.firstKey = firstKey;
-    }
-    
-    public void setSecondKey(SFKConnectionView secondKey) {
-        this.secondKey = secondKey;
     }
     
     @Override
@@ -88,9 +63,11 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
     }
     
     /**
-     * draws the line which sits between the 2 given tables
+     * draws the line which sits between the 2 given tables along with the connectors n stuff
      * <pre>
-     *  ______
+     *     and this line
+     *           |
+     *  ______  \/
      * |      |---|
      * |      |   |   <------ this line
      *  ------    |    ______
@@ -105,10 +82,27 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
         
         float fTableY = sfkBuilder.getFTableItemPositions().second;
         float sTableY = sfkBuilder.getSTableItemPositions().second;
-    
+   
         canvas.drawLine(lineX, fTableY,
                 lineX, sTableY, paint);
+       
+        float fTableX = sfkBuilder.getFTableItemPositions().first - SSettingsSingleton.getInstance().getSpacing();
+        float sTableX = sfkBuilder.getSTableItemPositions().first - SSettingsSingleton.getInstance().getSpacing();
         
+        if (sfkBuilder.isOverLapping()){
+            fTableX += SSettingsSingleton.TABLE_WIDTH;
+            sTableX += SSettingsSingleton.TABLE_WIDTH;
+        } else if (fTableX < sTableX) {
+            fTableX += SSettingsSingleton.TABLE_WIDTH;
+        } else {
+            sTableX += SSettingsSingleton.TABLE_WIDTH;
+        }
+        
+        canvas.drawLine(fTableX, fTableY,
+                lineX, fTableY, paint);
+    
+        canvas.drawLine(sTableX, sTableY,
+                lineX, sTableY, paint);
     }
     
     private Paint createPaint(){

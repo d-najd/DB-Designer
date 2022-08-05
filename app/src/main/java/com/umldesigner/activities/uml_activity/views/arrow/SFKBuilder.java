@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.umldesigner.Message;
-import com.umldesigner.activities.uml_activity.views.arrow.Connection.SFKConnectionView;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 
@@ -35,11 +34,8 @@ public class SFKBuilder {
      */
     private final Pair<Float, Float> sTableItemPositions;
     
-    private SFKConnectionView fConnectionView;
-    private SFKConnectionView sConnectionView;
-    
     private final float lineX;
-    private float lineCenterY;
+    private boolean overLapping;
     
     /**
      * creates a SFK builder
@@ -64,52 +60,11 @@ public class SFKBuilder {
         this.fTableItemPositions = calItemYPos(fTableData, fPos);
         this.sTableItemPositions = calItemYPos(sTableData, sPos);
         this.lineX = calLineX();
-        this.lineCenterY = calLineCenterY();
     }
     
     public SFKView build(){
         sfkView = new SFKView(this);
-        
-        fConnectionView = buildSFKConnection(fTableItemPositions, true);
-        sConnectionView = buildSFKConnection(sTableItemPositions, false);
-        
-        if (fConnectionView == null || sConnectionView == null) {
-            rollBack();
-            return null;
-        } else {
-            sfkView.setFirstKey(fConnectionView);
-            sfkView.setSecondKey(sConnectionView);
-       
-            return sfkView;
-        }
-    }
-    
-    
-    private void rollBack(){
-        if (fConnectionView != null){
-            fConnectionView.destroy();
-        }
-        if (sConnectionView != null){
-            sConnectionView.destroy();
-        }
-        sfkView.destroy();
-    }
-    
-    /**
-     * creates the specific connection
-     * @param positions Pair(x, y) with the positions of the given item
-     * @return instance of SFKConnectionView
-     * @see #calItemYPos(STableData, int)
-     */
-    private SFKConnectionView buildSFKConnection(Pair<Float, Float> positions, boolean firstKey){
-        try {
-            return new SFKConnectionView(this, positions, firstKey);
-        } catch (NullPointerException e){
-            e.printStackTrace();
-            Log.d("ERROR", "Can't create SFK connection with positions " + positions);
-            Message.defErrMessage(container.getContext());
-        }
-        return null;
+        return sfkView;
     }
     
     /**
@@ -144,6 +99,7 @@ public class SFKBuilder {
         
         //if overlapping
         if (sTableStart < fTableEnd && fTableStart < sTableEnd){
+            overLapping = true;
             return Math.max(fTableEnd, sTableEnd);
         } else { //if not overlapping
             float smallerEnd =  Math.min(fTableEnd, sTableEnd);
@@ -152,17 +108,5 @@ public class SFKBuilder {
     
             return biggerStart - dif/2 - SSettingsSingleton.getInstance().getSpacing();
         }
-    }
-    
-    /**
-     * method for calculating the center of the SFKView line
-     * @return the center y position
-     */
-    private float calLineCenterY(){
-        float fTableY = getFTableItemPositions().second;
-        float sTableY = getSTableItemPositions().second;
-    
-        float lineDifY = Math.max(fTableY, sTableY) - Math.min(fTableY, sTableY);
-        return Math.max(fTableY, sTableY) - lineDifY;
     }
 }
