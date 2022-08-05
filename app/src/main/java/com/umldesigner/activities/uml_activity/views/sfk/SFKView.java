@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.views.arrow;
+package com.umldesigner.activities.uml_activity.views.sfk;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -32,21 +32,12 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
     private ViewGroup container;
    
     private final int color = Color.argb(255, 150, 150, 150);
-    public Paint paint;
-    
-    private boolean overLapping;
     
     public SFKView(SFKBuilder sfkBuilder){
         super(sfkBuilder.getContainer().getContext());
         
-        createPaint();
-    
         settingsInstance = SSettingsSingleton.getInstance();
-        ViewGroup container = sfkBuilder.getContainer();
     
-        this.setX(1 * settingsInstance.getSpacing());
-        this.setY(1 * settingsInstance.getSpacing());
-        
         this.sfkBuilder = sfkBuilder;
         this.fTableData = sfkBuilder.getFTableData();
         this.sTableData = sfkBuilder.getSTableData();
@@ -54,9 +45,10 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
         this.sTablePos = sfkBuilder.getSPos();
         this.container = sfkBuilder.getContainer();
         
+        this.setX(1 * settingsInstance.getSpacing());
+        this.setY(1 * settingsInstance.getSpacing());
         this.setMinimumWidth((int) 100000);
         this.setMinimumHeight((int) 100000);
-    
         
         container.addView(this);
     }
@@ -103,6 +95,8 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
         Log.d("Execute", "drawLines");
         
         float lineX = calLineX();
+        boolean overLapping = isOverLapping();
+        Paint paint = createPaint();
         
         Pair<Float, Float> fTableItemPositions = calItemPositions(fTableData, fTablePos);
         Pair<Float, Float> sTableItemPositions = calItemPositions(sTableData, sTablePos);
@@ -175,7 +169,6 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
         
         //if overlapping
         if (sTableStart < fTableEnd && fTableStart < sTableEnd){
-            overLapping = true;
             return Math.max(fTableEnd, sTableEnd);
         } else { //if not overlapping
             float smallerEnd =  Math.min(fTableEnd, sTableEnd);
@@ -186,10 +179,24 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
         }
     }
     
+    /**
+     * checks if the tables are overlapping
+      * @return true if the tables are overlapping false if the are not
+     */
+    private boolean isOverLapping() {
+        float fTableStart = fTableData.getX();
+        float sTableStart = sTableData.getX();
+    
+        float fTableEnd = SSettingsSingleton.TABLE_WIDTH + fTableStart;
+        float sTableEnd = SSettingsSingleton.TABLE_WIDTH + sTableStart;
+    
+        return sTableStart < fTableEnd && fTableStart < sTableEnd;
+    }
+    
     private Paint createPaint(){
         Log.d("Execute", "createPaint");
         
-        paint = new Paint();
+        Paint paint = new Paint();
         paint.setColor(color);
         paint.setAntiAlias(true);
         paint.setStrokeCap(Paint.Cap.ROUND);

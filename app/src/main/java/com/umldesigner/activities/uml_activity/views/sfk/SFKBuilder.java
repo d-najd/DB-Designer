@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.views.arrow;
+package com.umldesigner.activities.uml_activity.views.sfk;
 
 import android.view.ViewGroup;
 

@@ -1,6 +1,6 @@
 package com.umldesigner.infrastructure.uml.data.SItem;
 
-import com.umldesigner.activities.uml_activity.views.arrow.SFKView;
+import com.umldesigner.activities.uml_activity.views.sfk.SFKView;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.logic.observer.BaseObservable;
 import com.umldesigner.infrastructure.uml.logic.observer.BaseObserver;

@@ -4,8 +4,8 @@ import android.content.res.Resources;
 import android.view.View;
 
 import com.umldesigner.activities.uml_activity.CreateTableDialog;
-import com.umldesigner.activities.uml_activity.views.arrow.SFKBuilder;
-import com.umldesigner.activities.uml_activity.views.arrow.SFKView;
+import com.umldesigner.activities.uml_activity.views.sfk.SFKBuilder;
+import com.umldesigner.activities.uml_activity.views.sfk.SFKView;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 
