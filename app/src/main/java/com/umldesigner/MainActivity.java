@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
                 .build();
     
         HashMap<Integer, SObject> a = settingsInstance.getAllViews();
+       
         
     //        SFKView sfkView = new SFKBuilder(container,   k
      //           (STableData) settingsInstance.getAllViews().get(1).getData(), 1,

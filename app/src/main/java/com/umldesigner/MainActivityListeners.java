@@ -24,8 +24,10 @@ public class MainActivityListeners implements View.OnClickListener {
             STableData tableData = (STableData) SSettingsSingleton.getInstance().getViewById(1).getData();
             STableData tableData2 = (STableData) SSettingsSingleton.getInstance().getViewById(2).getData();
             
-            SFKView builder = new SFKBuilder(mainActivity.getContainer(), tableData, 0, tableData2, 3).build();
-    
+            SFKView builder = new SFKBuilder(mainActivity.getContainer(), tableData, 0, tableData2, 3, true).build();
+   
+            
+            
             //AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             
             //https://stackoverflow.com/questions/13341560/how-to-create-a-custom-dialog-box-in-android

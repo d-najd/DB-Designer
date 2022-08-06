@@ -3,6 +3,7 @@ package com.umldesigner.activities.uml_activity.views.table;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -33,6 +34,8 @@ public class STableView extends ConstraintLayout implements SObject {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     
+    private ViewGroup container;
+    
     /**
      * creates UmlTableView at given position and with given listeners if given
      * <pre>
@@ -54,6 +57,7 @@ public class STableView extends ConstraintLayout implements SObject {
         
         //prep
         umlSettingsInstance = SSettingsSingleton.getInstance();
+        container = builder.getContainer();
         
         //setting up the data
         setData(new STableData(
@@ -109,7 +113,7 @@ public class STableView extends ConstraintLayout implements SObject {
     
     @Override
     public void destroy() {
-        throw new UnsupportedOperationException("destroying of UmlTable not implemented");
+        container.removeView(this);
     }
     
     @Override

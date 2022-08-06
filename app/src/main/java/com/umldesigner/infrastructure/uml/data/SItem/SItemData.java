@@ -14,7 +14,6 @@ import lombok.Getter;
 public class SItemData extends SItemPojo implements BaseDataInterface{
     @Getter
     private Integer id;
-   
     
     public SItemData(String value, String type) {
         this.value = value;

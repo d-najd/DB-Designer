@@ -39,6 +39,5 @@ public class SBackground extends View {
                 canvas.drawCircle(xVal, yVal, 2.5f, paint);
             }
         }
-        paint.setColor(Color.GREEN);
     }
 }

@@ -3,42 +3,51 @@ package com.umldesigner.activities.uml_activity.views.sfk;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.umldesigner.Message;
+import com.umldesigner.infrastructure.uml.data.STable.STableDataBuffer;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
-import com.umldesigner.infrastructure.uml.entities.Movable;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 import com.umldesigner.infrastructure.uml.logic.observer.BaseObservable;
 import com.umldesigner.infrastructure.uml.logic.observer.BaseObserver;
 
 import javax.security.auth.Destroyable;
 
+import lombok.Getter;
+
 //https://blogs.sitepointstatic.com/examples/tech/svg-curves/cubic-curve.html
 
-public class SFKView extends View implements Movable, Destroyable, BaseObserver {
-    private final SFKBuilder sfkBuilder;
+public class SFKView extends View implements Destroyable, BaseObserver {
     private final SSettingsSingleton settingsInstance;
+    private final SFKFacade sfkFacade;
     
+    @Getter
     private STableData fTableData;
+    @Getter
     private STableData sTableData;
     private int fTablePos;
     private int sTablePos;
     private ViewGroup container;
-   
+    
+    private Canvas canvas;
+    /**
+     * we don't want to hold reference to the sfkBuilder because it will become out of sync, we want
+     * to use the BaseObserver interface for updating data
+     */
+    private final SFKBuilder sfkBuilder = null;
+    
     private final int color = Color.argb(255, 150, 150, 150);
     
     public SFKView(SFKBuilder sfkBuilder){
         super(sfkBuilder.getContainer().getContext());
         
         settingsInstance = SSettingsSingleton.getInstance();
-    
-        this.sfkBuilder = sfkBuilder;
+        sfkFacade = new SFKFacade(this);
+        
         this.fTableData = sfkBuilder.getFTableData();
         this.sTableData = sfkBuilder.getSTableData();
         this.fTablePos = sfkBuilder.getFPos();
@@ -53,27 +62,35 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
         container.addView(this);
     }
     
+    /**
+     * @implNote this will cause problems if the view is not removed from the list of sfk's in the
+     * primary and secondary
+     */
     @Override
     public void destroy() {
-        throw new UnsupportedOperationException();
-    }
-    
-    @Override
-    public void move(float x, float y) {
-        throw new UnsupportedOperationException();
+        fTableData.removeObserver(this);
+        sTableData.removeObserver(this);
+        
+        container.removeView(this);
     }
     
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        this.canvas = canvas;
        
         drawLines(canvas);
     }
     
-    
     @Override
     public void updateObserver(BaseObservable observable, Object args) {
-        throw new UnsupportedOperationException();
+        if (args instanceof STableDataBuffer){
+            SFKView newView = new SFKBuilder(container, fTableData, fTablePos, sTableData, sTablePos, false).build();
+            
+            ((STableDataBuffer) args).addValue(this, newView);
+        } else {
+            throw new UnsupportedOperationException();
+        }
     }
     
     /**
@@ -94,12 +111,12 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
     public void drawLines(Canvas canvas){
         Log.d("Execute", "drawLines");
         
-        float lineX = calLineX();
-        boolean overLapping = isOverLapping();
+        float lineX = sfkFacade.calLineX();
+        boolean overLapping = sfkFacade.isOverLapping();
         Paint paint = createPaint();
         
-        Pair<Float, Float> fTableItemPositions = calItemPositions(sfkBuilder.getFTableData(), fTablePos);
-        Pair<Float, Float> sTableItemPositions = calItemPositions(sTableData, sTablePos);
+        Pair<Float, Float> fTableItemPositions = sfkFacade.calItemPositions(fTableData, fTablePos);
+        Pair<Float, Float> sTableItemPositions = sfkFacade.calItemPositions(sTableData, sTablePos);
         
         if (fTableItemPositions == null || sTableItemPositions == null){
             destroy();
@@ -111,11 +128,12 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
         
         float fTableY = fTableItemPositions.second;
         float sTableY = sTableItemPositions.second;
-        
-        //draw the main line
-        canvas.drawLine(lineX, fTableY,
-                lineX, sTableY, paint);
-        
+    
+        Path path = new Path();
+        path.moveTo(lineX, fTableY);
+        path.lineTo(lineX, sTableY);
+        canvas.drawPath(path, paint);
+    
         //draw the connectors
         if (overLapping){
             fTableX += SSettingsSingleton.TABLE_WIDTH;
@@ -133,69 +151,6 @@ public class SFKView extends View implements Movable, Destroyable, BaseObserver 
                 lineX, sTableY, paint);
     }
     
-    /**
-     * calculates the x and y position of a given item inside the table
-     * @return Pair(x, y) positions of the requested item
-     * @param tableData the data where the item is located at
-     * @param pos position in the list of the item
-     */
-    private Pair<Float, Float> calItemPositions(STableData tableData, int pos){
-        Log.d("Execute", "calItemPositions with parameters: tableData (toString doesn't work), pos " + pos);
-        try {
-            RecyclerView recyclerView = tableData.getRecyclerView();
-            RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(pos);
-            assert viewHolder != null;
-            View item = viewHolder.itemView;
-            float itemX = tableData.getX() + recyclerView.getX() + item.getX();
-            float itemY = tableData.getY() + recyclerView.getY() + item.getY();
-            return new Pair<>(itemX, itemY);
-        } catch (NullPointerException e){
-            e.printStackTrace();
-            Log.d("ERROR", "Can't create SFK connection with pos " + pos);
-            Message.defErrMessage(getContext());
-        }
-        return null;
-    }
-    
-    /**
-     * calculates the x position of the line and if the tables are overlapping
-     * @return x pos of the main line
-     */
-    private float calLineX(){
-        Log.d("Execute", "calLineX");
-        
-        float fTableStart = fTableData.getX();
-        float sTableStart = sTableData.getX();
-        
-        float fTableEnd = SSettingsSingleton.TABLE_WIDTH + fTableStart;
-        float sTableEnd = SSettingsSingleton.TABLE_WIDTH + sTableStart;
-        
-        //if overlapping
-        if (sTableStart < fTableEnd && fTableStart < sTableEnd){
-            return Math.max(fTableEnd, sTableEnd);
-        } else { //if not overlapping
-            float smallerEnd =  Math.min(fTableEnd, sTableEnd);
-            float biggerStart = Math.max(fTableStart, sTableStart);
-            float dif = biggerStart - smallerEnd;
-            
-            return biggerStart - dif/2 - SSettingsSingleton.getInstance().getSpacing();
-        }
-    }
-    
-    /**
-     * checks if the tables are overlapping
-      * @return true if the tables are overlapping false if the are not
-     */
-    private boolean isOverLapping() {
-        Log.d("Execute", "isOverlapping");
-        float fTableStart = fTableData.getX();
-        float sTableStart = sTableData.getX();
-    
-        float fTableEnd = SSettingsSingleton.TABLE_WIDTH + fTableStart;
-        float sTableEnd = SSettingsSingleton.TABLE_WIDTH + sTableStart;
-    
-        return sTableStart < fTableEnd && fTableStart < sTableEnd;
-    }
     
     private Paint createPaint(){
         Log.d("Execute", "createPaint");

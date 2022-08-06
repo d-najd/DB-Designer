@@ -1,5 +1,8 @@
 package com.umldesigner.infrastructure.uml.data.STable;
 
+import android.util.Log;
+import android.util.Pair;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.umldesigner.activities.uml_activity.views.sfk.SFKView;
@@ -66,19 +69,41 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
     
     @Override
     public void registerObserver(BaseObserver o) {
+        Log.d("Execute", "registerObserver: ");
+        /* TODO fix this
+        if (foreignKeys.contains((SFKView) o)){
+            Log.w("Warning", "registerObserver: SFK with the entered value already exists");
+            Message.defErrMessage(((SFKView) o).getContext());
+            return;
+        }
+         */
         foreignKeys.add((SFKView) o);
     }
     
     @Override
     public void removeObserver(BaseObserver o) {
+        Log.d("Execute", "removeObserver: " + o.toString());
         foreignKeys.remove((SFKView) o);
-        ((SFKView) o).destroy();
     }
     
     @Override
     public void notifyObservers() {
+        Log.d("Execute", "notifyObservers: ");
+        STableDataBuffer sTableDataBuffer = new STableDataBuffer();
         for(SFKView sfk : foreignKeys){
-            sfk.updateObserver(this, null);
+            sfk.updateObserver(this, sTableDataBuffer);
+        }
+        
+        for(int i = 0; i < sTableDataBuffer.getCount(); i++){
+            Pair<SFKView, SFKView> curValue = sTableDataBuffer.getBuffer().get(i);
+            
+            //destroying the observer, NOTE removeObserver is called from inside the destroy method
+            assert curValue != null;
+            curValue.first.destroy();
+    
+            //saving the new key's
+            curValue.first.getSTableData().registerObserver(curValue.second);
+            curValue.first.getFTableData().registerObserver(curValue.second);
         }
     }
 }
