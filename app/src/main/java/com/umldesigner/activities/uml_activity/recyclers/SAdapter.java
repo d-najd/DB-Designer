@@ -30,7 +30,7 @@ public class SAdapter extends RecyclerView.Adapter<SAdapter.UmlRecyclerViewHolde
     @Override
     public UmlRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_uml_table_row, parent, false);
+                .inflate(R.layout.card_s_table_row, parent, false);
         return new UmlRecyclerViewHolder(view);
     }
     

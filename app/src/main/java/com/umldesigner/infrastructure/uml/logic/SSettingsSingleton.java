@@ -3,7 +3,7 @@ package com.umldesigner.infrastructure.uml.logic;
 import android.util.Log;
 
 import com.umldesigner.MainActivity;
-import com.umldesigner.activities.uml_activity.SListeners;
+import com.umldesigner.activities.uml_activity.SDragListeners;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 
 import java.util.HashMap;
@@ -51,7 +51,7 @@ public class SSettingsSingleton {
      * holds the data inside the uml tables
      */
     
-    private final SListeners sListeners;
+    private final SDragListeners sDragListeners;
     //endregion
     
     public Integer getNextId() {
@@ -67,7 +67,7 @@ public class SSettingsSingleton {
         spacing = MainActivity.spacing;
         dp = MainActivity.dp;
         
-        sListeners = MainActivity.listeners;
+        sDragListeners = MainActivity.listeners;
     }
     
     public static SSettingsSingleton getInstance() {

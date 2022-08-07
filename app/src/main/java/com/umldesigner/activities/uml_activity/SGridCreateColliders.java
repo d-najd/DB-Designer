@@ -8,7 +8,7 @@ import android.widget.ImageButton;
 import com.umldesigner.activities.uml_activity.views.SBackground;
 
 public class SGridCreateColliders {
-    SListeners sListeners;
+    SDragListeners sDragListeners;
     
     public SGridCreateColliders(ViewGroup container) {
         Log.d("Execute", "Create Uml Grid");
@@ -18,19 +18,19 @@ public class SGridCreateColliders {
         sBackground.setMinimumHeight(50000);
         container.addView(sBackground);
         
-        sListeners = new SListeners(sBackground);
+        sDragListeners = new SDragListeners(sBackground);
         
         ImageButton gridColliders = new ImageButton(container.getContext());
         gridColliders.setMinimumWidth(50000);
         gridColliders.setMinimumHeight(50000);
         gridColliders.setBackgroundColor(Color.parseColor("#00000000"));
         gridColliders.setTag("gridColliders");
-        gridColliders.setOnDragListener(sListeners);
+        gridColliders.setOnDragListener(sDragListeners);
         gridColliders.setPadding(150, 150, 0, 0);
         container.addView(gridColliders);
     }
     
-    public SListeners getListeners() {
-        return sListeners;
+    public SDragListeners getListeners() {
+        return sDragListeners;
     }
 }

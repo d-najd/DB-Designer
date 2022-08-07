@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.views;
+package com.umldesigner.activities.uml_activity.views.arrow_old;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.umldesigner.MainActivity;
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.SListeners;
+import com.umldesigner.activities.uml_activity.SDragListeners;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 import com.umldesigner.infrastructure.uml.logic.SArrowParts;
@@ -43,7 +43,7 @@ public class SArrowViewOld extends View implements SObject {
     private SArrowPart headCollider = null;
     private SArrowPart backCollider = null;
     private SArrowPart bodyCollider = null;
-    public final SListeners sListeners;
+    public final SDragListeners sDragListeners;
     public final ViewGroup viewGroup;
 
     private final Integer id;
@@ -61,13 +61,13 @@ public class SArrowViewOld extends View implements SObject {
      * @param yEnd ending y position of the arrow, the arrow head is located here
      * @param backFollowView the constraint layout that the back of the arrow is following, if not null xStart and yStart will be overridden
      * @param headFollowView the constraint layout that the arrow head is following, if not null xEnd and yEnd will be overridden
-     * @see #SArrowViewOld(ViewGroup, float, float, float, float, SListeners)
+     * @see #SArrowViewOld(ViewGroup, float, float, float, float, SDragListeners)
      */
     public SArrowViewOld(ViewGroup viewGroup,
                          float xStart, float yStart, float xEnd, float yEnd,
                          SArrowPart backFollowView,
                          SArrowPart headFollowView,
-                         SListeners sListeners){
+                         SDragListeners sDragListeners){
         super(viewGroup.getContext());
         umlSettingsInstance = SSettingsSingleton.getInstance();
         id = umlSettingsInstance.getNextId();
@@ -92,7 +92,7 @@ public class SArrowViewOld extends View implements SObject {
 
         this.backFollowView = backFollowView;
         this.headFollowView = headFollowView;
-        this.sListeners = sListeners;
+        this.sDragListeners = sDragListeners;
         this.viewGroup = viewGroup;
         this.setId(id);
         //umlSettingsInstance.allViewTagsPut(id, this);
@@ -109,12 +109,12 @@ public class SArrowViewOld extends View implements SObject {
      * @param yStart starting y position of the arrow
      * @param xEnd ending x position of the arrow, the arrow head is located here
      * @param yEnd ending y position of the arrow, the arrow head is located here
-     * @see #SArrowViewOld(ViewGroup, float, float, float, float, SArrowPart, SArrowPart, SListeners)
+     * @see #SArrowViewOld(ViewGroup, float, float, float, float, SArrowPart, SArrowPart, SDragListeners)
      */
     public SArrowViewOld(ViewGroup viewGroup,
                          float xStart, float yStart, float xEnd, float yEnd,
-                         SListeners sListeners){
-        this(viewGroup, xStart, yStart, xEnd, yEnd, null, null, sListeners);
+                         SDragListeners sDragListeners){
+        this(viewGroup, xStart, yStart, xEnd, yEnd, null, null, sDragListeners);
     } 
 
     @Override
@@ -216,11 +216,11 @@ public class SArrowViewOld extends View implements SObject {
         if (head) {
             newView = new SArrowViewOld(viewGroup,
                     startX, startY,
-                    newXPos, newYPos, backFollowView, headFollowView, sListeners);
+                    newXPos, newYPos, backFollowView, headFollowView, sDragListeners);
         } else {
             newView = new SArrowViewOld(viewGroup,
                     newXPos, newYPos,
-                    endX, endY, backFollowView, headFollowView, sListeners);
+                    endX, endY, backFollowView, headFollowView, sDragListeners);
         }
 
         viewGroup.addView(newView);

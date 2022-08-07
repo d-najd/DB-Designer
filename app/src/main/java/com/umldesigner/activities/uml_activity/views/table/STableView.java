@@ -70,7 +70,7 @@ public class STableView extends ConstraintLayout implements SObject {
     
         //inflating the view
         LayoutInflater inflater = LayoutInflater.from(builder.getContext());
-        v = inflater.inflate(R.layout.card_uml_table, this, true);
+        v = inflater.inflate(R.layout.card_s_table, this, true);
     
         //setting the fields inside the table
         TextView titleTextView = v.findViewById(R.id.title);

@@ -1,39 +1,57 @@
-package com.umldesigner.activities.uml_activity;
+package com.umldesigner.activities.uml_activity.dialogs.table;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.umldesigner.MainActivity;
 import com.umldesigner.Message;
 import com.umldesigner.R;
+import com.umldesigner.activities.uml_activity.recyclers.SAdapter;
+import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
+
+import java.util.ArrayList;
 
 /**
  * the dialog used that pops up to when you create new table
  */
-public class CreateTableDialog extends Dialog {
+public class EditSTableDialog extends Dialog {
     MainActivity mainActivity;
     
-    public CreateTableDialog(MainActivity mainActivity) {
-        super(mainActivity);
-        this.mainActivity = mainActivity;
+    public EditSTableDialog(Context context) {
+        super(context);
     }
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_uml_table_create);
-    
+        setContentView(R.layout.dialog_s_table_edit);
+        
         Button okBtn = findViewById(R.id.okBtn);
         Button cancelBtn = findViewById(R.id.cancelBtn);
         
         CreateTableDialogListeners listeners = new CreateTableDialogListeners(this);
         okBtn.setOnClickListener(listeners);
         cancelBtn.setOnClickListener(listeners);
+    
+    
+        ArrayList<SItemData> itemDataArrayList = new ArrayList<>();
+        itemDataArrayList.add(new SItemData("exampleValue", "ExampleType"));
+        
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        SAdapter adapter = new SAdapter(itemDataArrayList, getContext());
+    
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
     
     

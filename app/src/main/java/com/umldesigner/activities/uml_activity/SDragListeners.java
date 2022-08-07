@@ -1,11 +1,9 @@
 package com.umldesigner.activities.uml_activity;
 
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.util.Log;
 import android.view.DragEvent;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.umldesigner.activities.uml_activity.views.SBackground;
@@ -14,18 +12,11 @@ import com.umldesigner.infrastructure.uml.utils.MoveViewUtils;
 /**
  * handles the schema listeners
  */
-public class SListeners implements View.OnTouchListener, View.OnLongClickListener, View.OnDragListener {
+public class SDragListeners implements View.OnClickListener, View.OnLongClickListener, View.OnDragListener {
     public SBackground sBackground;
 
-    public SListeners(SBackground sBackground){
+    public SDragListeners(SBackground sBackground){
         this.sBackground = sBackground;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        startDrag(v);
-        return false;
     }
 
     @Override
@@ -60,5 +51,10 @@ public class SListeners implements View.OnTouchListener, View.OnLongClickListene
             default:
                 return false;
         }
+    }
+    
+    @Override
+    public void onClick(View view) {
+        startDrag(view);
     }
 }

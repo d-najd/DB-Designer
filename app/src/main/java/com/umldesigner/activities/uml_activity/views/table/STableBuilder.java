@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.umldesigner.activities.uml_activity.SListeners;
+import com.umldesigner.activities.uml_activity.SDragListeners;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 
@@ -22,7 +22,7 @@ public class STableBuilder {
     private final float x;
     private final float y;
     private final String title;
-    private final SListeners listeners;
+    private final SDragListeners listeners;
     private ArrayList<SItemData> items;
     @Getter(AccessLevel.NONE)
     private final STableView sTableView;
@@ -31,14 +31,13 @@ public class STableBuilder {
     /**
      * builder used for creating schema tables
      * @param container a container in which the view is located at
-     * @param context context for the table
      * @param title title for the table
      * @param x position in grid pieces?
      * @param y position in grid pieces?
      */
     public STableBuilder(
             @NonNull ViewGroup container, // I HATE THIS PIECE OF ****, WHOEVER MADE THIS CAUSE STATIC MEMORY LEAK GO TO HELL
-            @NonNull SListeners listeners,
+            @NonNull SDragListeners listeners,
             @NonNull String title,
             float x, float y){
         this.listeners = listeners;
@@ -70,8 +69,9 @@ public class STableBuilder {
         Log.d("Execute", "build with builder " + this.toString());
         
         sTableView.updateData();
-        
-        sTableView.setOnTouchListener(listeners);
+       
+        sTableView.setOnClickListener(new STableListeners());
+        sTableView.setOnLongClickListener(listeners);
         sTableView.setVisibility(View.VISIBLE);
         container.addView(sTableView);
     

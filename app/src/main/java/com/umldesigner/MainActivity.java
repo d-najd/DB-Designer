@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.umldesigner.activities.uml_activity.SGridCreateColliders;
-import com.umldesigner.activities.uml_activity.SListeners;
+import com.umldesigner.activities.uml_activity.SDragListeners;
 import com.umldesigner.activities.uml_activity.views.table.STableBuilder;
 import com.umldesigner.activities.uml_activity.views.table.STableView;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
     private ViewGroup container;
     private SObjectFactory sObjectFactory;
     public static float dp;
-    public static SListeners listeners;
+    public static SDragListeners listeners;
     public static float spacing;
     
     @Getter

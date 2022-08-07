@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.views;
+package com.umldesigner.activities.uml_activity.views.arrow_old;
 
 import android.util.Log;
 import android.view.View;
@@ -29,7 +29,7 @@ public class SArrowPart extends View implements SObject {
        // umlSettingsInstance.allViewTagsPut(id, this);
         this.setMinimumWidth((int) parent.colliderSize);
         this.setMinimumHeight((int) parent.colliderSize);
-        setOnTouchListener(parent.sListeners);
+        setOnClickListener(parent.sDragListeners);
 
         parent.viewGroup.addView(this);
 

@@ -3,7 +3,7 @@ package com.umldesigner;
 import android.content.res.Resources;
 import android.view.View;
 
-import com.umldesigner.activities.uml_activity.CreateTableDialog;
+import com.umldesigner.activities.uml_activity.dialogs.table.CreateSTableDialog;
 import com.umldesigner.activities.uml_activity.views.sfk.SFKBuilder;
 import com.umldesigner.activities.uml_activity.views.sfk.SFKView;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
@@ -38,7 +38,7 @@ public class MainActivityListeners implements View.OnClickListener {
             //AlertDialog alertDialog = builder.create();
             //alertDialog.show();
             
-            CreateTableDialog dialog = new CreateTableDialog(mainActivity);
+            CreateSTableDialog dialog = new CreateSTableDialog(mainActivity);
             dialog.show();
         } else {
             throw new IllegalStateException("invalid MainActivityListener tag " + view.getTag());
