@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.recyclers.SAdapter;
+import com.umldesigner.activities.uml_activity.adapters.STableAdapter;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
@@ -91,7 +91,7 @@ public class STableView extends ConstraintLayout implements SObject {
         umlTableRecyclerView.setLayoutManager(layoutManager);
         
         if (builder.getItems() != null){
-            SAdapter adapter = new SAdapter(builder.getItems(), v.getContext());
+            STableAdapter adapter = new STableAdapter(builder.getItems(), v.getContext());
             umlTableRecyclerView.setAdapter(adapter);
         }
         
@@ -160,7 +160,7 @@ public class STableView extends ConstraintLayout implements SObject {
         Log.d("Execute", "setSItemData with parameters " + itemDataArrayList.toString());
         
         recyclerView = v.findViewById(R.id.uml_table_recyclerView);
-        SAdapter adapter = new SAdapter(itemDataArrayList, v.getContext());
+        STableAdapter adapter = new STableAdapter(itemDataArrayList, v.getContext());
         
         layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);

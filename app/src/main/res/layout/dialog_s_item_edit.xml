@@ -7,10 +7,6 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="4dp">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -51,58 +47,47 @@
                     android:id="@+id/titleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Table Name"
+                    android:text="Name"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/titleEdt"
-                    android:layout_width="match_parent"
+                    android:id="@+id/editText2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:maxLines="2"
+                    android:layout_marginStart="6dp"
+                    android:lines="1"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@+id/titleText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/titleText"
+                    app:layout_constraintTop_toTopOf="@+id/titleText" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Type"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@+id/titleText"
                     app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintEnd_toEndOf="@+id/titleEdt"
-                    app:layout_constraintStart_toStartOf="@+id/titleEdt"
-                    app:layout_constraintTop_toBottomOf="@+id/titleEdt" />
+                    android:textColor="@color/white"
+                    android:lines="1"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView2"
+                    app:layout_constraintStart_toStartOf="@+id/editText2"
+                    app:layout_constraintTop_toTopOf="@+id/textView2" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintEnd_toEndOf="@+id/titleEdt"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView">
-
-                    <ImageView
-                        android:id="@+id/addColumnImg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:foregroundTint="@color/red"
-                        android:src="@drawable/ic_baseline_add_24"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Add Column"
-                        app:layout_constraintBottom_toBottomOf="@+id/addColumnImg"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintRight_toRightOf="@id/addColumnImg"
-                        app:layout_constraintStart_toEndOf="@+id/addColumnImg"
-                        app:layout_constraintTop_toTopOf="@+id/addColumnImg" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
+<!--
                 <Button
                     android:id="@+id/okBtn"
                     android:layout_width="wrap_content"
@@ -123,8 +108,9 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    -->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 </RelativeLayout>

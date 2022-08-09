@@ -3,7 +3,7 @@ package com.umldesigner;
 import android.content.res.Resources;
 import android.view.View;
 
-import com.umldesigner.activities.uml_activity.dialogs.table.CreateSTableDialog;
+import com.umldesigner.activities.uml_activity.dialogs.table.create.CreateSTableDialog;
 import com.umldesigner.activities.uml_activity.views.sfk.SFKBuilder;
 import com.umldesigner.activities.uml_activity.views.sfk.SFKView;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;

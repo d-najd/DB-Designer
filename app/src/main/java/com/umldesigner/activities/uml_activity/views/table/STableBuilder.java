@@ -70,7 +70,7 @@ public class STableBuilder {
         
         sTableView.updateData();
        
-        sTableView.setOnClickListener(new STableListeners());
+        sTableView.setOnClickListener(new STableListeners(sTableView.getData()));
         sTableView.setOnLongClickListener(listeners);
         sTableView.setVisibility(View.VISIBLE);
         container.addView(sTableView);

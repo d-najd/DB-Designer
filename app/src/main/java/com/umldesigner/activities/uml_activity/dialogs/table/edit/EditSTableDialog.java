@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.dialogs.table;
+package com.umldesigner.activities.uml_activity.dialogs.table.edit;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,22 +11,23 @@ import android.widget.EditText;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.umldesigner.MainActivity;
 import com.umldesigner.Message;
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.recyclers.SAdapter;
+import com.umldesigner.activities.uml_activity.adapters.EditSTableAdapter;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
+import com.umldesigner.infrastructure.uml.data.STable.STableData;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * the dialog used that pops up to when you create new table
  */
 public class EditSTableDialog extends Dialog {
-    MainActivity mainActivity;
+    STableData sTableData;
     
-    public EditSTableDialog(Context context) {
+    public EditSTableDialog(Context context, STableData sTableData) {
         super(context);
+        this.sTableData = sTableData;
     }
     
     @Override
@@ -42,12 +43,10 @@ public class EditSTableDialog extends Dialog {
         okBtn.setOnClickListener(listeners);
         cancelBtn.setOnClickListener(listeners);
     
-    
-        ArrayList<SItemData> itemDataArrayList = new ArrayList<>();
-        itemDataArrayList.add(new SItemData("exampleValue", "ExampleType"));
+        List<SItemData> itemDataArrayList = (List<SItemData>) sTableData.getItems();
         
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        SAdapter adapter = new SAdapter(itemDataArrayList, getContext());
+        EditSTableAdapter adapter = new EditSTableAdapter(itemDataArrayList, getContext());
     
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);

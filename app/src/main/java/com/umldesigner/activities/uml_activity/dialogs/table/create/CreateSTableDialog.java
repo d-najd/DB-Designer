@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.dialogs.table;
+package com.umldesigner.activities.uml_activity.dialogs.table.create;
 
 import android.app.Dialog;
 import android.os.Bundle;

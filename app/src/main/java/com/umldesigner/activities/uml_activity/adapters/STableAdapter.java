@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.recyclers;
+package com.umldesigner.activities.uml_activity.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,15 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.umldesigner.R;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class SAdapter extends RecyclerView.Adapter<SAdapter.UmlRecyclerViewHolder>{
-    private ArrayList<SItemData> recyclerDataArrayList;
+public class STableAdapter extends RecyclerView.Adapter<STableAdapter.UmlRecyclerViewHolder>{
+    private List<SItemData> recyclerDataArrayList;
     private Context context;
     private SItemData curData;
-    private UmlRecyclerViewHolder curHolder;
     
-    public SAdapter(ArrayList<SItemData> recyclerDataArrayList, Context context) {
+    /**
+     * adapter for the items inside the sTable
+     */
+    public STableAdapter(List<SItemData> recyclerDataArrayList, Context context) {
         this.recyclerDataArrayList = recyclerDataArrayList;
         this.context = context;
     }
@@ -39,10 +41,7 @@ public class SAdapter extends RecyclerView.Adapter<SAdapter.UmlRecyclerViewHolde
         Log.d("Execute", "onBindViewHolder with parameters " + holder.toString() + ", " + position);
         
         curData = recyclerDataArrayList.get(position);
-        curHolder = holder;
         
-        holder.itemView.getX();
-        Log.d("Execute", "x pos "+ holder.itemView.getX());
         holder.title.setText(new StringBuilder().append("- ").append(curData.getValue()).append(": ").append(curData.getType()).toString());
     }
     
