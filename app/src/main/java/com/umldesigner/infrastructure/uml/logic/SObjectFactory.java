@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.umldesigner.activities.uml_activity.SDragListeners;
+import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.activities.uml_activity.views.arrow_old.SArrowPart;
 import com.umldesigner.activities.uml_activity.views.arrow_old.SArrowViewOld;
 import com.umldesigner.activities.uml_activity.views.table.STableView;

@@ -1,12 +1,12 @@
 package com.umldesigner.activities.uml_activity.dialogs.table.edit;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,45 +39,34 @@ public class EditSTableDialog extends Dialog {
         Button okBtn = findViewById(R.id.okBtn);
         Button cancelBtn = findViewById(R.id.cancelBtn);
         
-        CreateTableDialogListeners listeners = new CreateTableDialogListeners(this);
+        DialogListeners listeners = new DialogListeners(this);
         okBtn.setOnClickListener(listeners);
         cancelBtn.setOnClickListener(listeners);
     
         List<SItemData> itemDataArrayList = (List<SItemData>) sTableData.getItems();
         
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        EditSTableAdapter adapter = new EditSTableAdapter(itemDataArrayList, getContext());
-    
+        EditSTableAdapter adapter = new EditSTableAdapter(itemDataArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
     
     
-    class CreateTableDialogListeners implements View.OnClickListener{
+    static class DialogListeners implements View.OnClickListener{
         Dialog dialog;
         
-        public CreateTableDialogListeners(Dialog dialog){
+        public DialogListeners(Dialog dialog){
             this.dialog = dialog;
         }
         
+        @SuppressLint("NonConstantResourceId")
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.okBtn:
                     Message.message(v.getContext(), "pressed ok");
-                    
-                    EditText editText = dialog.findViewById(R.id.titleEdt);
-                    String newTitle = editText.getText().toString();
-                    
-                    //SObjectFactory sObjectFactory = mainActivity.getUmlObjectFactory();
-                    
-                    if(newTitle.isEmpty())
-                        Message.message(v.getContext(), "Please define title");
-                    else {
-                        //mainActivity.getContainer().addView((View) sObjectFactory.create("umlTable", newTitle, new float[]{0, 0}));
-                        dialog.dismiss();
-                    }
+                    dialog.dismiss();
                     break;
                 case R.id.cancelBtn:
                     Message.message(v.getContext(), "pressed cancel");

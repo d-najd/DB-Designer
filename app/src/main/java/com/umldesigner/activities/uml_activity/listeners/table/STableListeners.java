@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.views.table;
+package com.umldesigner.activities.uml_activity.listeners.table;
 
 import android.view.View;
 

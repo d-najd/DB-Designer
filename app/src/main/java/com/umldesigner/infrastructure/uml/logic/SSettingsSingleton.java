@@ -3,7 +3,8 @@ package com.umldesigner.infrastructure.uml.logic;
 import android.util.Log;
 
 import com.umldesigner.MainActivity;
-import com.umldesigner.activities.uml_activity.SDragListeners;
+import com.umldesigner.MainActivityListeners;
+import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 
 import java.util.HashMap;
@@ -67,7 +68,12 @@ public class SSettingsSingleton {
         spacing = MainActivity.spacing;
         dp = MainActivity.dp;
         
-        sDragListeners = MainActivity.listeners;
+        sDragListeners = MainActivityListeners.sDragListeners;
+    
+        if(sDragListeners == null || spacing == 0 || dp == 0){
+            Log.wtf("ERROR", "failed to instantiate SSettingsSingleton, one or more of " +
+                    "the fields failed to instantiate in its creation");
+        }
     }
     
     public static SSettingsSingleton getInstance() {

@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity;
+package com.umldesigner.activities.uml_activity.grid;
 
 import android.graphics.Color;
 import android.util.Log;

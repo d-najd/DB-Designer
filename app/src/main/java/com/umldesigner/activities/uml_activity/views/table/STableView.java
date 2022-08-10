@@ -34,7 +34,7 @@ public class STableView extends ConstraintLayout implements SObject {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     
-    private ViewGroup container;
+    private final ViewGroup container;
     
     /**
      * creates UmlTableView at given position and with given listeners if given

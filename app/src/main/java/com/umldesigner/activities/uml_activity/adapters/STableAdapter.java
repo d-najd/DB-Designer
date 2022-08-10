@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.umldesigner.R;
+import com.umldesigner.activities.uml_activity.listeners.item.EditSItemListeners;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class STableAdapter extends RecyclerView.Adapter<STableAdapter.UmlRecycle
     private SItemData curData;
     
     /**
-     * adapter for the items inside the sTable
+     * createAdapter for the items inside the sTable
      */
     public STableAdapter(List<SItemData> recyclerDataArrayList, Context context) {
         this.recyclerDataArrayList = recyclerDataArrayList;
@@ -33,6 +34,8 @@ public class STableAdapter extends RecyclerView.Adapter<STableAdapter.UmlRecycle
     public UmlRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_s_table_row, parent, false);
+        
+        
         return new UmlRecyclerViewHolder(view);
     }
     
@@ -41,6 +44,7 @@ public class STableAdapter extends RecyclerView.Adapter<STableAdapter.UmlRecycle
         Log.d("Execute", "onBindViewHolder with parameters " + holder.toString() + ", " + position);
         
         curData = recyclerDataArrayList.get(position);
+        holder.itemView.setOnClickListener(new EditSItemListeners(curData));
         
         holder.title.setText(new StringBuilder().append("- ").append(curData.getValue()).append(": ").append(curData.getType()).toString());
     }
@@ -52,7 +56,7 @@ public class STableAdapter extends RecyclerView.Adapter<STableAdapter.UmlRecycle
     
     // View Holder Class to handle Recycler View.
     
-    class UmlRecyclerViewHolder extends RecyclerView.ViewHolder {
+    static class UmlRecyclerViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
         
         public UmlRecyclerViewHolder(@NonNull View itemView) {

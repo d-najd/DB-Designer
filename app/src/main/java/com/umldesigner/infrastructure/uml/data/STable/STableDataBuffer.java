@@ -23,7 +23,7 @@ public class STableDataBuffer {
      * this is written like this to make sure that nothing gets broken when the first view gets removed
      */
     @Getter
-    private HashMap<Integer, Pair<SFKView, SFKView>> buffer = new HashMap<>();
+    private final HashMap<Integer, Pair<SFKView, SFKView>> buffer = new HashMap<>();
     /**
      * adds value to the buffer
      * @param currentView the current view, one that needs to be removed

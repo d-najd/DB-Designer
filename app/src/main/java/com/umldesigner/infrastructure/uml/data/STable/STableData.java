@@ -22,16 +22,11 @@ import lombok.Setter;
  * data field used exclusively for android
  */
 public class STableData extends STablePojo implements BaseDataInterface, BaseObservable {
-    
-    /**
-     * the one who is the primary key (making the connections) holds the key, the other item doesn't
-     * hold anything
-     */
     @Getter
-    private HashSet<SFKView> foreignKeys = new HashSet<>();
+    private final HashSet<SFKView> foreignKeys = new HashSet<>();
     
     @Getter
-    private Integer id;
+    private final Integer id;
    
     @Getter
     @Setter
@@ -70,13 +65,6 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
     @Override
     public void registerObserver(BaseObserver o) {
         Log.d("Execute", "registerObserver: ");
-        /* TODO fix this
-        if (foreignKeys.contains((SFKView) o)){
-            Log.w("Warning", "registerObserver: SFK with the entered value already exists");
-            Message.defErrMessage(((SFKView) o).getContext());
-            return;
-        }
-         */
         foreignKeys.add((SFKView) o);
     }
     

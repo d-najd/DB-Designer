@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.umldesigner.MainActivity;
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.SDragListeners;
+import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 import com.umldesigner.infrastructure.uml.logic.SArrowParts;

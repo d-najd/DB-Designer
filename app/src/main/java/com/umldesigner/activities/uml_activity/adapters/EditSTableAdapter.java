@@ -1,6 +1,5 @@
 package com.umldesigner.activities.uml_activity.adapters;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,16 +15,15 @@ import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import java.util.List;
 
 public class EditSTableAdapter extends RecyclerView.Adapter<EditSTableAdapter.UmlRecyclerViewHolder>{
-    private List<SItemData> recyclerDataArrayList;
-    private Context context;
+    private final List<SItemData> recyclerDataArrayList;
     private SItemData curData;
     
+    
     /**
-     * adapter used for the dialog for editing the sTable
+     * createAdapter used for the dialog for editing the sTable
      */
-    public EditSTableAdapter(List<SItemData> recyclerDataArrayList, Context context) {
+    public EditSTableAdapter(List<SItemData> recyclerDataArrayList) {
         this.recyclerDataArrayList = recyclerDataArrayList;
-        this.context = context;
     }
     
     @NonNull
@@ -53,7 +51,7 @@ public class EditSTableAdapter extends RecyclerView.Adapter<EditSTableAdapter.Um
     
     // View Holder Class to handle Recycler View.
     
-    class UmlRecyclerViewHolder extends RecyclerView.ViewHolder {
+    static class UmlRecyclerViewHolder extends RecyclerView.ViewHolder {
         public TextView value;
         public TextView type;
         

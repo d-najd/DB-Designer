@@ -4,15 +4,27 @@ import android.content.res.Resources;
 import android.view.View;
 
 import com.umldesigner.activities.uml_activity.dialogs.table.create.CreateSTableDialog;
+import com.umldesigner.activities.uml_activity.grid.SDragListeners;
+import com.umldesigner.activities.uml_activity.grid.SGridCreateColliders;
 import com.umldesigner.activities.uml_activity.views.sfk.SFKBuilder;
-import com.umldesigner.activities.uml_activity.views.sfk.SFKView;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 
 public class MainActivityListeners implements View.OnClickListener {
     MainActivity mainActivity;
+    public static SDragListeners sDragListeners;
+    
+    
     public MainActivityListeners(MainActivity mainActivity){
         this.mainActivity = mainActivity;
+        setListeners();
+    }
+    
+    private void setListeners(){
+        View fab = mainActivity.findViewById(R.id.createTableFab);
+        fab.setOnClickListener(this);
+        
+        sDragListeners = new SGridCreateColliders(mainActivity.getContainer()).getListeners();
     }
     
     @Override
@@ -20,24 +32,13 @@ public class MainActivityListeners implements View.OnClickListener {
         Resources resources = view.getResources();
         view.getResources().getString(R.string.createTableFab);
         if (resources.getString(R.string.createTableFab).equals(view.getTag())) {
-            //NOTE this is hard coded for testing
+            //TODO this is hard coded for testing and needs to be removed in future
+            
             STableData tableData = (STableData) SSettingsSingleton.getInstance().getViewById(1).getData();
             STableData tableData2 = (STableData) SSettingsSingleton.getInstance().getViewById(2).getData();
             
-            SFKView builder = new SFKBuilder(mainActivity.getContainer(), tableData, 0, tableData2, 3, true).build();
+            new SFKBuilder(mainActivity.getContainer(), tableData, 0, tableData2, 3, true).build();
    
-            
-            
-            //AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-            
-            //https://stackoverflow.com/questions/13341560/how-to-create-a-custom-dialog-box-in-android
-            
-            //builder.setTitle("hello china");
-            
-    
-            //AlertDialog alertDialog = builder.create();
-            //alertDialog.show();
-            
             CreateSTableDialog dialog = new CreateSTableDialog(mainActivity);
             dialog.show();
         } else {

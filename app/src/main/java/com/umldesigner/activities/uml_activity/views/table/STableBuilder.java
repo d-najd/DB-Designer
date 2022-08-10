@@ -7,7 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.umldesigner.activities.uml_activity.SDragListeners;
+import com.umldesigner.activities.uml_activity.grid.SDragListeners;
+import com.umldesigner.activities.uml_activity.listeners.table.STableListeners;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
 

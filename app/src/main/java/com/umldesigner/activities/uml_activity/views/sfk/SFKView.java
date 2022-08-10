@@ -26,20 +26,19 @@ public class SFKView extends View implements Destroyable, BaseObserver {
     private final SFKFacade sfkFacade;
     
     @Getter
-    private STableData fTableData;
+    private final STableData fTableData;
     @Getter
-    private STableData sTableData;
-    private int fTablePos;
-    private int sTablePos;
-    private ViewGroup container;
+    private final STableData sTableData;
+    @Getter
+    private final int fTablePos;
+    @Getter
+    private final int sTablePos;
+    private final ViewGroup container;
     
-    private Canvas canvas;
     /**
      * we don't want to hold reference to the sfkBuilder because it will become out of sync, we want
      * to use the BaseObserver interface for updating data
      */
-    private final SFKBuilder sfkBuilder = null;
-    
     private final int color = Color.argb(255, 150, 150, 150);
     
     public SFKView(SFKBuilder sfkBuilder){
@@ -56,15 +55,16 @@ public class SFKView extends View implements Destroyable, BaseObserver {
         
         this.setX(1 * settingsInstance.getSpacing());
         this.setY(1 * settingsInstance.getSpacing());
-        this.setMinimumWidth((int) 100000);
-        this.setMinimumHeight((int) 100000);
+        this.setMinimumWidth(100000);
+        this.setMinimumHeight(100000);
         
         container.addView(this);
     }
     
     /**
-     * @implNote this will cause problems if the view is not removed from the list of sfk's in the
-     * primary and secondary
+     * @implNote this will cause problems if the view is not removed from the sfk's inside the
+     * TableData which contain this (one contains this key as a primary fTableData, the other as
+     * secondary sTableData)
      */
     @Override
     public void destroy() {
@@ -77,7 +77,6 @@ public class SFKView extends View implements Destroyable, BaseObserver {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        this.canvas = canvas;
        
         drawLines(canvas);
     }
@@ -150,7 +149,6 @@ public class SFKView extends View implements Destroyable, BaseObserver {
         canvas.drawLine(sTableX, sTableY,
                 lineX, sTableY, paint);
     }
-    
     
     private Paint createPaint(){
         Log.d("Execute", "createPaint");

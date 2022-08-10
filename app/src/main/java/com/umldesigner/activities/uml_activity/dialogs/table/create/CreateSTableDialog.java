@@ -31,16 +31,16 @@ public class CreateSTableDialog extends Dialog {
         Button okBtn = findViewById(R.id.okBtn);
         Button cancelBtn = findViewById(R.id.cancelBtn);
         
-        CreateTableDialogListeners listeners = new CreateTableDialogListeners(this);
+        DialogListeners listeners = new DialogListeners(this);
         okBtn.setOnClickListener(listeners);
         cancelBtn.setOnClickListener(listeners);
     }
     
     
-    class CreateTableDialogListeners implements View.OnClickListener{
+    static class DialogListeners implements View.OnClickListener{
         Dialog dialog;
         
-        public CreateTableDialogListeners(Dialog dialog){
+        public DialogListeners(Dialog dialog){
             this.dialog = dialog;
         }
         
@@ -53,12 +53,9 @@ public class CreateSTableDialog extends Dialog {
                     EditText editText = dialog.findViewById(R.id.titleEdt);
                     String newTitle = editText.getText().toString();
                     
-                    //SObjectFactory sObjectFactory = mainActivity.getUmlObjectFactory();
-                    
                     if(newTitle.isEmpty())
                         Message.message(v.getContext(), "Please define title");
                     else {
-                        //mainActivity.getContainer().addView((View) sObjectFactory.create("umlTable", newTitle, new float[]{0, 0}));
                         dialog.dismiss();
                     }
                     break;
