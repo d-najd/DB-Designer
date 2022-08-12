@@ -1,4 +1,4 @@
-package com.umldesigner.infrastructure.uml.utils.custom.spinner;
+package com.umldesigner.infrastructure.uml.custom.spinner;
 
 import android.content.Context;
 import android.view.View;
@@ -11,11 +11,11 @@ import android.widget.TextView;
 
 public class CustomSpinnerListeners implements OnItemClickListener {
     
-    private final CustomSpinnerCreator customSpinnerCreator;
+    private final CustomSpinnerTemplate customSpinnerTemplate;
     private final PopupWindow popupWindow;
     
-    public CustomSpinnerListeners(CustomSpinnerCreator customSpinnerCreator, PopupWindow popupWindow) {
-        this.customSpinnerCreator = customSpinnerCreator;
+    public CustomSpinnerListeners(CustomSpinnerTemplate customSpinnerTemplate, PopupWindow popupWindow) {
+        this.customSpinnerTemplate = customSpinnerTemplate;
         this.popupWindow = popupWindow;
     }
     
@@ -29,9 +29,7 @@ public class CustomSpinnerListeners implements OnItemClickListener {
         fadeInAnimation.setDuration(10);
         view.startAnimation(fadeInAnimation);
         
-        String selectedItemText = ((TextView)view).getText().toString();
-        
-        customSpinnerCreator.pressed(selectedItemText, position);
+        customSpinnerTemplate.pressed((TextView) view, position);
         popupWindow.dismiss();
     }
 }

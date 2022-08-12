@@ -1,44 +1,35 @@
 package com.umldesigner.infrastructure.uml.utils;
 
-import android.util.Log;
+import androidx.annotation.NonNull;
 
-import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
-
-import java.util.Objects;
+import com.umldesigner.infrastructure.uml.entities.Movable;
+import com.umldesigner.infrastructure.uml.logic.ASettings;
 
 public class MoveViewUtils {
     
     
     /**
      * moves uml view to given position using grid spaces
-     * @param id of the view
+     * @param movable the object that we want to move
      * @param x position in grid spaces, not absolute
      * @param y position in grid spaces, not absolute
-     * @see #moveViewAbsolute(int, float, float)
+     * @see #moveViewAbsolute(Movable, float, float)
      */
-    public static void moveView(int id, float x, float y){
-        float spacedX = x * SSettingsSingleton.getInstance().getSpacing();
-        float spacedY = y * SSettingsSingleton.getInstance().getSpacing();
+    public static void moveView(@NonNull Movable movable, float x, float y){
+        float spacedX = x * ASettings.getInstance().getSpacing();
+        float spacedY = y * ASettings.getInstance().getSpacing();
     
-        try {
-            Objects.requireNonNull(SSettingsSingleton.getInstance().getViewById(id)).move(spacedX, spacedY);
-        } catch (NullPointerException e){
-            Log.e("ERROR", "Unable to move object with id " + id);
-        }
+        movable.move(spacedX, spacedY);
     }
     
     /**
      * moves uml view to a given absolute position
-     * @param id of the view
+     * @param movable the object that we want to move
      * @param x absolute position
      * @param y absolute position
-     * @see #moveView(int, float, float)
+     * @see #moveView(Movable, float, float)
      */
-    public static void moveViewAbsolute(int id, float x, float y){
-        try {
-            Objects.requireNonNull(SSettingsSingleton.getInstance().getViewById(id)).move(x, y);
-        } catch (NullPointerException e){
-            Log.e("ERROR", "Unable to move object with id " + id);
-        }
+    public static void moveViewAbsolute(@NonNull Movable movable, float x, float y){
+        movable.move(x, y);
     }
 }

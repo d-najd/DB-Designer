@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">UmlDesigner</string>
     <string name="createTableFab">createTableFab</string>
+    <string name="no_action">No Action</string>
+    <string name="restrict">Restrict</string>>
+    <string name="cascade">Cascade</string>>
+    <string name="set_null">Set NULL</string>>
+    <string name="set_default">Set Default</string>>
 </resources>

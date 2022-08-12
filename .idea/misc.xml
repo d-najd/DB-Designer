@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/dimit/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_list_item_1.xml" value="0.20625" />
+        <entry key="..\:/Users/dimit/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/test_list_item.xml" value="0.25052083333333336" />
         <entry key="..\:/Users/dimit/Documents/AndroidStudio/UmlDesignerApp/app/src/main/res/drawable/border_line.xml" value="0.2595" />
         <entry key="..\:/Users/dimit/Documents/AndroidStudio/UmlDesignerApp/app/src/main/res/drawable/border_line_down_missing.xml" value="0.207" />
         <entry key="..\:/Users/dimit/Documents/AndroidStudio/UmlDesignerApp/app/src/main/res/drawable/custom_border.xml" value="0.2595" />
@@ -22,6 +24,7 @@
         <entry key="..\:/Users/dimit/Documents/AndroidStudio/UmlDesignerApp/app/src/main/res/layout/dialog_s_table_edit_row.xml" value="0.536" />
         <entry key="..\:/Users/dimit/Documents/AndroidStudio/UmlDesignerApp/app/src/main/res/layout/dialog_uml_table_create.xml" value="0.264" />
         <entry key="..\:/Users/dimit/Documents/AndroidStudio/UmlDesignerApp/app/src/main/res/layout/layout_uml_diagram.xml" value="0.221875" />
+        <entry key="..\:/Users/dimit/Documents/AndroidStudio/UmlDesignerApp/app/src/main/res/layout/test_layout_1.xml" value="0.20625" />
         <entry key="..\:/Users/dimit/Documents/AndroidStudio/UmlDesignerApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.124" />
       </map>
     </option>

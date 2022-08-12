@@ -7,10 +7,15 @@ import android.widget.ImageButton;
 
 import com.umldesigner.activities.uml_activity.views.SBackground;
 
-public class SGridCreateColliders {
+public class SGridCreate {
     SDragListeners sDragListeners;
     
-    public SGridCreateColliders(ViewGroup container) {
+    /**
+     * creates Schema Grid and sets listeners for it, the listeners are used for dragging Schema
+     * objects around
+     * @param container the ViewGroup that the container is located at
+     */
+    public SGridCreate(ViewGroup container) {
         Log.d("Execute", "Create Uml Grid");
         
         SBackground sBackground = new SBackground(container.getContext());

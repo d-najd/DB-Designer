@@ -9,7 +9,7 @@ import com.umldesigner.activities.uml_activity.views.table.STableBuilder;
 import com.umldesigner.activities.uml_activity.views.table.STableView;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.entities.SObject;
-import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
+import com.umldesigner.infrastructure.uml.logic.ASettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @Getter
     private STableView sTable2;
    
-    private SSettingsSingleton settingsInstance;
+    private ASettings settingsInstance;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,23 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         
         setup();
-        
-        //creating stuff
-        ArrayList<SItemData> umlAdapterFieldArrayList = new ArrayList<>(Arrays.asList(
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductName", "varchar(100)")));
-        
-        sTable1 = new STableBuilder(container, settingsInstance.getSDragListeners(), "title", 1, 1)
-                .addItems(umlAdapterFieldArrayList)
-                .build();
-        
-        sTable2 = new STableBuilder(container, settingsInstance.getSDragListeners(), "title1", 13, 13)
-                .addItems(umlAdapterFieldArrayList)
-                .build();
-    
-        HashMap<Integer, SObject> a = settingsInstance.getAllViews();
+        testing();
     }
 
     private void setup(){
@@ -67,7 +51,26 @@ public class MainActivity extends AppCompatActivity {
         /*
           creating the singleton, NOTE all fields before the singleton are needed for its creation
          */
-        settingsInstance = SSettingsSingleton.getInstance();
+        settingsInstance = ASettings.getInstance();
+    }
+    
+    private void testing(){
+        //creating stuff
+        ArrayList<SItemData> umlAdapterFieldArrayList = new ArrayList<>(Arrays.asList(
+                new SItemData("ProductId", "int"),
+                new SItemData("ProductId", "int"),
+                new SItemData("ProductId", "int"),
+                new SItemData("ProductName", "varchar(100)")));
+    
+        sTable1 = new STableBuilder(container, settingsInstance.getSDragListeners(), "title", 1, 1)
+                .addItems(umlAdapterFieldArrayList)
+                .build();
+    
+        sTable2 = new STableBuilder(container, settingsInstance.getSDragListeners(), "title1", 13, 13)
+                .addItems(umlAdapterFieldArrayList)
+                .build();
+    
+        HashMap<Integer, SObject> a = settingsInstance.getAllViews();
     }
 }
 

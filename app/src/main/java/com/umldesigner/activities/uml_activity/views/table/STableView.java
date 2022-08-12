@@ -16,7 +16,7 @@ import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.entities.SObject;
-import com.umldesigner.infrastructure.uml.logic.SSettingsSingleton;
+import com.umldesigner.infrastructure.uml.logic.ASettings;
 import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.pojos.BasePojo;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import lombok.Getter;
 
 public class STableView extends ConstraintLayout implements SObject {
     
-    private final SSettingsSingleton umlSettingsInstance;
+    private final ASettings umlSettingsInstance;
     @Getter
     private STableData data;
     private View v;
@@ -56,7 +56,7 @@ public class STableView extends ConstraintLayout implements SObject {
         super(builder.getContext());
         
         //prep
-        umlSettingsInstance = SSettingsSingleton.getInstance();
+        umlSettingsInstance = ASettings.getInstance();
         container = builder.getContainer();
         
         //setting up the data
@@ -77,10 +77,10 @@ public class STableView extends ConstraintLayout implements SObject {
         this.setId(data.getId());
         this.setX(data.getX()); //setting the absolute position
         this.setY(data.getY());
-        this.setElevation(SSettingsSingleton.TABLE_ELEVATION);
-        this.setMaxWidth((int) SSettingsSingleton.TABLE_WIDTH);
-        this.setMinWidth((int) SSettingsSingleton.TABLE_WIDTH);
-        this.setMinimumWidth((int) SSettingsSingleton.TABLE_WIDTH);
+        this.setElevation(ASettings.TABLE_ELEVATION);
+        this.setMaxWidth((int) ASettings.TABLE_WIDTH);
+        this.setMinWidth((int) ASettings.TABLE_WIDTH);
+        this.setMinimumWidth((int) ASettings.TABLE_WIDTH);
         this.setBackgroundColor(2131034697);
         titleTextView.setText(data.getTitle());
    
@@ -156,8 +156,8 @@ public class STableView extends ConstraintLayout implements SObject {
      * @param itemDataArrayList the given itemArrayList
      * @see #updateData()
      */
-    public void setSItemData(ArrayList<SItemData> itemDataArrayList) {
-        Log.d("Execute", "setSItemData with parameters " + itemDataArrayList.toString());
+    public void setItems(ArrayList<SItemData> itemDataArrayList) {
+        Log.d("Execute", "setItems with parameters " + itemDataArrayList.toString());
         
         recyclerView = v.findViewById(R.id.uml_table_recyclerView);
         STableAdapter adapter = new STableAdapter(itemDataArrayList, v.getContext());

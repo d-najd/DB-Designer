@@ -7,6 +7,8 @@ import android.view.DragEvent;
 import android.view.View;
 
 import com.umldesigner.activities.uml_activity.views.SBackground;
+import com.umldesigner.infrastructure.uml.entities.Movable;
+import com.umldesigner.infrastructure.uml.logic.ASettings;
 import com.umldesigner.infrastructure.uml.utils.MoveViewUtils;
 
 /**
@@ -44,9 +46,16 @@ public class SDragListeners implements View.OnClickListener, View.OnLongClickLis
                 return true;
             case DragEvent.ACTION_DROP:
                 clipData = event.getClipDescription().getLabel().toString();
-                Integer int_clipData = Integer.parseInt(clipData);
+                Integer id = Integer.parseInt(clipData);
                 //moving the UmlObject
-                MoveViewUtils.moveViewAbsolute(int_clipData, event.getX(), event.getY());
+    
+                Movable movable = ASettings.getInstance().getViewById(id);
+                if (movable == null){
+                    Log.wtf("ERROR", "ASettings contains object which is not movable?");
+                    throw new IllegalStateException();
+                }
+                
+                MoveViewUtils.moveViewAbsolute(movable, event.getX(), event.getY());
                 return true;
             default:
                 return false;

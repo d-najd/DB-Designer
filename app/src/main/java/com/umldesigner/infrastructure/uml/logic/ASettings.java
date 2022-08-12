@@ -8,6 +8,8 @@ import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,8 +18,8 @@ import lombok.Getter;
  * a singleton which holds the schema settings and schema related stuff
  */
 @Getter
-public class SSettingsSingleton {
-    private static SSettingsSingleton instance;
+public class ASettings {
+    private static ASettings instance;
     
     //region general values
     private final float dp;
@@ -59,7 +61,7 @@ public class SSettingsSingleton {
         return appIdCounter++;
     }
     
-    private SSettingsSingleton() {
+    private ASettings() {
         Log.d("Execute", "Create Schema Settings Singleton");
        
         allViews = new HashMap<>();
@@ -76,9 +78,9 @@ public class SSettingsSingleton {
         }
     }
     
-    public static SSettingsSingleton getInstance() {
+    public static ASettings getInstance() {
         if (instance == null){
-            instance = new SSettingsSingleton();
+            instance = new ASettings();
         }
         return instance;
     }
@@ -90,6 +92,10 @@ public class SSettingsSingleton {
         Log.d("Execute", "Put View in Schema Settings Singleton with parameters" + id + ", " + umlObject.toString());
         
         allViews.put(id, umlObject);
+    }
+    
+    public Iterator<Map.Entry<Integer, SObject>> getViewsIterator(){
+        return allViews.entrySet().iterator();
     }
     
     /**

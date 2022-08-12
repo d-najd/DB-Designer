@@ -28,7 +28,7 @@
                 android:layout_marginBottom="26dp"
                 android:elevation="4dp"
                 android:textColor="@color/white"
-                android:text="Edit Table"
+                android:text="Edit Item"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/topPanel"
@@ -46,7 +46,7 @@
 
                 <TextView
                     android:id="@+id/titleText"
-                    android:layout_width="100dp"
+                    android:layout_width="90dp"
                     android:textAlignment="textEnd"
                     android:layout_height="wrap_content"
                     android:text="Name"
@@ -215,9 +215,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
 
-                <Spinner
+                <TextView
+                    android:id="@+id/refTable"
+                    android:text="ExampleTableName"
+                    android:textColor="@color/white"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="@+id/textView8"
                     app:layout_constraintEnd_toEndOf="@+id/editText2"
                     app:layout_constraintStart_toEndOf="@+id/editText4"
@@ -235,13 +239,15 @@
                     app:layout_constraintEnd_toEndOf="@+id/textView8"
                     app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-                <EditText
+                <TextView
                     android:layout_width="0dp"
+                    android:id="@+id/refField"
                     android:layout_height="wrap_content"
-                    android:lines="1"
+                    android:text="ExampleFieldName"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/textView9"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:textSize="15sp"
                     app:layout_constraintStart_toEndOf="@+id/textView9"
                     app:layout_constraintStart_toStartOf="@+id/editText"
                     app:layout_constraintTop_toTopOf="@+id/textView9" />
@@ -257,9 +263,12 @@
                     app:layout_constraintEnd_toEndOf="@+id/textView9"
                     app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-                <EditText
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:id="@+id/onDelete"
+                    android:textSize="15sp"
+                    android:text="@string/no_action"
                     android:lines="1"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/textView10"
@@ -279,10 +288,13 @@
                     app:layout_constraintEnd_toEndOf="@+id/textView10"
                     app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-                <EditText
+                <TextView
                     android:layout_width="0dp"
+                    android:textSize="15sp"
                     android:layout_height="wrap_content"
                     android:lines="1"
+                    android:id="@+id/onUpdate"
+                    android:text="@string/no_action"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/textView11"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -5,8 +5,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.umldesigner.R;
+import com.umldesigner.activities.uml_activity.listeners.item.dialog.EditSItemDialogListeners;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 
 /**
@@ -31,5 +33,21 @@ public class EditSItemDialog extends Dialog {
 
         okBtn.setOnClickListener(view -> dismiss());
         cancelBtn.setOnClickListener(view -> dismiss());
+        
+        setupFields();
+    }
+    
+    private void setupFields(){
+        EditSItemDialogListeners itemListener = new EditSItemDialogListeners();
+    
+        TextView refTable = findViewById(R.id.refTable);
+        TextView refField = findViewById(R.id.refField);
+        TextView onUpdate = findViewById(R.id.onUpdate);
+        TextView onDelete = findViewById(R.id.onDelete);
+        
+        refTable.setOnClickListener(itemListener);
+        refField.setOnClickListener(itemListener);
+        onUpdate.setOnClickListener(itemListener);
+        onDelete.setOnClickListener(itemListener);
     }
 }
