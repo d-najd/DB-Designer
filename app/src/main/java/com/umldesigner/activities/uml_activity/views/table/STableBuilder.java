@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.activities.uml_activity.listeners.table.STableListeners;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
-import com.umldesigner.infrastructure.uml.logic.ASettings;
+import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
 import java.util.ArrayList;
 
@@ -43,8 +43,8 @@ public class STableBuilder {
             float x, float y){
         this.listeners = listeners;
         this.title = title;
-        this.x = x * ASettings.getInstance().getSpacing();
-        this.y = y * ASettings.getInstance().getSpacing();
+        this.x = x * SSettings.getInstance().getSpacing();
+        this.y = y * SSettings.getInstance().getSpacing();
         this.container = container;
         this.context = container.getContext();
         

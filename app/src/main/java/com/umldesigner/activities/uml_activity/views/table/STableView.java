@@ -16,7 +16,7 @@ import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.entities.SObject;
-import com.umldesigner.infrastructure.uml.logic.ASettings;
+import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.pojos.BasePojo;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import lombok.Getter;
 
 public class STableView extends ConstraintLayout implements SObject {
     
-    private final ASettings umlSettingsInstance;
+    private final SSettings umlSettingsInstance;
     @Getter
     private STableData data;
     private View v;
@@ -56,7 +56,7 @@ public class STableView extends ConstraintLayout implements SObject {
         super(builder.getContext());
         
         //prep
-        umlSettingsInstance = ASettings.getInstance();
+        umlSettingsInstance = SSettings.getInstance();
         container = builder.getContainer();
         
         //setting up the data
@@ -77,10 +77,10 @@ public class STableView extends ConstraintLayout implements SObject {
         this.setId(data.getId());
         this.setX(data.getX()); //setting the absolute position
         this.setY(data.getY());
-        this.setElevation(ASettings.TABLE_ELEVATION);
-        this.setMaxWidth((int) ASettings.TABLE_WIDTH);
-        this.setMinWidth((int) ASettings.TABLE_WIDTH);
-        this.setMinimumWidth((int) ASettings.TABLE_WIDTH);
+        this.setElevation(SSettings.TABLE_ELEVATION);
+        this.setMaxWidth((int) SSettings.TABLE_WIDTH);
+        this.setMinWidth((int) SSettings.TABLE_WIDTH);
+        this.setMinimumWidth((int) SSettings.TABLE_WIDTH);
         this.setBackgroundColor(2131034697);
         titleTextView.setText(data.getTitle());
    

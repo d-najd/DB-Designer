@@ -1,13 +1,15 @@
-package com.umldesigner.infrastructure.uml.logic;
+package com.umldesigner.infrastructure.uml.logic.app;
 
 import android.util.Log;
 
 import com.umldesigner.MainActivity;
 import com.umldesigner.MainActivityListeners;
 import com.umldesigner.activities.uml_activity.grid.SDragListeners;
+import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -15,11 +17,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 
 /**
- * a singleton which holds the schema settings and schema related stuff
+ * a singleton which holds the schema settings and schema related stuff for the app side of things
  */
 @Getter
-public class ASettings {
-    private static ASettings instance;
+public class SSettings {
+    private static SSettings instance;
     
     //region general values
     private final float dp;
@@ -47,8 +49,17 @@ public class ASettings {
     private Integer appIdCounter;
     /**
      * the tags of all existing views/constraint layouts including their data's
+     * @apiNote use {@link #allViewTagsPut(Integer, SObject)} for putting data in the hashmap
      */
+    
     private final HashMap<Integer, SObject> allViews;
+    
+    /**
+     * holds set of all tables
+     * @see #allViewTagsPut(Integer, SObject)
+     */
+    @Getter
+    private final HashSet<STableData> allTables;
     
     /**
      * holds the data inside the uml tables
@@ -61,10 +72,11 @@ public class ASettings {
         return appIdCounter++;
     }
     
-    private ASettings() {
+    private SSettings() {
         Log.d("Execute", "Create Schema Settings Singleton");
        
         allViews = new HashMap<>();
+        allTables = new HashSet<>();
         appIdCounter = 1;
        
         spacing = MainActivity.spacing;
@@ -73,14 +85,14 @@ public class ASettings {
         sDragListeners = MainActivityListeners.sDragListeners;
     
         if(sDragListeners == null || spacing == 0 || dp == 0){
-            Log.wtf("ERROR", "failed to instantiate SSettingsSingleton, one or more of " +
+            Log.wtf("ERROR", "failed to instantiate SSettings, one or more of " +
                     "the fields failed to instantiate in its creation");
         }
     }
     
-    public static ASettings getInstance() {
+    public static SSettings getInstance() {
         if (instance == null){
-            instance = new ASettings();
+            instance = new SSettings();
         }
         return instance;
     }
@@ -92,6 +104,9 @@ public class ASettings {
         Log.d("Execute", "Put View in Schema Settings Singleton with parameters" + id + ", " + umlObject.toString());
         
         allViews.put(id, umlObject);
+        if(umlObject.getData() instanceof STableData){
+            allTables.add((STableData) umlObject.getData());
+        }
     }
     
     public Iterator<Map.Entry<Integer, SObject>> getViewsIterator(){

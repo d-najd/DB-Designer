@@ -1,4 +1,4 @@
-package com.umldesigner.infrastructure.uml.logic.observer;
+package com.umldesigner.infrastructure.uml.logic.app.observer;
 
 public interface BaseObservable {
     public void registerObserver(BaseObserver o);

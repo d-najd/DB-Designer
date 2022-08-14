@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 
 import com.umldesigner.infrastructure.uml.data.STable.STableDataBuffer;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
-import com.umldesigner.infrastructure.uml.logic.ASettings;
-import com.umldesigner.infrastructure.uml.logic.observer.BaseObservable;
-import com.umldesigner.infrastructure.uml.logic.observer.BaseObserver;
+import com.umldesigner.infrastructure.uml.logic.app.SSettings;
+import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObservable;
+import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObserver;
 
 import javax.security.auth.Destroyable;
 
@@ -22,7 +22,7 @@ import lombok.Getter;
 //https://blogs.sitepointstatic.com/examples/tech/svg-curves/cubic-curve.html
 
 public class SFKView extends View implements Destroyable, BaseObserver {
-    private final ASettings settingsInstance;
+    private final SSettings settingsInstance;
     private final SFKFacade sfkFacade;
     
     @Getter
@@ -44,7 +44,7 @@ public class SFKView extends View implements Destroyable, BaseObserver {
     public SFKView(SFKBuilder sfkBuilder){
         super(sfkBuilder.getContainer().getContext());
         
-        settingsInstance = ASettings.getInstance();
+        settingsInstance = SSettings.getInstance();
         sfkFacade = new SFKFacade(this);
         
         this.fTableData = sfkBuilder.getFTableData();
@@ -122,8 +122,8 @@ public class SFKView extends View implements Destroyable, BaseObserver {
             throw new IllegalStateException("item positions are invalid");
         }
         
-        float fTableX = fTableItemPositions.first - ASettings.getInstance().getSpacing();
-        float sTableX = sTableItemPositions.first - ASettings.getInstance().getSpacing();
+        float fTableX = fTableItemPositions.first - SSettings.getInstance().getSpacing();
+        float sTableX = sTableItemPositions.first - SSettings.getInstance().getSpacing();
         
         float fTableY = fTableItemPositions.second;
         float sTableY = sTableItemPositions.second;
@@ -135,12 +135,12 @@ public class SFKView extends View implements Destroyable, BaseObserver {
     
         //draw the connectors
         if (overLapping){
-            fTableX += ASettings.TABLE_WIDTH;
-            sTableX += ASettings.TABLE_WIDTH;
+            fTableX += SSettings.TABLE_WIDTH;
+            sTableX += SSettings.TABLE_WIDTH;
         } else if (fTableX < sTableX) {
-            fTableX += ASettings.TABLE_WIDTH;
+            fTableX += SSettings.TABLE_WIDTH;
         } else {
-            sTableX += ASettings.TABLE_WIDTH;
+            sTableX += SSettings.TABLE_WIDTH;
         }
         
         canvas.drawLine(fTableX, fTableY,

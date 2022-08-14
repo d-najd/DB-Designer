@@ -1,5 +1,6 @@
 package com.umldesigner.activities.uml_activity.dialogs.item.edit.spinners;
 
+
 import android.widget.TextView;
 
 import com.umldesigner.activities.uml_activity.dialogs.item.edit.EditSItemDialog;
@@ -8,7 +9,7 @@ import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
 import java.util.List;
 
-public class EditSItemDialogRTableSpinner extends CustomSpinnerTemplate<String> {
+public class EditSItemDialogRItemSpinner extends CustomSpinnerTemplate<String> {
     EditSItemDialog dialog;
     
     /**
@@ -20,7 +21,7 @@ public class EditSItemDialogRTableSpinner extends CustomSpinnerTemplate<String> 
      * the same name or having a field with the same name inside a table is impossible so there
      * isn't a need for the id nor any other field inside the table or the table itself
      */
-    public EditSItemDialogRTableSpinner(List<String> data, TextView v, EditSItemDialog dialog) {
+    public EditSItemDialogRItemSpinner(List<String> data, TextView v, EditSItemDialog dialog) {
         super(data, v);
         this.dialog = dialog;
     }
@@ -34,7 +35,5 @@ public class EditSItemDialogRTableSpinner extends CustomSpinnerTemplate<String> 
     public void pressed(TextView item, int itemPosition) {
         TextView parentView = (TextView) getView();
         parentView.setText(item.getText().toString());
-        
-        dialog.notifyTableChanged();
     }
 }

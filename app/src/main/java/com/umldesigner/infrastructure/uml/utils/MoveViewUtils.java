@@ -3,7 +3,7 @@ package com.umldesigner.infrastructure.uml.utils;
 import androidx.annotation.NonNull;
 
 import com.umldesigner.infrastructure.uml.entities.Movable;
-import com.umldesigner.infrastructure.uml.logic.ASettings;
+import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
 public class MoveViewUtils {
     
@@ -16,8 +16,8 @@ public class MoveViewUtils {
      * @see #moveViewAbsolute(Movable, float, float)
      */
     public static void moveView(@NonNull Movable movable, float x, float y){
-        float spacedX = x * ASettings.getInstance().getSpacing();
-        float spacedY = y * ASettings.getInstance().getSpacing();
+        float spacedX = x * SSettings.getInstance().getSpacing();
+        float spacedY = y * SSettings.getInstance().getSpacing();
     
         movable.move(spacedX, spacedY);
     }

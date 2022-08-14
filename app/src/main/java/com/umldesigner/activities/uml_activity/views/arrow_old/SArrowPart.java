@@ -6,8 +6,8 @@ import android.view.View;
 import com.umldesigner.Message;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.entities.SObject;
-import com.umldesigner.infrastructure.uml.logic.SArrowParts;
-import com.umldesigner.infrastructure.uml.logic.ASettings;
+import com.umldesigner.infrastructure.uml.logic.app.SArrowParts;
+import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.pojos.BasePojo;
 
 /**
@@ -17,11 +17,11 @@ public class SArrowPart extends View implements SObject {
     private final Integer id;
     private final SArrowParts type;
     private final SArrowViewOld parent;
-    private final ASettings umlSettingsInstance;
+    private final SSettings umlSettingsInstance;
     
     public SArrowPart(SArrowViewOld parent, SArrowParts type) {
         super(parent.getContext());
-        umlSettingsInstance = ASettings.getInstance();
+        umlSettingsInstance = SSettings.getInstance();
         this.id = umlSettingsInstance.getNextId();
         this.type = type;
         this.parent = parent;
@@ -37,13 +37,13 @@ public class SArrowPart extends View implements SObject {
 
         switch (type){
             case ArrowHead:
-                this.setElevation(ASettings.ARROW_HEAD_ELEVATION);
+                this.setElevation(SSettings.ARROW_HEAD_ELEVATION);
                 this.setX(parent.xEnd - parent.colliderSize/2);
                 this.setY(parent.yEnd - parent.colliderSize/2);
                 this.setRotation((float) (angle + 180));
                 break;
             case ArrowBody:
-                this.setElevation(ASettings.ARROW_BODY_ELEVATION);
+                this.setElevation(SSettings.ARROW_BODY_ELEVATION);
                 this.setX(parent.xStart - parent.colliderSize/2);
                 this.setY(parent.yStart - parent.colliderSize/2);
                 this.setRotation((float) angle + 90);
@@ -53,7 +53,7 @@ public class SArrowPart extends View implements SObject {
                         Math.pow(parent.yStart - parent.yEnd, 2))) +  parent.colliderSize));
                 break;
             case ArrowBack:
-                this.setElevation(ASettings.ARROW_BACK_ELEVATION);
+                this.setElevation(SSettings.ARROW_BACK_ELEVATION);
                 this.setX(parent.xStart - parent.colliderSize/2);
                 this.setY(parent.yStart - parent.colliderSize/2);
                 this.setRotation((float) (angle + 180));

@@ -8,7 +8,7 @@ import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.activities.uml_activity.grid.SGridCreate;
 import com.umldesigner.activities.uml_activity.views.sfk.SFKBuilder;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
-import com.umldesigner.infrastructure.uml.logic.ASettings;
+import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
 public class MainActivityListeners implements View.OnClickListener {
     MainActivity mainActivity;
@@ -34,8 +34,8 @@ public class MainActivityListeners implements View.OnClickListener {
         if (resources.getString(R.string.createTableFab).equals(view.getTag())) {
             //TODO this is hard coded for testing and needs to be removed in future
             
-            STableData tableData = (STableData) ASettings.getInstance().getViewById(1).getData();
-            STableData tableData2 = (STableData) ASettings.getInstance().getViewById(2).getData();
+            STableData tableData = (STableData) SSettings.getInstance().getViewById(1).getData();
+            STableData tableData2 = (STableData) SSettings.getInstance().getViewById(2).getData();
             
             new SFKBuilder(mainActivity.getContainer(), tableData, 0, tableData2, 3, true).build();
    

@@ -1,4 +1,4 @@
-package com.umldesigner.infrastructure.uml.logic;
+package com.umldesigner.infrastructure.uml.logic.app;
 
 /**
  * enum used for holding all the uml object types

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.umldesigner.Message;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
-import com.umldesigner.infrastructure.uml.logic.ASettings;
+import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
 public class SFKFacade {
     private SFKView sfkView;
@@ -51,8 +51,8 @@ public class SFKFacade {
         float fTableStart = sfkView.getFTableData().getX();
         float sTableStart = sfkView.getSTableData().getX();
         
-        float fTableEnd = ASettings.TABLE_WIDTH + fTableStart;
-        float sTableEnd = ASettings.TABLE_WIDTH + sTableStart;
+        float fTableEnd = SSettings.TABLE_WIDTH + fTableStart;
+        float sTableEnd = SSettings.TABLE_WIDTH + sTableStart;
         
         //if overlapping
         if (sTableStart < fTableEnd && fTableStart < sTableEnd){
@@ -62,7 +62,7 @@ public class SFKFacade {
             float biggerStart = Math.max(fTableStart, sTableStart);
             float dif = biggerStart - smallerEnd;
             
-            return biggerStart - dif/2 - ASettings.getInstance().getSpacing();
+            return biggerStart - dif/2 - SSettings.getInstance().getSpacing();
         }
     }
     
@@ -75,8 +75,8 @@ public class SFKFacade {
         float fTableStart = sfkView.getFTableData().getX();
         float sTableStart = sfkView.getSTableData().getX();
         
-        float fTableEnd = ASettings.TABLE_WIDTH + fTableStart;
-        float sTableEnd = ASettings.TABLE_WIDTH + sTableStart;
+        float fTableEnd = SSettings.TABLE_WIDTH + fTableStart;
+        float sTableEnd = SSettings.TABLE_WIDTH + sTableStart;
         
         return sTableStart < fTableEnd && fTableStart < sTableEnd;
     }

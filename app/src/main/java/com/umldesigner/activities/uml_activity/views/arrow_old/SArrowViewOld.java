@@ -12,8 +12,8 @@ import com.umldesigner.R;
 import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.entities.SObject;
-import com.umldesigner.infrastructure.uml.logic.SArrowParts;
-import com.umldesigner.infrastructure.uml.logic.ASettings;
+import com.umldesigner.infrastructure.uml.logic.app.SArrowParts;
+import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.pojos.BasePojo;
 
 /**
@@ -26,7 +26,7 @@ public class SArrowViewOld extends View implements SObject {
     private final float dp;
     public final float colliderSize;
     
-    private final ASettings umlSettingsInstance;
+    private final SSettings umlSettingsInstance;
 
     //these 6 should only be used when creating the view, since the arrow position can change with moving it n stuff but these values don't update
     public final float xStart;
@@ -69,7 +69,7 @@ public class SArrowViewOld extends View implements SObject {
                          SArrowPart headFollowView,
                          SDragListeners sDragListeners){
         super(viewGroup.getContext());
-        umlSettingsInstance = ASettings.getInstance();
+        umlSettingsInstance = SSettings.getInstance();
         id = umlSettingsInstance.getNextId();
         dp = MainActivity.dp;
         colliderSize = 36 * dp;

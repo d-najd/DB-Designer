@@ -4,7 +4,7 @@ package com.umldesigner.activities.uml_activity.dialogs.item.edit.spinners;
 import android.widget.TextView;
 
 import com.umldesigner.infrastructure.uml.custom.spinner.CustomSpinnerTemplate;
-import com.umldesigner.infrastructure.uml.logic.ASettings;
+import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class EditSItemDialogActionsSpinner extends CustomSpinnerTemplate<String>
     
     @Override
     protected Integer getWidth() {
-        return (Integer) Math.round(ASettings.getInstance().getDp() * 150);
+        return (Integer) Math.round(SSettings.getInstance().getDp() * 150);
     }
     
     @Override

@@ -8,12 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.umldesigner.activities.uml_activity.views.table.STableBuilder;
 import com.umldesigner.activities.uml_activity.views.table.STableView;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
-import com.umldesigner.infrastructure.uml.entities.SObject;
-import com.umldesigner.infrastructure.uml.logic.ASettings;
+import com.umldesigner.infrastructure.uml.logic.api.controller.schema.table.STableController;
+import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import lombok.Getter;
 
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @Getter
     private STableView sTable2;
    
-    private ASettings settingsInstance;
+    private SSettings settingsInstance;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,26 +50,31 @@ public class MainActivity extends AppCompatActivity {
         /*
           creating the singleton, NOTE all fields before the singleton are needed for its creation
          */
-        settingsInstance = ASettings.getInstance();
+        settingsInstance = SSettings.getInstance();
     }
     
     private void testing(){
         //creating stuff
-        ArrayList<SItemData> umlAdapterFieldArrayList = new ArrayList<>(Arrays.asList(
+        ArrayList<SItemData> sAdapterFields1 = new ArrayList<>(Arrays.asList(
                 new SItemData("ProductId", "int"),
                 new SItemData("ProductId", "int"),
                 new SItemData("ProductId", "int"),
                 new SItemData("ProductName", "varchar(100)")));
     
-        sTable1 = new STableBuilder(container, settingsInstance.getSDragListeners(), "title", 1, 1)
-                .addItems(umlAdapterFieldArrayList)
+        ArrayList<SItemData> sAdapterFields2 = new ArrayList<>(Arrays.asList(
+                new SItemData("StudentId", "int"),
+                new SItemData("StudentName", "varchar(100)")));
+        
+        sTable1 = new STableBuilder(container, settingsInstance.getSDragListeners(), "Product", 1, 1)
+                .addItems(sAdapterFields1)
                 .build();
     
-        sTable2 = new STableBuilder(container, settingsInstance.getSDragListeners(), "title1", 13, 13)
-                .addItems(umlAdapterFieldArrayList)
+        sTable2 = new STableBuilder(container, settingsInstance.getSDragListeners(), "Student", 13, 13)
+                .addItems(sAdapterFields2)
                 .build();
     
-        HashMap<Integer, SObject> a = settingsInstance.getAllViews();
+        STableController sTableController = new STableController(this);
+        sTableController.getAllTables();
     }
 }
 

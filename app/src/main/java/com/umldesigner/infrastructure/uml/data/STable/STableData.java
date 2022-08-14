@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.umldesigner.activities.uml_activity.views.sfk.SFKView;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
-import com.umldesigner.infrastructure.uml.logic.observer.BaseObservable;
-import com.umldesigner.infrastructure.uml.logic.observer.BaseObserver;
+import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObservable;
+import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObserver;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 
 import java.util.ArrayList;

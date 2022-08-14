@@ -1,4 +1,4 @@
-package com.umldesigner.infrastructure.uml.logic;
+package com.umldesigner.infrastructure.uml.logic.app;
 
 import android.annotation.SuppressLint;
 import android.view.View;

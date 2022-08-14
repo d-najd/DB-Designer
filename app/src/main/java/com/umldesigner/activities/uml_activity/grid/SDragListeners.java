@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.umldesigner.activities.uml_activity.views.SBackground;
 import com.umldesigner.infrastructure.uml.entities.Movable;
-import com.umldesigner.infrastructure.uml.logic.ASettings;
+import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.infrastructure.uml.utils.MoveViewUtils;
 
 /**
@@ -49,9 +49,9 @@ public class SDragListeners implements View.OnClickListener, View.OnLongClickLis
                 Integer id = Integer.parseInt(clipData);
                 //moving the UmlObject
     
-                Movable movable = ASettings.getInstance().getViewById(id);
+                Movable movable = SSettings.getInstance().getViewById(id);
                 if (movable == null){
-                    Log.wtf("ERROR", "ASettings contains object which is not movable?");
+                    Log.wtf("ERROR", "SSettings contains object which is not movable?");
                     throw new IllegalStateException();
                 }
                 
