@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.umldesigner.activities.uml_activity.views.table.STableBuilder;
 import com.umldesigner.activities.uml_activity.views.table.STableView;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
-import com.umldesigner.infrastructure.uml.logic.api.controller.schema.table.STableController;
+import com.umldesigner.api.controller.uml_activity.table.STableController;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
 import java.util.ArrayList;

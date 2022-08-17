@@ -20,8 +20,7 @@ public class ASettings {
     /**
      * ip of the api
      */
-    @Getter
-    private static final String IP = "192.168.1.200:8080";
+    public static final String IP = "http://192.168.1.200:8080";
     
     /**
      * request queue for the api calls
