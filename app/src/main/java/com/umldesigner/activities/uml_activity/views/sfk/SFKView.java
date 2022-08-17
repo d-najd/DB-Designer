@@ -81,6 +81,9 @@ public class SFKView extends View implements Destroyable, BaseObserver {
         drawLines(canvas);
     }
     
+    /**
+     * @see STableDataBuffer for more info
+     */
     @Override
     public void updateObserver(BaseObservable observable, Object args) {
         if (args instanceof STableDataBuffer){

@@ -35,7 +35,6 @@ public class STableAdapter extends RecyclerView.Adapter<STableAdapter.UmlRecycle
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_s_table_row, parent, false);
         
-        
         return new UmlRecyclerViewHolder(view);
     }
     

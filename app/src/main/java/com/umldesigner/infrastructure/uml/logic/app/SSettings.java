@@ -109,6 +109,13 @@ public class SSettings {
         }
     }
     
+    public void clearViews(){
+        for(SObject sObject : allViews.values()){
+            sObject.destroy();
+    }
+        allViews.clear();
+    }
+    
     public Iterator<Map.Entry<Integer, SObject>> getViewsIterator(){
         return allViews.entrySet().iterator();
     }
