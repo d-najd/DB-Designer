@@ -1,6 +1,7 @@
 package com.umldesigner.activities.uml_activity.listeners.item;
 
 
+import android.util.Log;
 import android.view.View;
 
 import com.umldesigner.activities.uml_activity.dialogs.item.edit.EditSItemDialog;
@@ -14,6 +15,8 @@ public class EditSItemListeners implements View.OnClickListener{
     
     @Override
     public void onClick(View v) {
+        Log.d("Debug", "onClick: " + v.toString());
+        
         EditSItemDialog dialog = new EditSItemDialog(v.getContext(), sItemData);
         dialog.show();
     }

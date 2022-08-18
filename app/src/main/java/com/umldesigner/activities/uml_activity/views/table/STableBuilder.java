@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import com.umldesigner.activities.uml_activity.listeners.table.STableListeners;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
+import com.umldesigner.infrastructure.uml.utils.SUtils;
 
 import java.util.ArrayList;
 
@@ -68,7 +69,7 @@ public class STableBuilder {
         sTableView.updateData();
        
         sTableView.setOnClickListener(new STableListeners(sTableView.getData()));
-        sTableView.setOnLongClickListener(SSettings.getInstance().getSDragListeners());
+        sTableView.setOnLongClickListener(SUtils.getInstance().getSDragListeners());
         sTableView.setVisibility(View.VISIBLE);
         container.addView(sTableView);
     

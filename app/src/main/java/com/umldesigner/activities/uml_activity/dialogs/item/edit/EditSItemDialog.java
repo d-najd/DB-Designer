@@ -11,7 +11,7 @@ import com.umldesigner.R;
 import com.umldesigner.activities.uml_activity.listeners.item.dialog.EditSItemDialogListeners;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
-import com.umldesigner.infrastructure.uml.logic.app.SSettings;
+import com.umldesigner.infrastructure.uml.utils.SUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,11 +94,11 @@ public class EditSItemDialog extends Dialog {
      */
     public STableData getSelectedTableData(){
             TextView refTable = findViewById(R.id.refTable);
-            Optional<STableData> optionalTable = SSettings.getInstance().getAllTables().parallelStream()
+            Optional<STableData> optionalTable = SUtils.getInstance().getAllTables().parallelStream()
                .filter(o -> o.getTitle().equals(refTable.getText().toString())).findAny();
             
             if(!optionalTable.isPresent()){
-                optionalTable = SSettings.getInstance().getAllTables().parallelStream()
+                optionalTable = SUtils.getInstance().getAllTables().parallelStream()
                         .filter(o -> o.getItems().contains(sItemData)).findAny();
     
                 return optionalTable.orElse(null);

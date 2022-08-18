@@ -87,7 +87,8 @@ public class SFKView extends View implements Destroyable, BaseObserver {
     @Override
     public void updateObserver(BaseObservable observable, Object args) {
         if (args instanceof STableDataBuffer){
-            SFKView newView = new SFKBuilder(container, fTableData, fTablePos, sTableData, sTablePos, false).build();
+            SFKView newView = new SFKBuilder(container, fTableData, fTablePos, sTableData, sTablePos)
+                    .shouldNotRegister().build();
             
             ((STableDataBuffer) args).addValue(this, newView);
         } else {
@@ -138,12 +139,12 @@ public class SFKView extends View implements Destroyable, BaseObserver {
     
         //draw the connectors
         if (overLapping){
-            fTableX += SSettings.TABLE_WIDTH;
-            sTableX += SSettings.TABLE_WIDTH;
+            fTableX += SSettings.getInstance().getTableWidth();
+            sTableX += SSettings.getInstance().getTableWidth();
         } else if (fTableX < sTableX) {
-            fTableX += SSettings.TABLE_WIDTH;
+            fTableX += SSettings.getInstance().getTableWidth();
         } else {
-            sTableX += SSettings.TABLE_WIDTH;
+            sTableX += SSettings.getInstance().getTableWidth();
         }
         
         canvas.drawLine(fTableX, fTableY,

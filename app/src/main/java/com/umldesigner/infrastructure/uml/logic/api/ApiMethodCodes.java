@@ -9,6 +9,4 @@ public enum ApiMethodCodes {
     getUuid,
     update,
     post,
-    
-    
 }

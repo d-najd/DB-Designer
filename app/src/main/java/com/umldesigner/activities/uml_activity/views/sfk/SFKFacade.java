@@ -11,7 +11,7 @@ import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
 public class SFKFacade {
-    private SFKView sfkView;
+    private final SFKView sfkView;
     
     public SFKFacade(SFKView view){
         this.sfkView = view;
@@ -51,8 +51,8 @@ public class SFKFacade {
         float fTableStart = sfkView.getFTableData().getX();
         float sTableStart = sfkView.getSTableData().getX();
         
-        float fTableEnd = SSettings.TABLE_WIDTH + fTableStart;
-        float sTableEnd = SSettings.TABLE_WIDTH + sTableStart;
+        float fTableEnd = SSettings.getInstance().getTableWidth() + fTableStart;
+        float sTableEnd = SSettings.getInstance().getTableWidth() + sTableStart;
         
         //if overlapping
         if (sTableStart < fTableEnd && fTableStart < sTableEnd){
@@ -75,8 +75,8 @@ public class SFKFacade {
         float fTableStart = sfkView.getFTableData().getX();
         float sTableStart = sfkView.getSTableData().getX();
         
-        float fTableEnd = SSettings.TABLE_WIDTH + fTableStart;
-        float sTableEnd = SSettings.TABLE_WIDTH + sTableStart;
+        float fTableEnd = SSettings.getInstance().getTableWidth() + fTableStart;
+        float sTableEnd = SSettings.getInstance().getTableWidth() + sTableStart;
         
         return sTableStart < fTableEnd && fTableStart < sTableEnd;
     }

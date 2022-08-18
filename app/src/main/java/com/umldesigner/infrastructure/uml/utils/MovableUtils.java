@@ -5,9 +5,7 @@ import androidx.annotation.NonNull;
 import com.umldesigner.infrastructure.uml.entities.Movable;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
-public class MoveViewUtils {
-    
-    
+public class MovableUtils {
     /**
      * moves uml view to given position using grid spaces
      * @param movable the object that we want to move

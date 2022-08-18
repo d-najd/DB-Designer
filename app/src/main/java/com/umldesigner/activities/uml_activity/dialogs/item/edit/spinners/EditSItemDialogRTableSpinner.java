@@ -1,5 +1,6 @@
 package com.umldesigner.activities.uml_activity.dialogs.item.edit.spinners;
 
+import android.util.Log;
 import android.widget.TextView;
 
 import com.umldesigner.activities.uml_activity.dialogs.item.edit.EditSItemDialog;
@@ -32,6 +33,8 @@ public class EditSItemDialogRTableSpinner extends CustomSpinnerTemplate<String> 
     
     @Override
     public void pressed(TextView item, int itemPosition) {
+        Log.d("Debug", "pressed: " + item.toString() + itemPosition);
+        
         TextView parentView = (TextView) getView();
         parentView.setText(item.getText().toString());
         

@@ -18,7 +18,6 @@ public class EditSTableAdapter extends RecyclerView.Adapter<EditSTableAdapter.Um
     private final List<SItemData> recyclerDataArrayList;
     private SItemData curData;
     
-    
     /**
      * createAdapter used for the dialog for editing the sTable
      */

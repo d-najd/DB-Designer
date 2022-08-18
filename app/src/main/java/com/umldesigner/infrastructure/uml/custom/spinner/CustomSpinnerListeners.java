@@ -10,7 +10,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 public class CustomSpinnerListeners implements OnItemClickListener {
-    
     private final CustomSpinnerTemplate customSpinnerTemplate;
     private final PopupWindow popupWindow;
     

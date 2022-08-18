@@ -7,7 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
-import com.umldesigner.infrastructure.uml.logic.api.ASettings;
+import com.umldesigner.infrastructure.uml.utils.ApiUtils;
 import com.umldesigner.infrastructure.uml.logic.api.BaseAPIControllerTemplate;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
 import com.umldesigner.infrastructure.uml.logic.api.ReceiverInterface;
@@ -41,10 +41,10 @@ public class SItemController extends BaseAPIControllerTemplate {
                     SItemPojo itemPojo = gson.fromJson(response.toString(), SItemPojo.class);
                     itemPojo = itemPojo;
                 },
-                aSettings.getErrorListener()
+                apiUtils.getErrorListener()
         );
     
-        ASettings.getInstance(context).addRequest(request);
+        ApiUtils.getInstance(context).addRequest(request);
     }
     
     public void getAllItems(){
@@ -67,9 +67,9 @@ public class SItemController extends BaseAPIControllerTemplate {
                         e.printStackTrace();
                     }
                 },
-                aSettings.getErrorListener()
+                apiUtils.getErrorListener()
         );
     
-        ASettings.getInstance(context).addRequest(request);
+        ApiUtils.getInstance(context).addRequest(request);
     }
 }

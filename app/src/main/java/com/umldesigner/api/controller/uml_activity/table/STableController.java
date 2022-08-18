@@ -6,7 +6,7 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
-import com.umldesigner.infrastructure.uml.logic.api.ASettings;
+import com.umldesigner.infrastructure.uml.utils.ApiUtils;
 import com.umldesigner.infrastructure.uml.logic.api.ApiMethodCodes;
 import com.umldesigner.infrastructure.uml.logic.api.BaseAPIControllerTemplate;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
@@ -50,9 +50,9 @@ public class STableController extends BaseAPIControllerTemplate {
                         e.printStackTrace();
                     }
                 },
-                aSettings.getErrorListener()
+                apiUtils.getErrorListener()
         );
         
-        ASettings.getInstance(context).addRequest(request);
+        ApiUtils.getInstance(context).addRequest(request);
     }
 }

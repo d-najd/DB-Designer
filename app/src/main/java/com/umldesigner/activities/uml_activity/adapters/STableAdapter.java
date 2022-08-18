@@ -17,8 +17,8 @@ import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import java.util.List;
 
 public class STableAdapter extends RecyclerView.Adapter<STableAdapter.UmlRecyclerViewHolder>{
-    private List<SItemData> recyclerDataArrayList;
-    private Context context;
+    private final List<SItemData> recyclerDataArrayList;
+    private final Context context;
     private SItemData curData;
     
     /**
@@ -40,7 +40,7 @@ public class STableAdapter extends RecyclerView.Adapter<STableAdapter.UmlRecycle
     
     @Override
     public void onBindViewHolder(@NonNull UmlRecyclerViewHolder holder, int position) {
-        Log.d("Execute", "onBindViewHolder with parameters " + holder.toString() + ", " + position);
+        Log.d("Execute", "onBindViewHolder with parameters " + holder + ", " + position);
         
         curData = recyclerDataArrayList.get(position);
         holder.itemView.setOnClickListener(new EditSItemListeners(curData));

@@ -2,12 +2,14 @@ package com.umldesigner.infrastructure.uml.logic.api;
 
 import android.content.Context;
 
+import com.umldesigner.infrastructure.uml.utils.ApiUtils;
+
 import lombok.Getter;
 
 
 public abstract class BaseAPIControllerTemplate {
     protected final Context context;
-    protected final ASettings aSettings;
+    protected final ApiUtils apiUtils;
     protected final ReceiverInterface receiverInterface;
     protected final String url;
     @Getter
@@ -15,7 +17,7 @@ public abstract class BaseAPIControllerTemplate {
     
     public BaseAPIControllerTemplate(Context context, ReceiverInterface receiverInterface) {
         this.context = context;
-        this.aSettings = ASettings.getInstance(context);
+        this.apiUtils = ApiUtils.getInstance(context);
         this.receiverInterface = receiverInterface;
         
         if (setEndpoint() == null) {
@@ -23,7 +25,7 @@ public abstract class BaseAPIControllerTemplate {
                     "to point to the root of the site since it will not contain anything");
         }
         
-        this.url = ASettings.IP + setEndpoint();
+        this.url = ApiUtils.IP + setEndpoint();
         this.endpoint = setEndpoint();
     }
     

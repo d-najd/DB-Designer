@@ -3,15 +3,13 @@ package com.umldesigner;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.umldesigner.activities.uml_activity.views.table.STableBuilder;
 import com.umldesigner.activities.uml_activity.views.table.STableView;
-import com.umldesigner.api.controller.uml_activity.item.SItemController;
-import com.umldesigner.api.controller.uml_activity.table.STableController;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
-import com.umldesigner.infrastructure.uml.entities.SObject;
 import com.umldesigner.infrastructure.uml.logic.api.ApiMethodCodes;
 import com.umldesigner.infrastructure.uml.logic.api.BaseAPIControllerTemplate;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
@@ -22,7 +20,6 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemP
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import lombok.Getter;
@@ -37,8 +34,6 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
     @Getter
     private STableView sTable2;
    
-    private SSettings settingsInstance;
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +42,8 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
         setup();
         testing();
     }
-
+    
+    //no singletons or utils should be used before this method
     private void setup(){
         //initializing stuff for the singleton
         dp = getResources().getDisplayMetrics().density;
@@ -57,10 +53,7 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
         container = findViewById(R.id.container);
         new MainActivityListeners(this);
     
-        /*
-          creating the singleton, NOTE all fields before the singleton are needed for its creation
-         */
-        settingsInstance = SSettings.getInstance();
+        SSettings.getInstance();
     }
     
     private void testing(){
@@ -79,26 +72,27 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
                 .addItems(sAdapterFields1)
                 .build();
     
+        container.addView(new TextView(container.getContext()));
+        
         sTable2 = new STableBuilder(container, "Student", 13, 13)
                 .addItems(sAdapterFields2)
                 .build();
     
-        SItemController itemController = new SItemController(this, this);
-        itemController.getAllItems();
+        //SItemController itemController = new SItemController(this, this);
+        //itemController.getAllItems();
     
-        STableController sTableController = new STableController(this, this);
-        sTableController.getAllTables();
+        //STableController sTableController = new STableController(this, this);
+        //sTableController.getAllTables();
     }
     
     @Override
     public void receiveData(List<?> requestedData, BaseAPIControllerTemplate controller, ApiMethodCodes code) {
+        Log.d("Debug", "receiveData: " + requestedData.toString() + controller.toString() + code.toString());
+        
         if (controller.getEndpoint().equals(Endpoints.TABLE)){
             switch (code){
                 case getAll:
-                    Log.d("Debug", "receiveData: getAll");
                     //SSettings.getInstance().clearViews();
-                    
-                    HashMap<Integer, SObject> objects = SSettings.getInstance().getAllViews();
                     
                     List<STablePojo> tables = (List<STablePojo>) requestedData;
                     for(STablePojo pojo : tables){

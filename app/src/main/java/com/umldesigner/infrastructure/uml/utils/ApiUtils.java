@@ -1,4 +1,4 @@
-package com.umldesigner.infrastructure.uml.logic.api;
+package com.umldesigner.infrastructure.uml.utils;
 
 import android.content.Context;
 
@@ -14,9 +14,9 @@ import lombok.Getter;
 /**
  * singleton which holds api related things
  */
-public class ASettings {
+public class ApiUtils {
     @Getter(AccessLevel.NONE)
-    private static ASettings instance;
+    private static ApiUtils instance;
     /**
      * ip of the api
      */
@@ -33,14 +33,14 @@ public class ASettings {
     @Getter
     private Response.ErrorListener errorListener;
     
-    private ASettings(Context context) {
+    private ApiUtils(Context context) {
         requestQueue = Volley.newRequestQueue(context);
         errorListener = new ApiErrorListener(context);
     }
     
-    public static ASettings getInstance(Context context) {
+    public static ApiUtils getInstance(Context context) {
         if(instance == null){
-            instance = new ASettings(context);
+            instance = new ApiUtils(context);
         }
         return instance;
     }

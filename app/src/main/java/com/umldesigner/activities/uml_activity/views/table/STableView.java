@@ -17,6 +17,7 @@ import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
+import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.pojos.BasePojo;
 
 import java.util.ArrayList;
@@ -25,7 +26,6 @@ import lombok.Getter;
 
 public class STableView extends ConstraintLayout implements SObject {
     
-    private final SSettings umlSettingsInstance;
     @Getter
     private STableData data;
     private View v;
@@ -56,17 +56,16 @@ public class STableView extends ConstraintLayout implements SObject {
         super(builder.getContext());
         
         //prep
-        umlSettingsInstance = SSettings.getInstance();
         container = builder.getContainer();
         
         //setting up the data
         setData(new STableData(
-                umlSettingsInstance.getNextId(),
+                SUtils.getInstance().getNextId(),
                 builder.getX(),
                 builder.getY(),
                 builder.getTitle(),
                 builder.getItems()));
-        umlSettingsInstance.allViewTagsPut(data.getId(), this);
+        SUtils.getInstance().allViewTagsPut(data.getId(), this);
     
         //inflating the view
         LayoutInflater inflater = LayoutInflater.from(builder.getContext());
@@ -78,9 +77,9 @@ public class STableView extends ConstraintLayout implements SObject {
         this.setX(data.getX()); //setting the absolute position
         this.setY(data.getY());
         this.setElevation(SSettings.TABLE_ELEVATION);
-        this.setMaxWidth((int) SSettings.TABLE_WIDTH);
-        this.setMinWidth((int) SSettings.TABLE_WIDTH);
-        this.setMinimumWidth((int) SSettings.TABLE_WIDTH);
+        this.setMaxWidth((int) SSettings.getInstance().getTableWidth());
+        this.setMinWidth((int) SSettings.getInstance().getTableWidth());
+        this.setMinimumWidth((int) SSettings.getInstance().getTableWidth());
         this.setBackgroundColor(2131034697);
         titleTextView.setText(data.getTitle());
    
@@ -102,8 +101,8 @@ public class STableView extends ConstraintLayout implements SObject {
     public void move(float x, float y) {
         Log.d("Execute", "move with parameters " + x + ", " + y);
     
-        float newX = Math.round((x - this.getWidth() / 2f) / (umlSettingsInstance.getSpacing())) * umlSettingsInstance.getSpacing();
-        float newY = Math.round((y - this.getHeight() / 2f) / (umlSettingsInstance.getSpacing())) * umlSettingsInstance.getSpacing();
+        float newX = Math.round((x - this.getWidth() / 2f) / (SSettings.getInstance().getSpacing())) * SSettings.getInstance().getSpacing();
+        float newY = Math.round((y - this.getHeight() / 2f) / (SSettings.getInstance().getSpacing())) * SSettings.getInstance().getSpacing();
         
         this.setX(newX);
         this.setY(newY);
