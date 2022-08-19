@@ -21,7 +21,6 @@ import lombok.Getter;
  * @see com.umldesigner.infrastructure.uml.logic.app.SSettings
  */
 public class SUtils {
-    
     private static SUtils instance;
     
     private final SDragListeners sDragListeners;
@@ -59,7 +58,7 @@ public class SUtils {
         allTables = new HashSet<>();
         appIdCounter = 1;
     
-        sDragListeners = MainActivityListeners.getSDragListeners();
+        sDragListeners = MainActivityListeners.sDragListeners;
     }
     
     public static SUtils getInstance() {
@@ -86,6 +85,7 @@ public class SUtils {
             sObject.destroy();
         }
         allViews.clear();
+        allTables.clear();
     }
     
     public Iterator<Map.Entry<Integer, SObject>> getViewsIterator(){

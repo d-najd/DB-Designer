@@ -1,10 +1,12 @@
 package com.umldesigner.infrastructure.uml.logic.api;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Endpoints {
+    // Noninstantiable class
+    private Endpoints(){
+        // Suppress default constructor for noninsatiability
+        throw new AssertionError();
+    }
+    
     public static final String SCHEMA = "/s";
     /**
      * Table endpoint which doesn't contain {@value #SCHEMA} before it

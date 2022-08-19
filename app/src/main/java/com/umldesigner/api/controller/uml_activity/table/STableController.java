@@ -41,7 +41,7 @@ public class STableController extends BaseAPIControllerTemplate {
                         List<STablePojo> sTablePojos = new ArrayList<>();
     
                         for(int i = 0; i < response.length(); i++){
-                            STablePojo curObject = gson.fromJson(response.get(0).toString(), STablePojo.class);
+                            STablePojo curObject = gson.fromJson(response.get(i).toString(), STablePojo.class);
                             sTablePojos.add(curObject);
                         }
     

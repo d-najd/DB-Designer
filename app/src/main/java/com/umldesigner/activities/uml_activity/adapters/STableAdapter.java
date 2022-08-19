@@ -1,7 +1,6 @@
 package com.umldesigner.activities.uml_activity.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,8 +39,6 @@ public class STableAdapter extends RecyclerView.Adapter<STableAdapter.UmlRecycle
     
     @Override
     public void onBindViewHolder(@NonNull UmlRecyclerViewHolder holder, int position) {
-        Log.d("Execute", "onBindViewHolder with parameters " + holder + ", " + position);
-        
         curData = recyclerDataArrayList.get(position);
         holder.itemView.setOnClickListener(new EditSItemListeners(curData));
         

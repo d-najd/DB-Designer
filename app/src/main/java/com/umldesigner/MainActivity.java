@@ -9,18 +9,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.umldesigner.activities.uml_activity.views.table.STableBuilder;
 import com.umldesigner.activities.uml_activity.views.table.STableView;
+import com.umldesigner.api.controller.uml_activity.table.STableController;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.logic.api.ApiMethodCodes;
 import com.umldesigner.infrastructure.uml.logic.api.BaseAPIControllerTemplate;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
 import com.umldesigner.infrastructure.uml.logic.api.ReceiverInterface;
-import com.umldesigner.infrastructure.uml.logic.app.SSettings;
+import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import lombok.Getter;
 
@@ -53,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
         container = findViewById(R.id.container);
         new MainActivityListeners(this);
     
-        SSettings.getInstance();
     }
     
     private void testing(){
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
     
         ArrayList<SItemData> sAdapterFields2 = new ArrayList<>(Arrays.asList(
                 new SItemData("StudentId", "int"),
+                new SItemData("Grades", "int"),
+                new SItemData("Something", "int"),
                 new SItemData("StudentName", "varchar(100)")));
         
         sTable1 = new STableBuilder(container,"Product", 1, 1)
@@ -78,21 +81,23 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
                 .addItems(sAdapterFields2)
                 .build();
     
-        //SItemController itemController = new SItemController(this, this);
-        //itemController.getAllItems();
+        STableController sTableController = new STableController(this, this);
+        sTableController.getAllTables();
     
-        //STableController sTableController = new STableController(this, this);
-        //sTableController.getAllTables();
+    
+        Pattern valuePattern = Pattern.compile("\\(.*");
+        String matcher = valuePattern.matcher("varchar(50)").group();
+        Log.d("Execute", matcher);
     }
     
     @Override
     public void receiveData(List<?> requestedData, BaseAPIControllerTemplate controller, ApiMethodCodes code) {
-        Log.d("Debug", "receiveData: " + requestedData.toString() + controller.toString() + code.toString());
+        Log.d("Execute", "receiveData: " + requestedData.toString() + controller.toString() + code.toString());
         
         if (controller.getEndpoint().equals(Endpoints.TABLE)){
             switch (code){
                 case getAll:
-                    //SSettings.getInstance().clearViews();
+                    SUtils.getInstance().clearViews();
                     
                     List<STablePojo> tables = (List<STablePojo>) requestedData;
                     for(STablePojo pojo : tables){
@@ -106,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
                                 .addItems(items)
                                 .build();
                     }
-                    
                     break;
                 default:
                     throw new IllegalStateException("the current receiver is unable to handle the current state");

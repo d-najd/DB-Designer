@@ -10,12 +10,9 @@ import com.umldesigner.activities.uml_activity.views.sfk.SFKBuilder;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 
-import lombok.Getter;
-
 public class MainActivityListeners implements View.OnClickListener {
     private final MainActivity mainActivity;
-    @Getter
-    private static SDragListeners sDragListeners;
+    public static SDragListeners sDragListeners;
     
     public MainActivityListeners(MainActivity mainActivity){
         this.mainActivity = mainActivity;

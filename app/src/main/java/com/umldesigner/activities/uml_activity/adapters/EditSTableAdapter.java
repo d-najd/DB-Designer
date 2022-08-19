@@ -1,6 +1,5 @@
 package com.umldesigner.activities.uml_activity.adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,6 @@ public class EditSTableAdapter extends RecyclerView.Adapter<EditSTableAdapter.Um
     
     @Override
     public void onBindViewHolder(@NonNull UmlRecyclerViewHolder holder, int position) {
-        Log.d("Execute", "onBindViewHolder with parameters " + holder.toString() + ", " + position);
         
         curData = recyclerDataArrayList.get(position);
     

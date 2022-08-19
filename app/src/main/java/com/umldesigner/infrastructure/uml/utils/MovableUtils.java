@@ -6,6 +6,13 @@ import com.umldesigner.infrastructure.uml.entities.Movable;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
 public class MovableUtils {
+    
+    // Noninstantiable utility class
+    private MovableUtils(){
+        // Suppress default constructor for noninstantiablity
+        throw new AssertionError();
+    }
+    
     /**
      * moves uml view to given position using grid spaces
      * @param movable the object that we want to move

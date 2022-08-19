@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.umldesigner.R;
@@ -72,17 +73,52 @@ public class EditSItemDialog extends Dialog {
      */
     private void setupFields(){
         EditSItemDialogListeners itemListener = new EditSItemDialogListeners(this);
+        
+        setupBasicFields(itemListener);
+        setupFKFields(itemListener);
+    }
     
+    private void setupBasicFields(EditSItemDialogListeners itemListener){
+        // getting the fields
+        EditText typeEdt = findViewById(R.id.typeEdit);
+        EditText valueEdt = findViewById(R.id.valueEdt);
+        EditText sizeEdt = findViewById(R.id.sizeEdt);
+        EditText defaultEdt = findViewById(R.id.defaultEdt);
+        EditText descriptionEdt = findViewById(R.id.descriptionEdt);
+      
+        // preparing the data
+        
+        //todo give better name
+        
+        //y = re.findall("\(.*\)", txt1)
+        //y = re.split("\(.*", txt1)
+  
+        
+    
+        typeEdt.setText(sItemData.getType());
+        valueEdt.setText(sItemData.getValue());
+       
+    }
+    
+    
+    /**
+     * sets up fields which have stuff related to the foreign key
+     * @param itemListener the listener for the buttons
+     */
+    private void setupFKFields(EditSItemDialogListeners itemListener){
+        // getting the fields
         TextView refTable = findViewById(R.id.refTable);
         TextView refField = findViewById(R.id.refField);
         TextView onUpdate = findViewById(R.id.onUpdate);
         TextView onDelete = findViewById(R.id.onDelete);
-        
+    
+        // setting the listeners
         refTable.setOnClickListener(itemListener);
         refField.setOnClickListener(itemListener);
         onUpdate.setOnClickListener(itemListener);
         onDelete.setOnClickListener(itemListener);
     
+        // setting the data
         refField.setText(sItemData.getValue());
         refTable.setText(getSelectedTableData().getTitle());
     }

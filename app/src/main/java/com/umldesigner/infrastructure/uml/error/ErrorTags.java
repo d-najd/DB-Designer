@@ -1,6 +1,11 @@
 package com.umldesigner.infrastructure.uml.error;
 
 public class ErrorTags {
+    // Noninstantiable class
+    private ErrorTags(){
+        // Suppress default constructor for noninsatiability
+        throw new AssertionError();
+    }
     /**
      * error on the application side of things
      */

@@ -82,7 +82,7 @@ public class STableView extends ConstraintLayout implements SObject {
         this.setMinimumWidth((int) SSettings.getInstance().getTableWidth());
         this.setBackgroundColor(2131034697);
         titleTextView.setText(data.getTitle());
-   
+  
         //setting up the recyclerview
         RecyclerView umlTableRecyclerView = v.findViewById(R.id.uml_table_recyclerView);
     
