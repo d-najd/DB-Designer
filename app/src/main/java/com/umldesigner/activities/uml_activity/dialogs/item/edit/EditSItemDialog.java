@@ -3,11 +3,13 @@ package com.umldesigner.activities.uml_activity.dialogs.item.edit;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.umldesigner.Message;
 import com.umldesigner.R;
 import com.umldesigner.activities.uml_activity.listeners.item.dialog.EditSItemDialogListeners;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
@@ -53,19 +55,24 @@ public class EditSItemDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_s_item_edit);
     
-        setupButtons();
+        setupDialogListeners();
         setupFields();
     }
     
     /**
      * method for setting up the ok/cancel buttons
      */
-    private void setupButtons(){
+    private void setupDialogListeners(){
+        //getting the fields
         Button okBtn = findViewById(R.id.okBtn);
         Button cancelBtn = findViewById(R.id.cancelBtn);
         
-        okBtn.setOnClickListener(view -> dismiss());
-        cancelBtn.setOnClickListener(view -> dismiss());
+        //prep
+        DialogListeners listeners = new DialogListeners(this, sItemData);
+        
+        //setting listeners
+        okBtn.setOnClickListener(listeners);
+        cancelBtn.setOnClickListener(listeners);
     }
     
     /**
@@ -93,8 +100,6 @@ public class EditSItemDialog extends Dialog {
         //y = re.findall("\(.*\)", txt1)
         //y = re.split("\(.*", txt1)
   
-        
-    
         typeEdt.setText(sItemData.getType());
         valueEdt.setText(sItemData.getValue());
        
@@ -150,5 +155,59 @@ public class EditSItemDialog extends Dialog {
         TextView refField = findViewById(R.id.refField);
         
         refField.setText(getSelectedTableData().getItems().get(0).getValue());
+    }
+    
+    /**
+     * listeners for the start and end buttons
+     */
+    static class DialogListeners implements View.OnClickListener{
+        Dialog dialog;
+        SItemData sItemData;
+        
+        public DialogListeners(Dialog dialog, SItemData sItemData){
+            this.dialog = dialog;
+            this.sItemData = sItemData;
+        }
+        
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.okBtn:
+                    //getting fields
+                    EditText typeEdt = dialog.findViewById(R.id.typeEdit);
+                    EditText valueEdt = dialog.findViewById(R.id.valueEdt);
+                    EditText sizeEdt = dialog.findViewById(R.id.sizeEdt);
+                    EditText defaultEdt = dialog.findViewById(R.id.defaultEdt);
+                    EditText descriptionEdt = dialog.findViewById(R.id.descriptionEdt);
+                    
+                    TextView refTable = dialog.findViewById(R.id.refTable);
+                    TextView refField = dialog.findViewById(R.id.refField);
+                    TextView onUpdate = dialog.findViewById(R.id.onUpdate);
+                    TextView onDelete = dialog.findViewById(R.id.onDelete);
+                    
+                    //prep
+                    
+                    int size = 0;
+                    try{
+                        size = Integer.parseInt(sizeEdt.getText().toString());
+                    } catch (NumberFormatException e){
+                        e.printStackTrace();
+                    }
+                    
+                    //setting sItemData
+                    
+                    sItemData.setType(typeEdt.getText().toString());
+                    sItemData.setValue(valueEdt.getText().toString());
+                    sItemData.setSize(size);
+                    
+                    break;
+                case R.id.cancelBtn:
+                    Message.message(v.getContext(), "pressed cancel");
+                    dialog.dismiss();
+                    break;
+                default:
+                    throw new IllegalStateException("invalid view id " + v.getId() + " in " + this.getClass().getSimpleName());
+            }
+        }
     }
 }

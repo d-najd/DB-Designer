@@ -3,7 +3,6 @@ package com.umldesigner;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +10,7 @@ import com.umldesigner.activities.uml_activity.views.table.STableBuilder;
 import com.umldesigner.activities.uml_activity.views.table.STableView;
 import com.umldesigner.api.controller.uml_activity.table.STableController;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
+import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.logic.api.ApiMethodCodes;
 import com.umldesigner.infrastructure.uml.logic.api.BaseAPIControllerTemplate;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
@@ -21,8 +21,8 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemP
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import lombok.Getter;
 
@@ -36,13 +36,15 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
     @Getter
     private STableView sTable2;
    
+    private static boolean executed;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
         setup();
-        testing();
+        displayData();
+        //testing();
     }
     
     //no singletons or utils should be used before this method
@@ -54,11 +56,34 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
     
         container = findViewById(R.id.container);
         new MainActivityListeners(this);
+    }
     
+    private void displayData(){
+        //refresh/get data from server
+        if (!executed) {
+            //SUtils.getInstance().clearViews();
+    
+            STableController sTableController = new STableController(this, this);
+            sTableController.getAllTables();
+        } else {
+            
+            for(STableData curData : SUtils.getInstance().getAllTables()){
+                new STableBuilder(container, curData.getTitle(), curData.getX(), curData.getY())
+                        .addItems((ArrayList<SItemData>) curData.getItems())
+                        .build();
+            }
+        }
+        
+        //display that data
+        
+        
     }
     
     private void testing(){
         //creating stuff
+    
+        HashSet<STableData> re = SUtils.getInstance().getAllTables();
+        
         ArrayList<SItemData> sAdapterFields1 = new ArrayList<>(Arrays.asList(
                 new SItemData("ProductId", "int"),
                 new SItemData("ProductId", "int"),
@@ -74,20 +99,17 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
         sTable1 = new STableBuilder(container,"Product", 1, 1)
                 .addItems(sAdapterFields1)
                 .build();
-    
-        container.addView(new TextView(container.getContext()));
         
         sTable2 = new STableBuilder(container, "Student", 13, 13)
                 .addItems(sAdapterFields2)
                 .build();
     
-        STableController sTableController = new STableController(this, this);
-        sTableController.getAllTables();
+        
     
+       // Pattern valuePattern = Pattern.compile("\\(.*");
+       // String matcher = valuePattern.matcher("varchar(50)").group();
+       // Log.d("Execute", matcher);
     
-        Pattern valuePattern = Pattern.compile("\\(.*");
-        String matcher = valuePattern.matcher("varchar(50)").group();
-        Log.d("Execute", matcher);
     }
     
     @Override
@@ -97,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
         if (controller.getEndpoint().equals(Endpoints.TABLE)){
             switch (code){
                 case getAll:
+                    //if(!executed)
                     SUtils.getInstance().clearViews();
                     
                     List<STablePojo> tables = (List<STablePojo>) requestedData;
@@ -107,9 +130,11 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
                             items.add(new SItemData(itemPojo));
                         }
                         
+                        //if(!executed)
                         new STableBuilder(container, pojo.getTitle(), pojo.getX(), pojo.getY())
                                 .addItems(items)
                                 .build();
+                       // executed = true;
                     }
                     break;
                 default:
