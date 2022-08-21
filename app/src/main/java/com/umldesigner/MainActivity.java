@@ -11,8 +11,8 @@ import com.umldesigner.activities.uml_activity.views.table.STableView;
 import com.umldesigner.api.controller.uml_activity.table.STableController;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
-import com.umldesigner.infrastructure.uml.logic.api.ApiMethodCodes;
-import com.umldesigner.infrastructure.uml.logic.api.BaseAPIControllerTemplate;
+import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
+import com.umldesigner.infrastructure.uml.logic.api.ApiController;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
 import com.umldesigner.infrastructure.uml.logic.api.ReceiverInterface;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
         if (!executed) {
             //SUtils.getInstance().clearViews();
     
-            STableController sTableController = new STableController(this, this);
-            sTableController.getAllTables();
+            ApiController sTableController = new STableController(this, this);
+            sTableController.getAll();
         } else {
             
             for(STableData curData : SUtils.getInstance().getAllTables()){
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
     }
     
     @Override
-    public void receiveData(List<?> requestedData, BaseAPIControllerTemplate controller, ApiMethodCodes code) {
+    public void receiveData(List<?> requestedData, ApiController controller, ApiRequest code) {
         Log.d("Execute", "receiveData: " + requestedData.toString() + controller.toString() + code.toString());
         
         if (controller.getEndpoint().equals(Endpoints.TABLE)){

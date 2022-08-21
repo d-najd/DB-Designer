@@ -12,13 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.umldesigner.R;
 import com.umldesigner.activities.uml_activity.adapters.STableAdapter;
+import com.umldesigner.api.controller.uml_activity.table.STableController;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.data.STable.STableData;
 import com.umldesigner.infrastructure.uml.entities.SObject;
+import com.umldesigner.infrastructure.uml.logic.api.ApiController;
+import com.umldesigner.infrastructure.uml.logic.api.ReceiverInterface;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.pojos.BasePojo;
+import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 
 import java.util.ArrayList;
 
@@ -35,6 +39,10 @@ public class STableView extends ConstraintLayout implements SObject {
     private RecyclerView.LayoutManager layoutManager;
     
     private final ViewGroup container;
+    
+    //server api stuff
+    private ReceiverInterface receiver;
+    private ApiController<STablePojo> controller;
     
     /**
      * creates UmlTableView at given position and with given listeners if given
@@ -94,7 +102,6 @@ public class STableView extends ConstraintLayout implements SObject {
             umlTableRecyclerView.setAdapter(adapter);
         }
         
-        updateData(); // making sure the data gets updated in case I forget in the future
     }
     
     @Override
@@ -122,19 +129,6 @@ public class STableView extends ConstraintLayout implements SObject {
         this.data = (STableData) data;
     }
     
-    @Override
-    public void updateData() {
-        Log.d("Execute", "updateData");
-        
-        //prep
-        TextView titleTextView = v.findViewById(R.id.title);
-        
-        //updating the data
-        data.setTitle(titleTextView.getText().toString());
-        data.setX(this.getX());
-        data.setY(this.getY());
-        data.notifyObservers();
-    }
     
     /**
      * sets the title of the Table View but does not guarantee updating the data, use {@link #updateData()} for that
@@ -168,4 +162,28 @@ public class STableView extends ConstraintLayout implements SObject {
         data.setItems(itemDataArrayList);
         data.setRecyclerView(recyclerView);
     }
+    
+    @Override
+    public void updateData() {
+        Log.d("Execute", "updateData");
+        
+        //prep
+        TextView titleTextView = v.findViewById(R.id.title);
+        
+        //updating the data
+        data.setTitle(titleTextView.getText().toString());
+        data.setX(this.getX());
+        data.setY(this.getY());
+        data.notifyObservers();
+        
+        //server api stuff
+        //lazily instantiating stuff
+        if(receiver == null || controller == null){
+            receiver = new STableReceiver(this);
+            controller = new STableController(getContext(), receiver);
+        }
+        
+        controller.update(data);
+    }
+    
 }

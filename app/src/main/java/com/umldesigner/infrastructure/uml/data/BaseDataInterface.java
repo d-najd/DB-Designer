@@ -10,5 +10,5 @@ package com.umldesigner.infrastructure.uml.data;
  * method
  */
 public interface BaseDataInterface {
-    public Integer getId();
+    public Object getId();
 }

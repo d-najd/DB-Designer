@@ -8,7 +8,8 @@ public interface ReceiverInterface {
      * @param controller used for getting the endpoint of the controller thus letting us to know which
      *                   controller got called
      * @param requestedData the data requested from the server
-     * @param code of the method that got called, like update, get etc
+     * @param request of the method that got called, like update, get etc
+     * @param success true if the request was success false if it wasnt
      */
-    public void receiveData(List<?> requestedData, BaseAPIControllerTemplate controller, ApiMethodCodes code);
+    public void receiveData(List<?> requestedData, ApiController controller, ApiRequest request);
 }
