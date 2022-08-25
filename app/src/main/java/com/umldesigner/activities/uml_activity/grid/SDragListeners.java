@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 
-import com.umldesigner.activities.uml_activity.views.SBackground;
 import com.umldesigner.infrastructure.uml.entities.Movable;
 import com.umldesigner.infrastructure.uml.utils.MovableUtils;
 import com.umldesigner.infrastructure.uml.utils.SUtils;

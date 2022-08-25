@@ -21,7 +21,7 @@ public interface BaseSObject extends BaseDestroyable {
      *
      * also this makes my brain hurt
      */
-    <T extends BasePojo & BaseDataInterface> void setData(T data);
+    <T extends BaseDataInterface> void setData(T data);
     
     /**
      * method used for updating the data object which every uml object should have

@@ -6,11 +6,11 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.umldesigner.activities.uml_activity.views.table.STableBuilder;
-import com.umldesigner.activities.uml_activity.views.table.STableView;
-import com.umldesigner.api.controller.uml_activity.table.STableController;
-import com.umldesigner.infrastructure.uml.data.SItem.SItemData;
-import com.umldesigner.infrastructure.uml.data.STable.STableData;
+import com.umldesigner.activities.uml_activity.STable.builder.STableBuilder;
+import com.umldesigner.activities.uml_activity.STable.view.STableView;
+import com.umldesigner.activities.uml_activity.STable.controller.STableController;
+import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
+import com.umldesigner.activities.uml_activity.STable.data.STableData;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
 import com.umldesigner.infrastructure.uml.logic.api.ApiController;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
@@ -35,9 +35,11 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
     private STableView sTable1;
     @Getter
     private STableView sTable2;
-   
-    private static boolean executed;
-    
+
+    @Getter
+    public static STableData sTableDataTest;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,24 +61,20 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
     }
     
     private void displayData(){
-        //refresh/get data from server
-        if (!executed) {
-            //SUtils.getInstance().clearViews();
-    
-            ApiController sTableController = new STableController(this, this);
+            SUtils.getInstance().clearViews();
+            ApiController sTableController = new STableController(container);
             sTableController.getAll();
-        } else {
-            
+
+            /*
             for(STableData curData : SUtils.getInstance().getAllTables()){
                 new STableBuilder(container, curData.getTitle(), curData.getX(), curData.getY())
                         .addItems((ArrayList<SItemData>) curData.getItems())
                         .build();
             }
-        }
-        
-        //display that data
-        
-        
+             */
+
+
+
     }
     
     private void testing(){
@@ -96,14 +94,15 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
                 new SItemData("Something", "int"),
                 new SItemData("StudentName", "varchar(100)")));
         
-        sTable1 = new STableBuilder(container,"Product", 1, 1)
+        sTable1 = new STableBuilder("testee1", container,"Product", 1, 1)
                 .addItems(sAdapterFields1)
                 .build();
         
-        sTable2 = new STableBuilder(container, "Student", 13, 13)
+        sTable2 = new STableBuilder("testee2", container, "Student", 13, 13)
                 .addItems(sAdapterFields2)
                 .build();
-    
+
+        sTableDataTest = sTable1.getData();
         
     
        // Pattern valuePattern = Pattern.compile("\\(.*");
@@ -114,35 +113,7 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
     
     @Override
     public void receiveData(List<?> requestedData, ApiController controller, ApiRequest code) {
-        Log.d("Execute", "receiveData: " + requestedData.toString() + controller.toString() + code.toString());
-        
-        if (controller.getEndpoint().equals(Endpoints.TABLE)){
-            switch (code){
-                case getAll:
-                    //if(!executed)
-                    SUtils.getInstance().clearViews();
-                    
-                    List<STablePojo> tables = (List<STablePojo>) requestedData;
-                    for(STablePojo pojo : tables){
-                        
-                        ArrayList<SItemData> items = new ArrayList<>();
-                        for(SItemPojo itemPojo : pojo.getItems()){
-                            items.add(new SItemData(itemPojo));
-                        }
-                        
-                        //if(!executed)
-                        new STableBuilder(container, pojo.getTitle(), pojo.getX(), pojo.getY())
-                                .addItems(items)
-                                .build();
-                       // executed = true;
-                    }
-                    break;
-                default:
-                    throw new IllegalStateException("the current receiver is unable to handle the current state");
-            }
-        } else {
-            throw new IllegalStateException("the current receiver is unable to handle the current state");
-        }
+
     }
 }
 

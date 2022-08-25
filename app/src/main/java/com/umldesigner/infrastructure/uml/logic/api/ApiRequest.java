@@ -7,6 +7,6 @@ package com.umldesigner.infrastructure.uml.logic.api;
 public enum ApiRequest {
     getAll,
     getUuid,
-    update,
+    put,
     post,
 }

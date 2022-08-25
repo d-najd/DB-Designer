@@ -5,8 +5,6 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import com.umldesigner.activities.uml_activity.views.SBackground;
-
 public class SGridCreate {
     SDragListeners sDragListeners;
     

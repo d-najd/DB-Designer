@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.umldesigner.MainActivityListeners;
 import com.umldesigner.activities.uml_activity.grid.SDragListeners;
-import com.umldesigner.infrastructure.uml.data.STable.STableData;
+import com.umldesigner.activities.uml_activity.STable.data.STableData;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 
 import java.util.HashMap;
@@ -72,8 +72,9 @@ public class SUtils {
      * puts a view to the ViewTags with given id
      */
     public void allViewTagsPut(Integer id, SObject umlObject){
-        Log.d("Execute", "Put View in Schema Settings Singleton with parameters" + id + ", " + umlObject.toString());
-        
+        //TODO implement proper tostring method since this one doesnt seem to work
+        //Log.d("Execute", "Put View in Schema Settings Singleton with parameters" + id + ", " + umlObject.toString());
+
         allViews.put(id, umlObject);
         if(umlObject.getData() instanceof STableData){
             allTables.add((STableData) umlObject.getData());
