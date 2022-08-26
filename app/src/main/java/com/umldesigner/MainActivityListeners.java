@@ -7,11 +7,6 @@ import com.umldesigner.infrastructure.uml.utils.DialogType;
 import com.umldesigner.activities.uml_activity.STable.dialog.STableDialog;
 import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.activities.uml_activity.grid.SGridCreate;
-import com.umldesigner.infrastructure.uml.logic.api.ApiController;
-import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
-import com.umldesigner.infrastructure.uml.logic.api.ReceiverInterface;
-
-import java.util.List;
 
 public class MainActivityListeners implements View.OnClickListener {
     private final MainActivity mainActivity;

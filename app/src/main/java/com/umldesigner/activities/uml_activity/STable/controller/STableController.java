@@ -1,12 +1,10 @@
 package com.umldesigner.activities.uml_activity.STable.controller;
 
-import android.content.Context;
-
 import android.view.ViewGroup;
-import com.umldesigner.activities.uml_activity.STable.receiver.STableReceiver;
+import com.umldesigner.activities.uml_activity.STable.receiver.STableRequestHandler;
 import com.umldesigner.infrastructure.uml.logic.api.ApiController;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
-import com.umldesigner.infrastructure.uml.logic.api.ReceiverInterface;
+import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
@@ -22,12 +20,12 @@ public class STableController extends ApiController<STablePojo> {
     }
 
     @Override
-    protected ReceiverInterface setReceiver() {
-        return STableReceiver.getInstance();
+    protected RequestHandler setRequestHandler() {
+        return STableRequestHandler.getInstance();
     }
 
     @Override
-    protected String getUpdateUrl(STablePojo o) {
+    protected String getPutUrl(STablePojo o) {
         return "/" + o.getUuid();
     }
 

@@ -2,7 +2,7 @@ package com.umldesigner.infrastructure.uml.logic.api;
 
 import java.util.List;
 
-public interface ReceiverInterface {
+public interface RequestHandler {
     /**
      * send method call back to the activity where it was called from once the request has been received
      * @param controller used for getting the endpoint of the controller thus letting us to know which

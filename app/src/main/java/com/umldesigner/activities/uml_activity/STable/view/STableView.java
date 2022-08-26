@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.STable.adapter.CreateSTableAdapter;
+import com.umldesigner.activities.uml_activity.SItem.adapter.TableDialogSTItemAdapter;
 import com.umldesigner.activities.uml_activity.STable.builder.STableBuilder;
 import com.umldesigner.activities.uml_activity.STable.controller.STableController;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
@@ -61,13 +61,15 @@ public class STableView extends ConstraintLayout implements SObject {
         container = builder.getContainer();
         
         //setting up the data
-        setData(new STableData(
-                SUtils.getInstance().getNextId(),
+        setData(STableData.newInstance(
+                 null,
                 builder.getUuid(),
                 builder.getX(),
                 builder.getY(),
                 builder.getTitle(),
-                builder.getItems()));
+                builder.getItems()
+        ));
+
         SUtils.getInstance().allViewTagsPut(data.getId(), this);
     
         //inflating the view
@@ -93,7 +95,7 @@ public class STableView extends ConstraintLayout implements SObject {
         umlTableRecyclerView.setLayoutManager(layoutManager);
         
         if (builder.getItems() != null){
-            CreateSTableAdapter adapter = new CreateSTableAdapter(builder.getItems(), v.getContext());
+            TableDialogSTItemAdapter adapter = new TableDialogSTItemAdapter(builder.getItems());
             umlTableRecyclerView.setAdapter(adapter);
         }
         
@@ -148,7 +150,7 @@ public class STableView extends ConstraintLayout implements SObject {
         Log.d("Execute", "setItems with parameters " + itemDataArrayList.toString());
         
         recyclerView = v.findViewById(R.id.uml_table_recyclerView);
-        CreateSTableAdapter adapter = new CreateSTableAdapter(itemDataArrayList, v.getContext());
+        TableDialogSTItemAdapter adapter = new TableDialogSTItemAdapter(itemDataArrayList);
         
         layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -177,7 +179,7 @@ public class STableView extends ConstraintLayout implements SObject {
             controller = new STableController(container);
         }
 
-        controller.update(data);
+        controller.put(data);
     }
     
 }

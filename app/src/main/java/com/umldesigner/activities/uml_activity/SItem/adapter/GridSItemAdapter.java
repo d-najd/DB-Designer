@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.STable.adapter;
+package com.umldesigner.activities.uml_activity.SItem.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,18 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
+import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
 import java.util.List;
 
-public class EditSTableAdapter extends RecyclerView.Adapter<EditSTableAdapter.UmlRecyclerViewHolder>{
-    private final List<SItemData> recyclerDataArrayList;
-    private SItemData curData;
+/**
+ * item adapter for the tables in the grid
+ */
+public class GridSItemAdapter extends RecyclerView.Adapter<GridSItemAdapter.UmlRecyclerViewHolder>{
+    private final List<? extends SItemPojo> recyclerDataArrayList;
+    private SItemPojo curData;
     
     /**
      * createAdapter used for the dialog for editing the sTable
      */
-    public EditSTableAdapter(List<SItemData> recyclerDataArrayList) {
+    public GridSItemAdapter(List<? extends SItemPojo> recyclerDataArrayList) {
         this.recyclerDataArrayList = recyclerDataArrayList;
     }
     
@@ -28,7 +31,7 @@ public class EditSTableAdapter extends RecyclerView.Adapter<EditSTableAdapter.Um
     @Override
     public UmlRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_s_table_edit_row, parent, false);
+                .inflate(R.layout.card_s_item_row, parent, false);
         return new UmlRecyclerViewHolder(view);
     }
     

@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.STable.adapter;
+package com.umldesigner.activities.uml_activity.SItem.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,21 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.umldesigner.R;
 import com.umldesigner.activities.uml_activity.SItem.listener.EditSItemListeners;
-import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
+import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
 import java.util.List;
 
-public class CreateSTableAdapter extends RecyclerView.Adapter<CreateSTableAdapter.UmlRecyclerViewHolder>{
-    private final List<SItemData> recyclerDataArrayList;
-    private final Context context;
-    private SItemData curData;
+public class TableDialogSTItemAdapter extends RecyclerView.Adapter<TableDialogSTItemAdapter.UmlRecyclerViewHolder>{
+    private final List<? extends SItemPojo> recyclerDataArrayList;
+    private SItemPojo curData;
     
     /**
      * createAdapter for the items inside the sTable
      */
-    public CreateSTableAdapter(List<SItemData> recyclerDataArrayList, Context context) {
+    public TableDialogSTItemAdapter(List<? extends SItemPojo> recyclerDataArrayList) {
         this.recyclerDataArrayList = recyclerDataArrayList;
-        this.context = context;
     }
     
     @NonNull

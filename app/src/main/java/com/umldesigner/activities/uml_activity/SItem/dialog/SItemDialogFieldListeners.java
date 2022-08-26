@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.umldesigner.Message;
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.SItem.dialog.SItemDialog;
 import com.umldesigner.activities.uml_activity.SItem.dialog.spinners.EditSItemDialogActionsSpinner;
 import com.umldesigner.activities.uml_activity.SItem.dialog.spinners.EditSItemDialogRItemSpinner;
 import com.umldesigner.activities.uml_activity.SItem.dialog.spinners.EditSItemDialogRTableSpinner;
@@ -19,9 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EditSItemDialogListeners implements View.OnClickListener {
+/**
+ * listener for the fields of the dialog
+ */
+public class SItemDialogFieldListeners implements View.OnClickListener {
     private final SItemDialog dialog;
-    public EditSItemDialogListeners(SItemDialog dialog){
+    public SItemDialogFieldListeners(SItemDialog dialog){
         this.dialog = dialog;
     }
     

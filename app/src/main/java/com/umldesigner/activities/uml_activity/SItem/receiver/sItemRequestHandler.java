@@ -3,15 +3,15 @@ package com.umldesigner.activities.uml_activity.SItem.receiver;
 
 import com.umldesigner.infrastructure.uml.logic.api.ApiController;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
-import com.umldesigner.infrastructure.uml.logic.api.ReceiverInterface;
+import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
 
 import java.util.List;
 
-public class SItemReceiver implements ReceiverInterface {
-    private static SItemReceiver instance;
-    public static SItemReceiver getInstance(){
+public class sItemRequestHandler implements RequestHandler {
+    private static sItemRequestHandler instance;
+    public static sItemRequestHandler getInstance(){
         if (instance == null){
-            instance = new SItemReceiver();
+            instance = new sItemRequestHandler();
         }
         return instance;
     }

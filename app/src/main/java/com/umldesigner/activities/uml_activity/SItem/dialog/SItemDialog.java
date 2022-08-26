@@ -15,9 +15,10 @@ import com.umldesigner.R;
 import com.umldesigner.activities.uml_activity.SItem.controller.SItemController;
 import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
 import com.umldesigner.activities.uml_activity.STable.data.STableData;
-import com.umldesigner.infrastructure.uml.logic.api.ReceiverInterface;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
+import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
+import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +30,21 @@ import java.util.Optional;
  */
 public class SItemDialog extends Dialog {
     private SItemData data;
+    private STablePojo tableData;
     private final ViewGroup container;
     private final DialogType type;
 
-    public SItemDialog(ViewGroup container, SItemData data, DialogType type) {
+    /**
+     * dialog constructor
+     * @param container the container, used for working with data sent back from the backend
+     * @param data the item daya
+     * @param tableData the table where the item is located at
+     * @param type type of the dialog
+     */
+    public SItemDialog(ViewGroup container, SItemData data, STablePojo tableData, DialogType type) {
         super(container.getContext());
         this.data = data;
+        this.tableData = tableData;
         this.container = container;
         this.type = type;
     }
@@ -61,7 +71,20 @@ public class SItemDialog extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_s_item_edit);
-    
+
+        switch (type){
+            case Create:
+                TextView title = findViewById(R.id.title);
+                title.setText("Create Item");
+                break;
+            case Edit:
+                title = findViewById(R.id.title);
+                title.setText("Edit Item");
+                break;
+            default:
+                throw new IllegalArgumentException("invalid dialog type");
+        }
+
         setupDialogListeners();
         setupFields();
     }
@@ -86,13 +109,13 @@ public class SItemDialog extends Dialog {
      * method for setting up stuff for the fields inside the dialog, stuff like listeners.
      */
     private void setupFields(){
-        EditSItemDialogListeners itemListener = new EditSItemDialogListeners(this);
+        SItemDialogFieldListeners itemListener = new SItemDialogFieldListeners(this);
         
         setupBasicFields(itemListener);
         setupFKFields(itemListener);
     }
     
-    private void setupBasicFields(EditSItemDialogListeners itemListener){
+    private void setupBasicFields(SItemDialogFieldListeners itemListener){
         // getting the fields
         EditText typeEdt = findViewById(R.id.typeEdit);
         EditText valueEdt = findViewById(R.id.valueEdt);
@@ -116,7 +139,7 @@ public class SItemDialog extends Dialog {
      * sets up fields which have stuff related to the foreign key
      * @param itemListener the listener for the buttons
      */
-    private void setupFKFields(EditSItemDialogListeners itemListener){
+    private void setupFKFields(SItemDialogFieldListeners itemListener){
         // getting the fields
         TextView refTable = findViewById(R.id.refTable);
         TextView refField = findViewById(R.id.refField);
@@ -161,8 +184,12 @@ public class SItemDialog extends Dialog {
      */
     public void notifyTableChanged(){
         TextView refField = findViewById(R.id.refField);
-        
-        refField.setText(getSelectedTableData().getItems().get(0).getValue());
+
+        if (!getSelectedTableData().getItems().isEmpty()) {
+            refField.setText(getSelectedTableData().getItems().get(0).getValue());
+        } else {
+            refField.setText(null);
+        }
     }
     
     /**
@@ -180,9 +207,9 @@ public class SItemDialog extends Dialog {
             switch (v.getId()) {
                 case R.id.okBtn:
                     pressedOk();
+                    dialog.dismiss();
                     break;
                 case R.id.cancelBtn:
-                    Message.message(v.getContext(), "pressed cancel");
                     dialog.dismiss();
                     break;
                 default:
@@ -191,33 +218,63 @@ public class SItemDialog extends Dialog {
         }
 
         private void pressedOk() {
+            //getting fields
+            EditText typeEdt = dialog.findViewById(R.id.typeEdit);
+            EditText valueEdt = dialog.findViewById(R.id.valueEdt);
+            EditText sizeEdt = dialog.findViewById(R.id.sizeEdt);
+            EditText defaultEdt = dialog.findViewById(R.id.defaultEdt);
+            EditText descriptionEdt = dialog.findViewById(R.id.descriptionEdt);
+
+            TextView refTable = dialog.findViewById(R.id.refTable);
+            TextView refField = dialog.findViewById(R.id.refField);
+            TextView onUpdate = dialog.findViewById(R.id.onUpdate);
+            TextView onDelete = dialog.findViewById(R.id.onDelete);
+
+            //data field prep
+            int size = 0;
+            try {
+                size = Integer.parseInt(sizeEdt.getText().toString());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+
+            //data prep
+            data = SItemData.newInstance(
+                    valueEdt.getText().toString(),
+                    typeEdt.getText().toString(),
+                    size,
+                    false,
+                    tableData);
+
+            //sending request
             switch (type) {
                 case Create:
-                    //getting fields
-                    EditText typeEdt = dialog.findViewById(R.id.typeEdit);
-                    EditText valueEdt = dialog.findViewById(R.id.valueEdt);
-                    EditText sizeEdt = dialog.findViewById(R.id.sizeEdt);
-                    EditText defaultEdt = dialog.findViewById(R.id.defaultEdt);
-                    EditText descriptionEdt = dialog.findViewById(R.id.descriptionEdt);
+                    // the field will be created along with the table
 
-                    TextView refTable = dialog.findViewById(R.id.refTable);
-                    TextView refField = dialog.findViewById(R.id.refField);
-                    TextView onUpdate = dialog.findViewById(R.id.onUpdate);
-                    TextView onDelete = dialog.findViewById(R.id.onDelete);
+                    //why the hell can't I just add the data and need to do this????
+                    List<SItemPojo> items = (List<SItemPojo>) tableData.getItems();
+                    items.add(data);
 
-                    //prep
-                    int size = 0;
-                    try {
-                        size = Integer.parseInt(sizeEdt.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
+                    //TODO finish this
+                    /*
+                        if an table has uuid that means it exists in the database so we should post the item instead of
+                        just setting it to the table and expecting it to get posted along with the table
+                     */
+                    /*
+                        doing this because put method with table items is not supported, it is only supported on creation
+                        of the table
+                     */
+                    if(tableData.getUuid() != null){
+                        Message.message(getContext(), "need to post the item instead of editing it");
                     }
 
-                    //setting sItemData
-
-                    data = new SItemData(valueEdt.getText().toString(), typeEdt.getText().toString(), size);
+                    break;
+                case Edit:
                     SItemController controller = new SItemController(container);
-                    controller.post(data);
+                    controller.put(data);
+                    break;
+                default:
+                    throw new IllegalStateException();
             }
         }
     }

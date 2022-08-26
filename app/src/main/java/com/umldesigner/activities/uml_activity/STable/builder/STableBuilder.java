@@ -14,6 +14,7 @@ import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,7 +25,7 @@ public class STableBuilder {
     private final float x;
     private final float y;
     private final String title;
-    private ArrayList<SItemData> items;
+    private List<SItemData> items;
     @Getter(AccessLevel.NONE)
     private final STableView sTableView;
     private final ViewGroup container;

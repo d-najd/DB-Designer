@@ -29,7 +29,7 @@ public abstract class ApiController<T> {
     protected final Context context;
     protected final ApiUtils apiUtils;
     @Getter
-    protected final ReceiverInterface receiverInterface;
+    protected final RequestHandler requestHandler;
     @Getter
     protected final String url;
     @Getter
@@ -43,7 +43,7 @@ public abstract class ApiController<T> {
     public ApiController(ViewGroup container) {
         this.context = container.getContext();
         this.apiUtils = ApiUtils.getInstance(context);
-        this.receiverInterface = setReceiver();
+        this.requestHandler = setRequestHandler();
         this.container = container;
         
         if (setEndpoint() == null) {
@@ -67,11 +67,12 @@ public abstract class ApiController<T> {
      * used for defining a concrete receiver
      * @return the receiver
      */
-    protected abstract ReceiverInterface setReceiver();
+    protected abstract RequestHandler setRequestHandler();
 
     /**
      * hook for cleaning up the object before it is converted to json.
      * example use for this can be preventing recursion hell like the example below
+     *
      * <pre>
      *     class MainObj{
      *         SubObj sub;
@@ -83,7 +84,8 @@ public abstract class ApiController<T> {
      *     }
      * </pre>
      *
-     *
+     * @implNote make sure that the final address is assembled before calling this method since methods like
+     * {{@link #getPostUrl(Object)}} may depend on it
      * @param o the given object
      * @return cleaned up object
      */
@@ -108,11 +110,11 @@ public abstract class ApiController<T> {
                         
                         for(int i = 0; i < response.length(); i++){
                             T curObject = gson.fromJson(response.get(i).toString(), tClass);
-                            
+
                             pojos.add(curObject);
                         }
                         
-                        receiverInterface.receiveData(pojos, this, ApiRequest.getAll);
+                        requestHandler.receiveData(pojos, this, ApiRequest.getAll);
                     } catch (JSONException e){
                         e.printStackTrace();
                     }
@@ -129,7 +131,7 @@ public abstract class ApiController<T> {
     }
 
     /**
-     * @see {@link ReceiverInterface}
+     * @see {@link RequestHandler}
      */
     public void getByUuid(Object id){
         throw new UnsupportedOperationException("the method is not implemented");
@@ -138,7 +140,7 @@ public abstract class ApiController<T> {
     /**
      * returns the last part of the url, the uuid of the object that needs to be updated
      * xx.xx.xx:xx/{uuid}
-     * @see #update(Object)
+     * @see #put(Object)
      */
     protected String getPostUrl(T o){
         return "";
@@ -147,7 +149,7 @@ public abstract class ApiController<T> {
      * @param o the data parameter contained within the view should be passed here
      */
     public void post(T o){
-        Log.d("Execute", "update on class, " + this.getClass().getSimpleName());
+        Log.d("Execute", "update on object " + o.getClass() + ", with class " + this.getClass().getSimpleName());
 
         //cleaning up the object
         if(o == null){
@@ -161,7 +163,7 @@ public abstract class ApiController<T> {
                 Request.Method.POST,
                 curUrl,
                 response -> {
-                    receiverInterface.receiveData(null, this, ApiRequest.put);
+                    requestHandler.receiveData(null, this, ApiRequest.post);
                 },
                 apiUtils.getErrorListener()
         ) {
@@ -182,26 +184,27 @@ public abstract class ApiController<T> {
     /**
      * returns the last part of the url, the uuid of the object that needs to be updated
      * xx.xx.xx:xx/{uuid}
-     * @see #update(Object)
+     * @see #put(Object)
      */
-    protected String getUpdateUrl(T o){
-        throw new IllegalStateException("when using default update method define getUpdateUrl");
+    protected String getPutUrl(T o){
+        throw new IllegalStateException("when using default put method override getPutUrl(T)");
     }
 
     /**
-     * default implementation for the update method
-     * @implNote {@link #getUpdateUrl(Object)} must be overridden if this method is used
+     * default implementation for the put method
+     * @implNote {@link #getPutUrl(Object)} must be overridden if this method is used
      * @see #objectPrep(Object) for doing cleanup on the given object before it is converted to json, see method for more info
      */
-    public void update(T o){
-        Log.d("Execute", "update on class, " + this.getClass().getSimpleName());
+
+    public void put(T o){
+        Log.d("Execute", "update on object " + o.getClass() + ", with class" + this.getClass().getSimpleName());
 
         //cleaning up the object
         if(o == null){
             Log.e(ErrorTags.API_ERROR, "Attempting to use update method with no object attached");
         }
 
-        String curUrl = url + getUpdateUrl(o);
+        String curUrl = url + getPutUrl(o);
         JSONObject jsonObject = objectToJSON(o);
 
         StringRequest request = new StringRequest(
@@ -214,7 +217,7 @@ public abstract class ApiController<T> {
                     pojos.add(
                             gson.fromJson(response, tClass));
     
-                    receiverInterface.receiveData(pojos, this, ApiRequest.put);
+                    requestHandler.receiveData(pojos, this, ApiRequest.put);
                 },
                 apiUtils.getErrorListener()
         ) {

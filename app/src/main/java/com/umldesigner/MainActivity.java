@@ -1,7 +1,6 @@
 package com.umldesigner;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,11 +12,8 @@ import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
 import com.umldesigner.activities.uml_activity.STable.data.STableData;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
 import com.umldesigner.infrastructure.uml.logic.api.ApiController;
-import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
-import com.umldesigner.infrastructure.uml.logic.api.ReceiverInterface;
+import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
-import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
-import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +22,7 @@ import java.util.List;
 
 import lombok.Getter;
 
-public class MainActivity extends AppCompatActivity implements ReceiverInterface {
+public class MainActivity extends AppCompatActivity implements RequestHandler {
     public static float dp;
     public static float spacing;
     @Getter
@@ -72,9 +68,6 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
                         .build();
             }
              */
-
-
-
     }
     
     private void testing(){
@@ -83,16 +76,16 @@ public class MainActivity extends AppCompatActivity implements ReceiverInterface
         HashSet<STableData> re = SUtils.getInstance().getAllTables();
         
         ArrayList<SItemData> sAdapterFields1 = new ArrayList<>(Arrays.asList(
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductId", "int"),
-                new SItemData("ProductName", "varchar(100)")));
+                SItemData.newTestingInstance("ProductId", "int"),
+                SItemData.newTestingInstance("ProductId", "int"),
+                SItemData.newTestingInstance("ProductId", "int"),
+                SItemData.newTestingInstance("ProductName", "varchar(100)")));
     
         ArrayList<SItemData> sAdapterFields2 = new ArrayList<>(Arrays.asList(
-                new SItemData("StudentId", "int"),
-                new SItemData("Grades", "int"),
-                new SItemData("Something", "int"),
-                new SItemData("StudentName", "varchar(100)")));
+                SItemData.newTestingInstance("StudentId", "int"),
+                SItemData.newTestingInstance("Grades", "int"),
+                SItemData.newTestingInstance("Something", "int"),
+                SItemData.newTestingInstance("StudentName", "varchar(100)")));
         
         sTable1 = new STableBuilder("testee1", container,"Product", 1, 1)
                 .addItems(sAdapterFields1)

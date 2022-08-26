@@ -6,11 +6,6 @@ import android.view.ViewGroup;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
 import com.umldesigner.activities.uml_activity.STable.dialog.STableDialog;
 import com.umldesigner.activities.uml_activity.STable.data.STableData;
-import com.umldesigner.infrastructure.uml.logic.api.ApiController;
-import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
-import com.umldesigner.infrastructure.uml.logic.api.ReceiverInterface;
-
-import java.util.List;
 
 public class STableListeners implements View.OnClickListener {
     STableData sTableData;
