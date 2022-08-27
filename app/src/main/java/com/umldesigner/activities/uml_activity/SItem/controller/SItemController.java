@@ -2,12 +2,12 @@ package com.umldesigner.activities.uml_activity.SItem.controller;
 
 import android.view.ViewGroup;
 import com.umldesigner.activities.uml_activity.SItem.receiver.sItemRequestHandler;
-import com.umldesigner.infrastructure.uml.logic.api.ApiController;
+import com.umldesigner.infrastructure.uml.logic.api.controller.ApiControllerTemplate;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
-public class SItemController extends ApiController<SItemPojo> {
+public class SItemController extends ApiControllerTemplate<SItemPojo> {
     public SItemController(ViewGroup container) {
         super(container);
     }

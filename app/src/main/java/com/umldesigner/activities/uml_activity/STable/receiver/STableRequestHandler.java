@@ -3,7 +3,7 @@ package com.umldesigner.activities.uml_activity.STable.receiver;
 import android.util.Log;
 import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
 import com.umldesigner.activities.uml_activity.STable.builder.STableBuilder;
-import com.umldesigner.infrastructure.uml.logic.api.ApiController;
+import com.umldesigner.infrastructure.uml.logic.api.controller.ApiControllerTemplate;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
@@ -24,7 +24,7 @@ public class STableRequestHandler implements RequestHandler {
     }
 
     @Override
-    public void receiveData(List<?> requestedData, ApiController controller, ApiRequest code) {
+    public void receiveData(List<?> requestedData, ApiControllerTemplate controller, ApiRequest code) {
         Log.d("Execute", "Requested data" + requestedData == null ? requestedData.toString() : "no data"
                         + controller.toString() + code.toString());
 

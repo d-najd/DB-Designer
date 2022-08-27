@@ -15,6 +15,7 @@ import com.umldesigner.R;
 import com.umldesigner.activities.uml_activity.SItem.controller.SItemController;
 import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
 import com.umldesigner.activities.uml_activity.STable.data.STableData;
+import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
@@ -270,7 +271,7 @@ public class SItemDialog extends Dialog {
 
                     break;
                 case Edit:
-                    SItemController controller = new SItemController(container);
+                    ApiController<SItemPojo> controller = new SItemController(container);
                     controller.put(data);
                     break;
                 default:

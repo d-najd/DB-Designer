@@ -1,7 +1,7 @@
 package com.umldesigner.activities.uml_activity.SItem.receiver;
 
 
-import com.umldesigner.infrastructure.uml.logic.api.ApiController;
+import com.umldesigner.infrastructure.uml.logic.api.controller.ApiControllerTemplate;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
 
@@ -18,7 +18,7 @@ public class sItemRequestHandler implements RequestHandler {
 
 
     @Override
-    public void receiveData(List<?> requestedData, ApiController controller, ApiRequest request) {
+    public void receiveData(List<?> requestedData, ApiControllerTemplate controller, ApiRequest request) {
 
     }
 }

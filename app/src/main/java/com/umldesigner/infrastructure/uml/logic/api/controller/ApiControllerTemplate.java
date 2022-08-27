@@ -1,4 +1,4 @@
-package com.umldesigner.infrastructure.uml.logic.api;
+package com.umldesigner.infrastructure.uml.logic.api.controller;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,6 +9,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.umldesigner.infrastructure.uml.error.ErrorTags;
+import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
+import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
 import com.umldesigner.infrastructure.uml.utils.ApiUtils;
 
 import org.json.JSONException;
@@ -24,7 +26,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 
-public abstract class ApiController<T> {
+public abstract class ApiControllerTemplate<T> implements ApiController<T> {
     @Getter
     protected final Context context;
     protected final ApiUtils apiUtils;
@@ -40,7 +42,7 @@ public abstract class ApiController<T> {
     @Getter
     protected final ViewGroup container;
 
-    public ApiController(ViewGroup container) {
+    public ApiControllerTemplate(ViewGroup container) {
         this.context = container.getContext();
         this.apiUtils = ApiUtils.getInstance(context);
         this.requestHandler = setRequestHandler();
@@ -56,7 +58,7 @@ public abstract class ApiController<T> {
         this.tClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
     }
-    
+
     /**
      * sets the part of the url after the "http://xx.xx:xx/", has similar functionality to the
      * request controller that is located above the class declaration in spring boot controllers
@@ -123,7 +125,7 @@ public abstract class ApiController<T> {
         ) {
             @Override
             public Map<String, String> getHeaders() {
-                return ApiController.getHeaders();
+                return ApiControllerTemplate.getHeaders();
             }
         };
         
@@ -169,7 +171,7 @@ public abstract class ApiController<T> {
         ) {
             @Override
             public Map<String, String> getHeaders() {
-                return ApiController.getHeaders();
+                return ApiControllerTemplate.getHeaders();
             }
 
             @Override
@@ -223,7 +225,7 @@ public abstract class ApiController<T> {
         ) {
             @Override
             public Map<String, String> getHeaders() {
-                return ApiController.getHeaders();
+                return ApiControllerTemplate.getHeaders();
             }
         
             @Override

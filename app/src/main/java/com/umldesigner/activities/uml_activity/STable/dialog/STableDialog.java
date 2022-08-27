@@ -16,6 +16,8 @@ import com.umldesigner.Message;
 import com.umldesigner.R;
 import com.umldesigner.activities.uml_activity.SItem.adapter.GridSItemAdapter;
 import com.umldesigner.activities.uml_activity.SItem.dialog.SItemDialog;
+import com.umldesigner.infrastructure.uml.logic.api.controller.ApiControllerTemplate;
+import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
 import com.umldesigner.activities.uml_activity.STable.controller.STableController;
 import com.umldesigner.activities.uml_activity.STable.data.STableData;
@@ -132,7 +134,7 @@ public class STableDialog extends Dialog {
                         //recreating the table because "empty table" was used
                         STablePojo tableData = STableData.newInstance(null, null,
                                 8f, 12f, newTitle, data.getItems());
-                        STableController tableController = new STableController(container);
+                        ApiControllerTemplate<STablePojo> tableController = new STableController(container);
                         tableController.post(tableData);
                         dialog.dismiss();
                     }
@@ -147,7 +149,7 @@ public class STableDialog extends Dialog {
                         //recreating the table because "empty table" was used
                         STablePojo tableData = STableData.newInstance(null, null,
                                 data.getX(), data.getY(), newTitle, data.getItems());
-                        STableController tableController = new STableController(container);
+                        ApiController<STablePojo> tableController = new STableController(container);
                         tableController.put(tableData);
                         dialog.dismiss();
                     }

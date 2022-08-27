@@ -11,8 +11,9 @@ import com.umldesigner.activities.uml_activity.STable.controller.STableControlle
 import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
 import com.umldesigner.activities.uml_activity.STable.data.STableData;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
-import com.umldesigner.infrastructure.uml.logic.api.ApiController;
+import com.umldesigner.infrastructure.uml.logic.api.controller.ApiControllerTemplate;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
+import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import lombok.Getter;
 
 public class MainActivity extends AppCompatActivity implements RequestHandler {
@@ -58,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements RequestHandler {
     
     private void displayData(){
             SUtils.getInstance().clearViews();
-            ApiController sTableController = new STableController(container);
-            sTableController.getAll();
+            ApiController<STablePojo> tController = new STableController(container);
+            tController.getAll();
 
             /*
             for(STableData curData : SUtils.getInstance().getAllTables()){
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements RequestHandler {
     }
     
     @Override
-    public void receiveData(List<?> requestedData, ApiController controller, ApiRequest code) {
+    public void receiveData(List<?> requestedData, ApiControllerTemplate controller, ApiRequest code) {
 
     }
 }

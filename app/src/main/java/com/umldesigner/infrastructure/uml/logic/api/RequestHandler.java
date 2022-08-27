@@ -1,5 +1,7 @@
 package com.umldesigner.infrastructure.uml.logic.api;
 
+import com.umldesigner.infrastructure.uml.logic.api.controller.ApiControllerTemplate;
+
 import java.util.List;
 
 public interface RequestHandler {
@@ -11,5 +13,5 @@ public interface RequestHandler {
      * @param request of the method that got called, like update, get etc
      * @param success true if the request was success false if it wasnt
      */
-    public void receiveData(List<?> requestedData, ApiController controller, ApiRequest request);
+    public void receiveData(List<?> requestedData, ApiControllerTemplate controller, ApiRequest request);
 }
