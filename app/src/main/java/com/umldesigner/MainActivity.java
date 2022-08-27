@@ -22,7 +22,7 @@ import java.util.*;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import lombok.Getter;
 
-public class MainActivity extends AppCompatActivity implements RequestHandler {
+public class MainActivity extends AppCompatActivity {
     public static float dp;
     public static float spacing;
     @Getter
@@ -103,11 +103,6 @@ public class MainActivity extends AppCompatActivity implements RequestHandler {
        // String matcher = valuePattern.matcher("varchar(50)").group();
        // Log.d("Execute", matcher);
     
-    }
-    
-    @Override
-    public void receiveData(List<?> requestedData, ApiControllerTemplate controller, ApiRequest code) {
-
     }
 }
 
