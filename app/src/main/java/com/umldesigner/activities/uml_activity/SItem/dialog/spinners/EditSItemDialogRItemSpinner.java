@@ -1,6 +1,5 @@
 package com.umldesigner.activities.uml_activity.SItem.dialog.spinners;
 
-
 import android.util.Log;
 import android.widget.TextView;
 

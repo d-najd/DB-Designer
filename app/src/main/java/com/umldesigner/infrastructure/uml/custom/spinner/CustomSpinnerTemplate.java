@@ -36,10 +36,10 @@ public abstract class CustomSpinnerTemplate<T> {
         
         popupWindow = createPopupWindow();
         
-        if(getPopupWindowPosition() == null) {
+        if(popupWindowPosition() == null) {
             popupWindow.showAsDropDown(view);
         } else {
-            popupWindow.showAsDropDown(view, getPopupWindowPosition().first, getPopupWindowPosition().second);
+            popupWindow.showAsDropDown(view, popupWindowPosition().first, popupWindowPosition().second);
         }
         
         popupWindow.setWidth(100);
@@ -57,7 +57,7 @@ public abstract class CustomSpinnerTemplate<T> {
      * below
      * @return a popup window
      * @see #setPopupWindowDimensions(PopupWindow)
-     * @see #getPopupWindowPosition(int, int)
+     * @see #popupWindowPosition()
      */
     private PopupWindow createPopupWindow() {
         
@@ -135,16 +135,16 @@ public abstract class CustomSpinnerTemplate<T> {
     }
     
     //region hooks
-    
+
+
     /**
-     * a hook for setting the popup window to a given position, if null will be ignored
-     * @param xOff x offset for the popup window
-     * @param yOff y offset for the popup window
+     * hook for setting the popup window to a custom location on screen
+     * @return Pair<XPos, YPos> of where the window will be located
      */
-    protected Pair<Integer, Integer> getPopupWindowPosition(){
+    protected Pair<Integer, Integer> popupWindowPosition(){
         return null;
     }
-    
+
     /**
      * a hook for setting width of the popup window, if 0 will be ignored
      * @return width for the popup window

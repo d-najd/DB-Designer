@@ -35,7 +35,7 @@ public class SItemDialogFieldListeners implements View.OnClickListener {
         Context c = view.getContext();
         switch (view.getId()){
             case R.id.refTable:
-                List<String> tableTitles = SUtils.getInstance().getAllTables().stream()
+                List<String> tableTitles = SUtils.getInstance().getTables().stream()
                         .map(STablePojo::getTitle).collect(Collectors.toList());
     
                 new EditSItemDialogRTableSpinner(tableTitles, (TextView)view, dialog);

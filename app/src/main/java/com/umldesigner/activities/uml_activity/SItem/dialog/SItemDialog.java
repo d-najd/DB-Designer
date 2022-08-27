@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.umldesigner.Message;
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.SItem.controller.SItemController;
+import com.umldesigner.activities.uml_activity.SItem.controller.SItemControllerImpl;
 import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
 import com.umldesigner.activities.uml_activity.STable.data.STableData;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
@@ -167,11 +167,11 @@ public class SItemDialog extends Dialog {
      */
     public STableData getSelectedTableData(){
             TextView refTable = findViewById(R.id.refTable);
-            Optional<STableData> optionalTable = SUtils.getInstance().getAllTables().parallelStream()
+            Optional<STableData> optionalTable = SUtils.getInstance().getTables().parallelStream()
                .filter(o -> o.getTitle().equals(refTable.getText().toString())).findAny();
             
             if(!optionalTable.isPresent()){
-                optionalTable = SUtils.getInstance().getAllTables().parallelStream()
+                optionalTable = SUtils.getInstance().getTables().parallelStream()
                         .filter(o -> o.getItems().contains(data)).findAny();
     
                 return optionalTable.orElse(null);
@@ -271,8 +271,8 @@ public class SItemDialog extends Dialog {
 
                     break;
                 case Edit:
-                    ApiController<SItemPojo> controller = new SItemController(container);
-                    controller.put(data);
+                    ApiController<SItemPojo> itemController = new SItemControllerImpl(container);
+                    itemController.put(data);
                     break;
                 default:
                     throw new IllegalStateException();

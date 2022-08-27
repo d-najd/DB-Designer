@@ -9,8 +9,8 @@ import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
-public class STableController extends ApiControllerTemplate<STablePojo> {
-    public STableController(ViewGroup container) {
+public class STableControllerImpl extends ApiControllerTemplate<STablePojo> {
+    public STableControllerImpl(ViewGroup container) {
         super(container);
     }
 

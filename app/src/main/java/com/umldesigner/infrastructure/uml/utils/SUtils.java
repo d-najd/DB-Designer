@@ -2,15 +2,12 @@ package com.umldesigner.infrastructure.uml.utils;
 
 import android.util.Log;
 
-import com.umldesigner.MainActivityListeners;
-import com.umldesigner.activities.uml_activity.grid.SDragListeners;
+import com.umldesigner.MainActivity;
 import com.umldesigner.activities.uml_activity.STable.data.STableData;
+import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,9 +19,8 @@ import lombok.Getter;
  */
 public class SUtils {
     private static SUtils instance;
-    
-    private final SDragListeners sDragListeners;
-    
+
+
     //region Data Storage Related
     /**
      * uuid counter used EXCLUSIVELY for the android app, (the server has a separate infrastructure)
@@ -33,72 +29,98 @@ public class SUtils {
     @Getter(AccessLevel.NONE)
     private Integer appIdCounter;
     /**
-     * the tags of all existing views/constraint layouts including their data's
-     * @apiNote use {@link #allViewTagsPut(Integer, SObject)} for putting data in the hashmap
+     * holds map of all the views located in the schema activity
+     * @see #viewsPut(Integer, SObject)  for putting data in the map
+     * @see #views set containing all the tables
      */
-    
-    private final HashMap<Integer, SObject> allViews;
-    
+
+    private final Map<Integer, SObject> views;
+
     /**
-     * holds set of all tables
-     * @see #allViewTagsPut(Integer, SObject)
+     * holds set of all tables located in the schema activity, items are added through the
+     * {@link #viewsPut(Integer, SObject)} method
+     * @see #views map containing all the views in the schema table
      */
-    private final HashSet<STableData> allTables;
-    
+    private final Set<STableData> tables;
+
+    private SDragListeners dragListeners;
+
     //endregion
-    
+
     public Integer getNextId() {
         return appIdCounter++;
     }
-    
+
     private SUtils() {
         Log.d("Execute", "Create Schema Settings Singleton");
-        
-        allViews = new HashMap<>();
-        allTables = new HashSet<>();
+
+        views = new HashMap<>();
+        tables = new HashSet<>();
         appIdCounter = 1;
-    
-        sDragListeners = MainActivityListeners.sDragListeners;
+
+        dragListeners = MainActivity.getDragListeners();
     }
-    
+
+    /**
+     * can't make the utils static because views cant be stored as a static
+     * @return instance of sUtils
+     */
     public static SUtils getInstance() {
         if (instance == null){
             instance = new SUtils();
         }
         return instance;
     }
-    
-    /**
-     * puts a view to the ViewTags with given id
-     */
-    public void allViewTagsPut(Integer id, SObject umlObject){
-        //TODO implement proper tostring method since this one doesnt seem to work
-        //Log.d("Execute", "Put View in Schema Settings Singleton with parameters" + id + ", " + umlObject.toString());
 
-        allViews.put(id, umlObject);
+    /**
+     * puts a view in the {@link #views} with a given id, if the object is instance of {@link STableData} them the
+     * object will also be put in {@link #tables}
+     * @see #getViews()
+     * @see #getTables()
+     */
+    public void viewsPut(Integer id, SObject umlObject){
+        views.put(id, umlObject);
         if(umlObject.getData() instanceof STableData){
-            allTables.add((STableData) umlObject.getData());
+            tables.add((STableData) umlObject.getData());
         }
     }
-    
+
+    /**
+     * clears all of the {@link #views} and {@link #tables} and runs the {@link SObject#destroy()} method on all objects
+     * within the views collection
+     */
     public void clearViews(){
-        for(SObject sObject : allViews.values()){
+        for(SObject sObject : views.values()){
             sObject.destroy();
         }
-        allViews.clear();
-        allTables.clear();
+        views.clear();
+        tables.clear();
     }
-    
-    public Iterator<Map.Entry<Integer, SObject>> getViewsIterator(){
-        return allViews.entrySet().iterator();
-    }
-    
+
     /**
-     * gets a field from {@link #allViews} with a given id
+     * @return unmodifiable set of all the tables
+     * @see #getViews() for collection containing all views in the activity sorted by their id
+     * @see #viewsPut(Integer, SObject) for more info
+     */
+    public Set<STableData> getTables() {
+        return Collections.unmodifiableSet(tables);
+    }
+
+    /**
+     * returns unmodifiable map of all the views in the uml activity
+     * @see
+     * @return
+     */
+    public Map<Integer, SObject> getViews() {
+        return Collections.unmodifiableMap(views);
+    }
+
+    /**
+     * gets a field from {@link #views} with a given id
      * @param id the given id
      * @return Key and Value of the given id if it exists null if it doesn't
      */
     public SObject getViewById(Integer id){
-        return allViews.get(id);
+        return views.get(id);
     }
 }

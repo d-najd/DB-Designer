@@ -45,6 +45,7 @@ public class STableBuilder {
             @NonNull String title,
             float x, float y){
         this.title = title;
+
         this.uuid = uuid;
         this.x = x * SSettings.getInstance().getSpacing();
         this.y = y * SSettings.getInstance().getSpacing();
@@ -73,7 +74,7 @@ public class STableBuilder {
         Log.d("Execute", "build with builder " + this.toString());
         
         sTableView.setOnClickListener(new STableListeners(sTableView.getData(), container));
-        sTableView.setOnLongClickListener(SUtils.getInstance().getSDragListeners());
+        sTableView.setOnLongClickListener(SUtils.getInstance().getDragListeners());
         sTableView.setVisibility(View.VISIBLE);
         container.addView(sTableView);
     

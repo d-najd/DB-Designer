@@ -14,7 +14,7 @@ import com.umldesigner.infrastructure.uml.logic.app.SSettings;
  * basically the grid on the background
  */
 
-public class SBackground extends View {
+class SBackground extends View {
     private final Paint paint = new Paint();
     
     public SBackground(Context context) {

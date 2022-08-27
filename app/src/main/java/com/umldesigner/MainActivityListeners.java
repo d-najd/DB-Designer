@@ -7,10 +7,12 @@ import com.umldesigner.infrastructure.uml.utils.DialogType;
 import com.umldesigner.activities.uml_activity.STable.dialog.STableDialog;
 import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.activities.uml_activity.grid.SGridCreate;
+import lombok.Getter;
 
-public class MainActivityListeners implements View.OnClickListener {
+class MainActivityListeners implements View.OnClickListener {
     private final MainActivity mainActivity;
-    public static SDragListeners sDragListeners;
+    @Getter
+    private SDragListeners sDragListeners;
     public MainActivityListeners(MainActivity mainActivity){
         this.mainActivity = mainActivity;
         setListeners();

@@ -19,7 +19,7 @@ import com.umldesigner.activities.uml_activity.SItem.dialog.SItemDialog;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiControllerTemplate;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
-import com.umldesigner.activities.uml_activity.STable.controller.STableController;
+import com.umldesigner.activities.uml_activity.STable.controller.STableControllerImpl;
 import com.umldesigner.activities.uml_activity.STable.data.STableData;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 
@@ -134,7 +134,7 @@ public class STableDialog extends Dialog {
                         //recreating the table because "empty table" was used
                         STablePojo tableData = STableData.newInstance(null, null,
                                 8f, 12f, newTitle, data.getItems());
-                        ApiControllerTemplate<STablePojo> tableController = new STableController(container);
+                        ApiControllerTemplate<STablePojo> tableController = new STableControllerImpl(container);
                         tableController.post(tableData);
                         dialog.dismiss();
                     }
@@ -149,7 +149,7 @@ public class STableDialog extends Dialog {
                         //recreating the table because "empty table" was used
                         STablePojo tableData = STableData.newInstance(null, null,
                                 data.getX(), data.getY(), newTitle, data.getItems());
-                        ApiController<STablePojo> tableController = new STableController(container);
+                        ApiController<STablePojo> tableController = new STableControllerImpl(container);
                         tableController.put(tableData);
                         dialog.dismiss();
                     }

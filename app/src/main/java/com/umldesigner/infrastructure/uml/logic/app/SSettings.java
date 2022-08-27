@@ -15,7 +15,6 @@ import lombok.Getter;
 @Getter
 public class SSettings {
     private static SSettings instance;
-   
     private final float dp;
     private float spacing;
     
@@ -45,7 +44,6 @@ public class SSettings {
                     "inside main activity is called before SSettings gets called");
         }
     }
-    
     public static SSettings getInstance() {
         if (instance == null){
             instance = new SSettings();

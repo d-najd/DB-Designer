@@ -7,19 +7,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.umldesigner.activities.uml_activity.STable.builder.STableBuilder;
 import com.umldesigner.activities.uml_activity.STable.view.STableView;
-import com.umldesigner.activities.uml_activity.STable.controller.STableController;
+import com.umldesigner.activities.uml_activity.STable.controller.STableControllerImpl;
 import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
 import com.umldesigner.activities.uml_activity.STable.data.STableData;
+import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiControllerTemplate;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import lombok.Getter;
@@ -37,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements RequestHandler {
     @Getter
     public static STableData sTableDataTest;
 
+    @Getter
+    private static SDragListeners dragListeners;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +55,12 @@ public class MainActivity extends AppCompatActivity implements RequestHandler {
         spacing = (float) (getResources().getDimensionPixelSize(R.dimen.spacing10000x)) / 10000;
     
         container = findViewById(R.id.container);
-        new MainActivityListeners(this);
+        dragListeners = new MainActivityListeners(this).getSDragListeners();
     }
     
     private void displayData(){
             SUtils.getInstance().clearViews();
-            ApiController<STablePojo> tController = new STableController(container);
+            ApiController<STablePojo> tController = new STableControllerImpl(container);
             tController.getAll();
 
             /*
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements RequestHandler {
     private void testing(){
         //creating stuff
     
-        HashSet<STableData> re = SUtils.getInstance().getAllTables();
+        Set<STableData> re = SUtils.getInstance().getTables();
         
         ArrayList<SItemData> sAdapterFields1 = new ArrayList<>(Arrays.asList(
                 SItemData.newTestingInstance("ProductId", "int"),
@@ -92,14 +92,13 @@ public class MainActivity extends AppCompatActivity implements RequestHandler {
         sTable1 = new STableBuilder("testee1", container,"Product", 1, 1)
                 .addItems(sAdapterFields1)
                 .build();
-        
+
         sTable2 = new STableBuilder("testee2", container, "Student", 13, 13)
                 .addItems(sAdapterFields2)
                 .build();
 
         sTableDataTest = sTable1.getData();
-        
-    
+
        // Pattern valuePattern = Pattern.compile("\\(.*");
        // String matcher = valuePattern.matcher("varchar(50)").group();
        // Log.d("Execute", matcher);

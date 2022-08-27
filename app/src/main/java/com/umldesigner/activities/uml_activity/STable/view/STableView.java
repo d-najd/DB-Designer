@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.umldesigner.R;
 import com.umldesigner.activities.uml_activity.SItem.adapter.TableDialogSTItemAdapter;
 import com.umldesigner.activities.uml_activity.STable.builder.STableBuilder;
-import com.umldesigner.activities.uml_activity.STable.controller.STableController;
+import com.umldesigner.activities.uml_activity.STable.controller.STableControllerImpl;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
 import com.umldesigner.activities.uml_activity.STable.data.STableData;
@@ -70,7 +70,7 @@ public class STableView extends ConstraintLayout implements SObject {
                 builder.getItems()
         ));
 
-        SUtils.getInstance().allViewTagsPut(data.getId(), this);
+        SUtils.getInstance().viewsPut(data.getId(), this);
     
         //inflating the view
         LayoutInflater inflater = LayoutInflater.from(builder.getContext());
@@ -176,7 +176,7 @@ public class STableView extends ConstraintLayout implements SObject {
         //server api stuff
         //lazily instantiating stuff
         if(controller == null){
-            controller = new STableController(container);
+            controller = new STableControllerImpl(container);
         }
 
         controller.put(data);
