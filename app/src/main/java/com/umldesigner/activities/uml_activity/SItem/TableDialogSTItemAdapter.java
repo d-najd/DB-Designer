@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.SItem.adapter;
+package com.umldesigner.activities.uml_activity.SItem;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,17 +13,14 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemP
 
 import java.util.List;
 
-/**
- * item adapter for the tables in the grid
- */
-public class GridSItemAdapter extends RecyclerView.Adapter<GridSItemAdapter.UmlRecyclerViewHolder>{
+public class TableDialogSTItemAdapter extends RecyclerView.Adapter<TableDialogSTItemAdapter.UmlRecyclerViewHolder>{
     private final List<? extends SItemPojo> recyclerDataArrayList;
     private SItemPojo curData;
     
     /**
-     * createAdapter used for the dialog for editing the sTable
+     * createAdapter for the items inside the sTable
      */
-    public GridSItemAdapter(List<? extends SItemPojo> recyclerDataArrayList) {
+    public TableDialogSTItemAdapter(List<? extends SItemPojo> recyclerDataArrayList) {
         this.recyclerDataArrayList = recyclerDataArrayList;
     }
     
@@ -31,17 +28,17 @@ public class GridSItemAdapter extends RecyclerView.Adapter<GridSItemAdapter.UmlR
     @Override
     public UmlRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_s_item_row, parent, false);
+                .inflate(R.layout.card_s_table_row, parent, false);
+        
         return new UmlRecyclerViewHolder(view);
     }
     
     @Override
     public void onBindViewHolder(@NonNull UmlRecyclerViewHolder holder, int position) {
-        
         curData = recyclerDataArrayList.get(position);
-    
-        holder.value.setText(curData.getValue());
-        holder.type.setText(curData.getType());
+        holder.itemView.setOnClickListener(new SItemEditListeners(curData));
+        
+        holder.title.setText(new StringBuilder().append("- ").append(curData.getValue()).append(": ").append(curData.getType()).toString());
     }
     
     @Override
@@ -52,13 +49,11 @@ public class GridSItemAdapter extends RecyclerView.Adapter<GridSItemAdapter.UmlR
     // View Holder Class to handle Recycler View.
     
     static class UmlRecyclerViewHolder extends RecyclerView.ViewHolder {
-        public TextView value;
-        public TextView type;
+        public TextView title;
         
         public UmlRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
-            value = itemView.findViewById(R.id.value);
-            type = itemView.findViewById(R.id.type);
+            title = itemView.findViewById(R.id.text);
         }
     }
 }

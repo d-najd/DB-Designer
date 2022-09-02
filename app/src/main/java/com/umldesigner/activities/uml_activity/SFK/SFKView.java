@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.SFK.view;
+package com.umldesigner.activities.uml_activity.SFK;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,10 +9,8 @@ import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.umldesigner.activities.uml_activity.SFK.builder.SFKBuilder;
-import com.umldesigner.activities.uml_activity.SFK.fascade.SFKFacade;
-import com.umldesigner.activities.uml_activity.STable.data.STableDataBuffer;
-import com.umldesigner.activities.uml_activity.STable.data.STableData;
+import com.umldesigner.activities.uml_activity.STable.STableDataBuffer;
+import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObservable;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObserver;

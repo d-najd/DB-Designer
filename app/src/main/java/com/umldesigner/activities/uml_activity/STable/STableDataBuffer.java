@@ -1,8 +1,8 @@
-package com.umldesigner.activities.uml_activity.STable.data;
+package com.umldesigner.activities.uml_activity.STable;
 
 import android.util.Pair;
 
-import com.umldesigner.activities.uml_activity.SFK.view.SFKView;
+import com.umldesigner.activities.uml_activity.SFK.SFKView;
 
 import java.util.HashMap;
 

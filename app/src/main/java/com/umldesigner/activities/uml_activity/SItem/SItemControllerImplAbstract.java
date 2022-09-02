@@ -1,14 +1,13 @@
-package com.umldesigner.activities.uml_activity.SItem.controller;
+package com.umldesigner.activities.uml_activity.SItem;
 
 import android.view.ViewGroup;
-import com.umldesigner.activities.uml_activity.SItem.receiver.sItemRequestHandler;
-import com.umldesigner.infrastructure.uml.logic.api.controller.ApiControllerTemplate;
+import com.umldesigner.infrastructure.uml.logic.api.controller.AbstractApiController;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
-public class SItemControllerImpl extends ApiControllerTemplate<SItemPojo> {
-    public SItemControllerImpl(ViewGroup container) {
+public class SItemControllerImplAbstract extends AbstractApiController<SItemPojo> {
+    public SItemControllerImplAbstract(ViewGroup container) {
         super(container);
     }
     
@@ -18,7 +17,7 @@ public class SItemControllerImpl extends ApiControllerTemplate<SItemPojo> {
     }
     @Override
     protected RequestHandler setRequestHandler() {
-        return sItemRequestHandler.getInstance();
+        return SItemRequestHandler.getInstance();
     }
 
     @Override

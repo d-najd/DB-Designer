@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.STable.dialog;
+package com.umldesigner.activities.uml_activity.STable;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,13 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.umldesigner.Message;
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.SItem.adapter.GridSItemAdapter;
+import com.umldesigner.activities.uml_activity.SItem.SItemGridAdapter;
 import com.umldesigner.activities.uml_activity.SItem.dialog.SItemDialog;
-import com.umldesigner.infrastructure.uml.logic.api.controller.ApiControllerTemplate;
+import com.umldesigner.infrastructure.uml.logic.api.controller.AbstractApiController;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
-import com.umldesigner.activities.uml_activity.STable.controller.STableControllerImpl;
-import com.umldesigner.activities.uml_activity.STable.data.STableData;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 
 /**
@@ -80,7 +78,7 @@ public class STableDialog extends Dialog {
      */
     private void itemsRecycler(){
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        GridSItemAdapter adapter = new GridSItemAdapter(data.getItems());
+        SItemGridAdapter adapter = new SItemGridAdapter(data.getItems());
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -134,7 +132,7 @@ public class STableDialog extends Dialog {
                         //recreating the table because "empty table" was used
                         STablePojo tableData = STableData.newInstance(null, null,
                                 8f, 12f, newTitle, data.getItems());
-                        ApiControllerTemplate<STablePojo> tableController = new STableControllerImpl(container);
+                        AbstractApiController<STablePojo> tableController = new STableControllerImplAbstract(container);
                         tableController.post(tableData);
                         dialog.dismiss();
                     }
@@ -149,7 +147,7 @@ public class STableDialog extends Dialog {
                         //recreating the table because "empty table" was used
                         STablePojo tableData = STableData.newInstance(null, null,
                                 data.getX(), data.getY(), newTitle, data.getItems());
-                        ApiController<STablePojo> tableController = new STableControllerImpl(container);
+                        ApiController<STablePojo> tableController = new STableControllerImplAbstract(container);
                         tableController.put(tableData);
                         dialog.dismiss();
                     }

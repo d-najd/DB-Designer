@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.STable.view;
+package com.umldesigner.activities.uml_activity.STable;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,12 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.SItem.adapter.TableDialogSTItemAdapter;
-import com.umldesigner.activities.uml_activity.STable.builder.STableBuilder;
-import com.umldesigner.activities.uml_activity.STable.controller.STableControllerImpl;
+import com.umldesigner.activities.uml_activity.SItem.TableDialogSTItemAdapter;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
-import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
-import com.umldesigner.activities.uml_activity.STable.data.STableData;
+import com.umldesigner.activities.uml_activity.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
@@ -176,7 +173,7 @@ public class STableView extends ConstraintLayout implements SObject {
         //server api stuff
         //lazily instantiating stuff
         if(controller == null){
-            controller = new STableControllerImpl(container);
+            controller = new STableControllerImplAbstract(container);
         }
 
         controller.put(data);

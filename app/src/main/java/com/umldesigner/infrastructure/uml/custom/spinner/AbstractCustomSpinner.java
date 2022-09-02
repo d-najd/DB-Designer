@@ -20,7 +20,7 @@ import lombok.Getter;
  * template for creating spinners
  * @param <T> the type data that the fields inside the spinner will use
  */
-public abstract class CustomSpinnerTemplate<T> {
+public abstract class AbstractCustomSpinner<T> {
     @Getter
     private final Context context;
     @Getter
@@ -29,7 +29,7 @@ public abstract class CustomSpinnerTemplate<T> {
     private final View view;
     private PopupWindow popupWindow;
     
-    public CustomSpinnerTemplate(List<T> data, View view){
+    public AbstractCustomSpinner(List<T> data, View view){
         this.context = view.getContext();
         this.data = data;
         this.view = view;

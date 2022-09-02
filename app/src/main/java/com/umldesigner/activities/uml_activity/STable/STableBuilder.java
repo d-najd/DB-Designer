@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.STable.builder;
+package com.umldesigner.activities.uml_activity.STable;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,9 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.umldesigner.activities.uml_activity.STable.view.STableView;
-import com.umldesigner.activities.uml_activity.STable.listener.STableListeners;
-import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
+import com.umldesigner.activities.uml_activity.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 

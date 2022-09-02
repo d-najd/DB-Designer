@@ -5,15 +5,12 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.umldesigner.activities.uml_activity.STable.builder.STableBuilder;
-import com.umldesigner.activities.uml_activity.STable.view.STableView;
-import com.umldesigner.activities.uml_activity.STable.controller.STableControllerImpl;
-import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
-import com.umldesigner.activities.uml_activity.STable.data.STableData;
+import com.umldesigner.activities.uml_activity.STable.STableBuilder;
+import com.umldesigner.activities.uml_activity.STable.STableView;
+import com.umldesigner.activities.uml_activity.STable.STableControllerImplAbstract;
+import com.umldesigner.activities.uml_activity.SItem.SItemData;
+import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.activities.uml_activity.grid.SDragListeners;
-import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
-import com.umldesigner.infrastructure.uml.logic.api.controller.ApiControllerTemplate;
-import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 
@@ -60,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     
     private void displayData(){
             SUtils.getInstance().clearViews();
-            ApiController<STablePojo> tController = new STableControllerImpl(container);
+            ApiController<STablePojo> tController = new STableControllerImplAbstract(container);
             tController.getAll();
 
             /*
@@ -78,16 +75,16 @@ public class MainActivity extends AppCompatActivity {
         Set<STableData> re = SUtils.getInstance().getTables();
         
         ArrayList<SItemData> sAdapterFields1 = new ArrayList<>(Arrays.asList(
-                SItemData.newTestingInstance("ProductId", "int"),
-                SItemData.newTestingInstance("ProductId", "int"),
-                SItemData.newTestingInstance("ProductId", "int"),
-                SItemData.newTestingInstance("ProductName", "varchar(100)")));
+                SItemData.newNoTableInstance("ProductId", "int"),
+                SItemData.newNoTableInstance("ProductId", "int"),
+                SItemData.newNoTableInstance("ProductId", "int"),
+                SItemData.newNoTableInstance("ProductName", "varchar(100)")));
     
         ArrayList<SItemData> sAdapterFields2 = new ArrayList<>(Arrays.asList(
-                SItemData.newTestingInstance("StudentId", "int"),
-                SItemData.newTestingInstance("Grades", "int"),
-                SItemData.newTestingInstance("Something", "int"),
-                SItemData.newTestingInstance("StudentName", "varchar(100)")));
+                SItemData.newNoTableInstance("StudentId", "int"),
+                SItemData.newNoTableInstance("Grades", "int"),
+                SItemData.newNoTableInstance("Something", "int"),
+                SItemData.newNoTableInstance("StudentName", "varchar(100)")));
         
         sTable1 = new STableBuilder("testee1", container,"Product", 1, 1)
                 .addItems(sAdapterFields1)

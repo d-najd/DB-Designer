@@ -1,9 +1,8 @@
-package com.umldesigner.activities.uml_activity.STable.receiver;
+package com.umldesigner.activities.uml_activity.STable;
 
 import android.util.Log;
-import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
-import com.umldesigner.activities.uml_activity.STable.builder.STableBuilder;
-import com.umldesigner.infrastructure.uml.logic.api.controller.ApiControllerTemplate;
+import com.umldesigner.activities.uml_activity.SItem.SItemData;
+import com.umldesigner.infrastructure.uml.logic.api.controller.AbstractApiController;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
@@ -14,7 +13,7 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemP
 import java.util.ArrayList;
 import java.util.List;
 
-public class STableRequestHandler implements RequestHandler {
+class STableRequestHandler implements RequestHandler {
     private static STableRequestHandler instance;
     public static STableRequestHandler getInstance(){
         if (instance == null){
@@ -24,7 +23,7 @@ public class STableRequestHandler implements RequestHandler {
     }
 
     @Override
-    public void receiveData(List<?> requestedData, ApiControllerTemplate controller, ApiRequest code) {
+    public void receiveData(List<?> requestedData, AbstractApiController controller, ApiRequest code) {
         Log.d("Execute", "Requested data" + requestedData == null ? requestedData.toString() : "no data"
                         + controller.toString() + code.toString());
 

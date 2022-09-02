@@ -1,13 +1,13 @@
-package com.umldesigner.activities.uml_activity.STable.listener;
+package com.umldesigner.activities.uml_activity.STable;
 
 import android.view.View;
 
 import android.view.ViewGroup;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
-import com.umldesigner.activities.uml_activity.STable.dialog.STableDialog;
-import com.umldesigner.activities.uml_activity.STable.data.STableData;
+import com.umldesigner.activities.uml_activity.STable.STableDialog;
+import com.umldesigner.activities.uml_activity.STable.STableData;
 
-public class STableListeners implements View.OnClickListener {
+class STableListeners implements View.OnClickListener {
     STableData sTableData;
     ViewGroup container;
     public STableListeners(STableData sTableData, ViewGroup container){

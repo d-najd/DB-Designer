@@ -26,7 +26,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 
-public abstract class ApiControllerTemplate<T> implements ApiController<T> {
+public abstract class AbstractApiController<T> implements ApiController<T> {
     @Getter
     protected final Context context;
     protected final ApiUtils apiUtils;
@@ -42,7 +42,7 @@ public abstract class ApiControllerTemplate<T> implements ApiController<T> {
     @Getter
     protected final ViewGroup container;
 
-    public ApiControllerTemplate(ViewGroup container) {
+    public AbstractApiController(ViewGroup container) {
         this.context = container.getContext();
         this.apiUtils = ApiUtils.getInstance(context);
         this.requestHandler = setRequestHandler();
@@ -66,8 +66,8 @@ public abstract class ApiControllerTemplate<T> implements ApiController<T> {
     protected abstract String setEndpoint();
 
     /**
-     * used for defining a concrete receiver
-     * @return the receiver
+     * use this to define a request handler for the controller
+     * @return the request handler
      */
     protected abstract RequestHandler setRequestHandler();
 
@@ -96,9 +96,11 @@ public abstract class ApiControllerTemplate<T> implements ApiController<T> {
     };
 
     /**
-     * default implementation for the getAll method
+     * @implSpec sends a json array request to the backend, after the request is received the received json objects are
+     * converted into java objects and then sent to the receiver along with the current controller and getAll as the
+     * request type, if the request fails then {{@link ApiUtils#getErrorListener()}} is used to handle the error
      */
-    public void getAll() {
+    final public void getAll() {
         Log.d("Execute", "getAll on class, " + this.getClass().getSimpleName());
         
         JsonArrayRequest request = new JsonArrayRequest(
@@ -125,7 +127,7 @@ public abstract class ApiControllerTemplate<T> implements ApiController<T> {
         ) {
             @Override
             public Map<String, String> getHeaders() {
-                return ApiControllerTemplate.getHeaders();
+                return AbstractApiController.getHeaders();
             }
         };
         
@@ -136,19 +138,32 @@ public abstract class ApiControllerTemplate<T> implements ApiController<T> {
      * @see {@link RequestHandler}
      */
     public void getByUuid(Object id){
-        throw new UnsupportedOperationException("the method is not implemented");
+        throw new UnsupportedOperationException("the method does not have a default implementation");
     }
 
     /**
      * returns the last part of the url, the uuid of the object that needs to be updated
      * xx.xx.xx:xx/{uuid}
-     * @see #put(Object)
+     * 
+     * @implSpec if not overridden "" will be returned as to not cause any problems by returning null
+     * @see #post(Object)
      */
     protected String getPostUrl(T o){
         return "";
     }
     /**
      * @param o the data parameter contained within the view should be passed here
+     *          
+     * @implSpec first the given object is being used to in {{@link #getPostUrl(Object)}} to get custom post url if 
+     * specified, then the object is converted to json but before that {@link #objectPrep(Object)} is called from
+     * inside the objectToJson. after that
+     * StringRequest is sent to the backend, if the request is received the json object is
+     * converted into java object and then sent to the receiver along with the current controller and post as the
+     * request type, if the request fails then {{@link ApiUtils#getErrorListener()}} is used to handle the error
+     *
+     * @see #getPostUrl(Object) for specifying a custom post method url
+     * @see #objectToJSON(Object)
+     * @see #objectPrep(Object) 
      */
     public void post(T o){
         Log.d("Execute", "update on object " + o.getClass() + ", with class " + this.getClass().getSimpleName());
@@ -171,7 +186,7 @@ public abstract class ApiControllerTemplate<T> implements ApiController<T> {
         ) {
             @Override
             public Map<String, String> getHeaders() {
-                return ApiControllerTemplate.getHeaders();
+                return AbstractApiController.getHeaders();
             }
 
             @Override
@@ -193,12 +208,21 @@ public abstract class ApiControllerTemplate<T> implements ApiController<T> {
     }
 
     /**
-     * default implementation for the put method
-     * @implNote {@link #getPutUrl(Object)} must be overridden if this method is used
-     * @see #objectPrep(Object) for doing cleanup on the given object before it is converted to json, see method for more info
+     * @implNote {@link #getPutUrl(Object)} must be overridden if this method is used otherwise IllegalStateException
+     * will be thrown
+     *
+     * @implSpec first the given object is being used to in {{@link #getPutUrl(Object)}} to get the custom url
+     * which <h1>is not optional</h1>, then the object is converted to json
+     * but before that {@link #objectPrep(Object)} is called from inside the objectToJson,
+     * after that a StringRequest to the backend, if the request is successful the json object is
+     * converted into java object and then sent to the receiver along with the current controller and post as the
+     * request type, if the request fails then {{@link ApiUtils#getErrorListener()}} is used to handle the error
+     *
+     * @see #getPostUrl(Object) for specifying a custom post method url
+     * @see #objectToJSON(Object)
+     * @see #objectPrep(Object) 
      */
-
-    public void put(T o){
+     final public void put(T o){
         Log.d("Execute", "update on object " + o.getClass() + ", with class" + this.getClass().getSimpleName());
 
         //cleaning up the object
@@ -225,7 +249,7 @@ public abstract class ApiControllerTemplate<T> implements ApiController<T> {
         ) {
             @Override
             public Map<String, String> getHeaders() {
-                return ApiControllerTemplate.getHeaders();
+                return AbstractApiController.getHeaders();
             }
         
             @Override
@@ -239,6 +263,9 @@ public abstract class ApiControllerTemplate<T> implements ApiController<T> {
 
     /**
      * converts java objects to json objects
+     *
+     * @implSpec {@link #objectPrep(Object)} is called before the object is converted to json
+     *
      * @param o the input java object
      * @return a json object
      * @see #objectPrep(Object)

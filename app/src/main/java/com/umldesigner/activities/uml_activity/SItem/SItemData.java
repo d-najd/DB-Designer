@@ -1,6 +1,5 @@
-package com.umldesigner.activities.uml_activity.SItem.data;
+package com.umldesigner.activities.uml_activity.SItem;
 
-import com.umldesigner.activities.uml_activity.STable.data.STableData;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 import lombok.NoArgsConstructor;
@@ -63,7 +62,7 @@ public class SItemData extends SItemPojo {
      * returns basic instance for testing purposes, should not be used for production because it doesn't reference a table
      * which can cause problems while trying to send the code to the backend
      */
-    public static SItemData newTestingInstance(String value, String type){
+    public static SItemData newNoTableInstance(String value, String type){
         return new SItemData(
                 value,
                 type,

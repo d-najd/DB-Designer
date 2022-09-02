@@ -1,10 +1,9 @@
-package com.umldesigner.activities.uml_activity.SFK.builder;
+package com.umldesigner.activities.uml_activity.SFK;
 
 import android.view.ViewGroup;
 
-import com.umldesigner.activities.uml_activity.STable.data.STableData;
+import com.umldesigner.activities.uml_activity.STable.STableData;
 
-import com.umldesigner.activities.uml_activity.SFK.view.SFKView;
 import lombok.AccessLevel;
 import lombok.Getter;
 
@@ -12,7 +11,6 @@ import lombok.Getter;
 public class SFKBuilder {
     @Getter(AccessLevel.NONE)
     private SFKView sfkView;
-   
     private final ViewGroup container;
     private final STableData fTableData;
     private final STableData sTableData;

@@ -1,13 +1,12 @@
-package com.umldesigner.activities.uml_activity.STable.data;
+package com.umldesigner.activities.uml_activity.STable;
 
 import android.util.Log;
 import android.util.Pair;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.umldesigner.activities.uml_activity.SFK.view.SFKView;
+import com.umldesigner.activities.uml_activity.SFK.SFKView;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
-import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObservable;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObserver;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
@@ -19,7 +18,6 @@ import java.util.List;
 
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 

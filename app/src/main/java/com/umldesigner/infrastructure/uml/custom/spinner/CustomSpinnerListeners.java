@@ -10,11 +10,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 public class CustomSpinnerListeners implements OnItemClickListener {
-    private final CustomSpinnerTemplate customSpinnerTemplate;
+    private final AbstractCustomSpinner abstractCustomSpinner;
     private final PopupWindow popupWindow;
     
-    public CustomSpinnerListeners(CustomSpinnerTemplate customSpinnerTemplate, PopupWindow popupWindow) {
-        this.customSpinnerTemplate = customSpinnerTemplate;
+    public CustomSpinnerListeners(AbstractCustomSpinner abstractCustomSpinner, PopupWindow popupWindow) {
+        this.abstractCustomSpinner = abstractCustomSpinner;
         this.popupWindow = popupWindow;
     }
     
@@ -28,7 +28,7 @@ public class CustomSpinnerListeners implements OnItemClickListener {
         fadeInAnimation.setDuration(10);
         view.startAnimation(fadeInAnimation);
         
-        customSpinnerTemplate.pressed((TextView) view, position);
+        abstractCustomSpinner.pressed((TextView) view, position);
         popupWindow.dismiss();
     }
 }

@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.SFK.fascade;
+package com.umldesigner.activities.uml_activity.SFK;
 
 import android.util.Log;
 import android.util.Pair;
@@ -7,11 +7,10 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.umldesigner.Message;
-import com.umldesigner.activities.uml_activity.STable.data.STableData;
-import com.umldesigner.activities.uml_activity.SFK.view.SFKView;
+import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
-public class SFKFacade {
+class SFKFacade {
     private final SFKView sfkView;
     
     public SFKFacade(SFKView view){

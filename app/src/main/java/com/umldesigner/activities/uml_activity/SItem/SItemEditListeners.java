@@ -1,15 +1,17 @@
-package com.umldesigner.activities.uml_activity.SItem.listener;
+package com.umldesigner.activities.uml_activity.SItem;
 
 
 import android.util.Log;
 import android.view.View;
 
-import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
-public class EditSItemListeners implements View.OnClickListener{
+/**
+ * gets called when SItem is pressed, the class may need a name change?
+ */
+class SItemEditListeners implements View.OnClickListener{
     SItemPojo data;
-    public EditSItemListeners(SItemPojo data){
+    public SItemEditListeners(SItemPojo data){
         this.data = data;
     }
 

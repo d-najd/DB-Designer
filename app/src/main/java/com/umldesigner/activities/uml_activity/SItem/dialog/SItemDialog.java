@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.umldesigner.Message;
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.SItem.controller.SItemControllerImpl;
-import com.umldesigner.activities.uml_activity.SItem.data.SItemData;
-import com.umldesigner.activities.uml_activity.STable.data.STableData;
+import com.umldesigner.activities.uml_activity.SItem.SItemControllerImplAbstract;
+import com.umldesigner.activities.uml_activity.SItem.SItemData;
+import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
@@ -271,7 +271,7 @@ public class SItemDialog extends Dialog {
 
                     break;
                 case Edit:
-                    ApiController<SItemPojo> itemController = new SItemControllerImpl(container);
+                    ApiController<SItemPojo> itemController = new SItemControllerImplAbstract(container);
                     itemController.put(data);
                     break;
                 default:
