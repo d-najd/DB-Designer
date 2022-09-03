@@ -16,7 +16,7 @@ import lombok.Getter;
 public class SSettings {
     private static SSettings instance;
     private final float dp;
-    private float spacing;
+    private final float spacing;
     
     //region elevations
     public static final float TABLE_ELEVATION = 0.5f;

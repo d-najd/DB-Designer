@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.umldesigner.activities.uml_activity.STable.STableBuilder;
 import com.umldesigner.activities.uml_activity.STable.STableView;
-import com.umldesigner.activities.uml_activity.STable.STableControllerImplAbstract;
+import com.umldesigner.activities.uml_activity.STable.STableControllerImpl;
 import com.umldesigner.activities.uml_activity.SItem.SItemData;
 import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.activities.uml_activity.grid.SDragListeners;

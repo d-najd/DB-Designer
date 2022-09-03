@@ -1,5 +1,6 @@
 package com.umldesigner.activities.uml_activity.STable;
 
+import android.content.Context;
 import android.view.ViewGroup;
 import com.umldesigner.infrastructure.uml.logic.api.controller.AbstractApiController;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;

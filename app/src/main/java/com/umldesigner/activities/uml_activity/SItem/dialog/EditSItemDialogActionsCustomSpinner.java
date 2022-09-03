@@ -22,7 +22,7 @@ class EditSItemDialogActionsCustomSpinner extends AbstractCustomSpinner<String> 
     
     @Override
     protected Integer getWidth() {
-        return (Integer) Math.round(SSettings.getInstance().getDp() * 150);
+        return Math.round(SSettings.getInstance().getDp() * 150);
     }
     
     @Override

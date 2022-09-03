@@ -25,6 +25,13 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.NonNull;
 
+/**
+ * controller for the backend
+ *
+ * @implNote not able to make this static because context causes static memory leak
+ * @param <T> the type of object being sent and received from the server, the pojo should be stored in the submodule
+ *           UmlDesignerShared
+ */
 
 public abstract class AbstractApiController<T> implements ApiController<T> {
     @Getter
@@ -93,7 +100,7 @@ public abstract class AbstractApiController<T> implements ApiController<T> {
      */
     protected T objectPrep(T o){
         return o;
-    };
+    }
 
     /**
      * @implSpec sends a json array request to the backend, after the request is received the received json objects are

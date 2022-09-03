@@ -37,9 +37,9 @@ public class SItemGridAdapter extends RecyclerView.Adapter<SItemGridAdapter.UmlR
     
     @Override
     public void onBindViewHolder(@NonNull UmlRecyclerViewHolder holder, int position) {
-        
         curData = recyclerDataArrayList.get(position);
-    
+
+        holder.itemView.setOnClickListener(new SItemListener(holder.itemView.getContext(), curData));
         holder.value.setText(curData.getValue());
         holder.type.setText(curData.getType());
     }
@@ -54,7 +54,7 @@ public class SItemGridAdapter extends RecyclerView.Adapter<SItemGridAdapter.UmlR
     static class UmlRecyclerViewHolder extends RecyclerView.ViewHolder {
         public TextView value;
         public TextView type;
-        
+
         public UmlRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
             value = itemView.findViewById(R.id.value);

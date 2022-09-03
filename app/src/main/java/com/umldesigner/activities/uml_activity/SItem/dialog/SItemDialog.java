@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.umldesigner.Message;
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.SItem.SItemControllerImplAbstract;
+import com.umldesigner.activities.uml_activity.SItem.SItemControllerImpl;
 import com.umldesigner.activities.uml_activity.SItem.SItemData;
 import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
@@ -199,7 +199,7 @@ public class SItemDialog extends Dialog {
     private class DialogListeners implements View.OnClickListener{
         Dialog dialog;
 
-        public DialogListeners(Dialog dialog, SItemData sItemData){
+        public DialogListeners(Dialog dialog, SItemPojo data){
             this.dialog = dialog;
         }
         
@@ -239,6 +239,17 @@ public class SItemDialog extends Dialog {
                 e.printStackTrace();
             }
 
+            if(size < 0){
+                Message.message(getContext(), "the size field cannot be less than 0");
+                return;
+            }
+
+            if(valueEdt.getText().toString().isEmpty() ||
+                    typeEdt.getText().toString().isEmpty()){
+                Message.message(getContext(), "the type and value field can not be empty");
+                return;
+            }
+
             //data prep
             data = SItemData.newInstance(
                     valueEdt.getText().toString(),
@@ -246,6 +257,8 @@ public class SItemDialog extends Dialog {
                     size,
                     false,
                     tableData);
+
+            ApiController<SItemPojo> itemController = new SItemControllerImpl(getContext());
 
             //sending request
             switch (type) {
@@ -256,22 +269,9 @@ public class SItemDialog extends Dialog {
                     List<SItemPojo> items = (List<SItemPojo>) tableData.getItems();
                     items.add(data);
 
-                    //TODO finish this
-                    /*
-                        if an table has uuid that means it exists in the database so we should post the item instead of
-                        just setting it to the table and expecting it to get posted along with the table
-                     */
-                    /*
-                        doing this because put method with table items is not supported, it is only supported on creation
-                        of the table
-                     */
-                    if(tableData.getUuid() != null){
-                        Message.message(getContext(), "need to post the item instead of editing it");
-                    }
-
+                    itemController.post(data);
                     break;
                 case Edit:
-                    ApiController<SItemPojo> itemController = new SItemControllerImplAbstract(container);
                     itemController.put(data);
                     break;
                 default:

@@ -20,7 +20,7 @@ public class ApiUtils {
     /**
      * ip of the api
      */
-    public static final String IP = "http://192.168.0.103:8080";
+    public static final String IP = "http://192.168.1.12:8080";
     
     /**
      * request queue for the api calls
@@ -31,7 +31,7 @@ public class ApiUtils {
      * error listener for the api calls
      */
     @Getter
-    private Response.ErrorListener errorListener;
+    private final Response.ErrorListener errorListener;
     
     private ApiUtils(Context context) {
         requestQueue = Volley.newRequestQueue(context);

@@ -29,7 +29,7 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
     private final HashSet<SFKView> foreignKeys = new HashSet<>();
     
     @Getter
-    private Integer id;
+    private final Integer id;
    
     @Getter
     @Setter

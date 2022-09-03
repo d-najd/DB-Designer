@@ -36,9 +36,9 @@ public class TableDialogSTItemAdapter extends RecyclerView.Adapter<TableDialogST
     @Override
     public void onBindViewHolder(@NonNull UmlRecyclerViewHolder holder, int position) {
         curData = recyclerDataArrayList.get(position);
-        holder.itemView.setOnClickListener(new SItemEditListeners(curData));
+        holder.itemView.setOnClickListener(new SItemListener(holder.itemView.getContext(), curData));
         
-        holder.title.setText(new StringBuilder().append("- ").append(curData.getValue()).append(": ").append(curData.getType()).toString());
+        holder.title.setText("- " + curData.getValue() + ": " + curData.getType());
     }
     
     @Override

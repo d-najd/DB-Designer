@@ -27,7 +27,7 @@ import lombok.Getter;
 public class STableView extends ConstraintLayout implements SObject {
     @Getter
     private STableData data;
-    private View v;
+    private final View v;
     @Getter
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;

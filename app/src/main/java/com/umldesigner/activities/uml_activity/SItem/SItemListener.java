@@ -9,9 +9,9 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemP
 /**
  * gets called when SItem is pressed, the class may need a name change?
  */
-class SItemEditListeners implements View.OnClickListener{
+class SItemListeners implements View.OnClickListener{
     SItemPojo data;
-    public SItemEditListeners(SItemPojo data){
+    public SItemListeners(SItemPojo data){
         this.data = data;
     }
 

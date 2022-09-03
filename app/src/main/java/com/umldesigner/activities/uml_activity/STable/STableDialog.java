@@ -23,7 +23,7 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 
 /**
  * the dialog used that pops up to when you create new table
- *
+ * <p>
  * TODO make the new tables generate in the center of the screen
  */
 public class STableDialog extends Dialog {
@@ -48,7 +48,7 @@ public class STableDialog extends Dialog {
 
         //setting table title
         TextView title = findViewById(R.id.title);
-        switch (type){
+        switch (type) {
             case Create:
                 title.setText("Create Table");
                 break;
@@ -76,7 +76,7 @@ public class STableDialog extends Dialog {
     /**
      * creates recyclerview for the items of the table, located below the table title
      */
-    private void itemsRecycler(){
+    private void itemsRecycler() {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         SItemGridAdapter adapter = new SItemGridAdapter(data.getItems());
 
@@ -130,9 +130,9 @@ public class STableDialog extends Dialog {
                         Message.message(dialog.getContext(), "Please define title");
                     } else {
                         //recreating the table because "empty table" was used
-                        STablePojo tableData = STableData.newInstance(null, null,
+                        STablePojo tableData = STableData.newInstance(null, data.getUuid(),
                                 8f, 12f, newTitle, data.getItems());
-                        AbstractApiController<STablePojo> tableController = new STableControllerImplAbstract(container);
+                        AbstractApiController<STablePojo> tableController = new STableControllerImpl(dialog.getContext());
                         tableController.post(tableData);
                         dialog.dismiss();
                     }
@@ -145,9 +145,9 @@ public class STableDialog extends Dialog {
                         Message.message(dialog.getContext(), "Please define title");
                     } else {
                         //recreating the table because "empty table" was used
-                        STablePojo tableData = STableData.newInstance(null, null,
+                        STablePojo tableData = STableData.newInstance(null, data.getUuid(),
                                 data.getX(), data.getY(), newTitle, data.getItems());
-                        ApiController<STablePojo> tableController = new STableControllerImplAbstract(container);
+                        ApiController<STablePojo> tableController = new STableControllerImpl(dialog.getContext());
                         tableController.put(tableData);
                         dialog.dismiss();
                     }

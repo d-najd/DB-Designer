@@ -43,7 +43,7 @@ public class SUtils {
      */
     private final Set<STableData> tables;
 
-    private SDragListeners dragListeners;
+    private final SDragListeners dragListeners;
 
     //endregion
 

@@ -27,7 +27,7 @@ public abstract class AbstractCustomSpinner<T> {
     private final List<T> data;
     @Getter
     private final View view;
-    private PopupWindow popupWindow;
+    private final PopupWindow popupWindow;
     
     public AbstractCustomSpinner(List<T> data, View view){
         this.context = view.getContext();

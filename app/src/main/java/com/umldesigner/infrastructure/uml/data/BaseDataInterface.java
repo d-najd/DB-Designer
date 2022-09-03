@@ -10,7 +10,7 @@ package com.umldesigner.infrastructure.uml.data;
  * method
  */
 public interface BaseDataInterface{
-    public Object getId();
+    Object getId();
 
     /**
      * gets the pojo which should be contained inside the data
