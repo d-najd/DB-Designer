@@ -6,8 +6,8 @@ import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
-public class SItemControllerImplAbstract extends AbstractApiController<SItemPojo> {
-    public SItemControllerImplAbstract(ViewGroup container) {
+public class SItemControllerImpl extends AbstractApiController<SItemPojo> {
+    public SItemControllerImpl(ViewGroup container) {
         super(container);
     }
     

@@ -18,13 +18,15 @@ import java.util.List;
  */
 public class SItemGridAdapter extends RecyclerView.Adapter<SItemGridAdapter.UmlRecyclerViewHolder>{
     private final List<? extends SItemPojo> recyclerDataArrayList;
+    private final ViewGroup container;
     private SItemPojo curData;
     
     /**
      * createAdapter used for the dialog for editing the sTable
      */
-    public SItemGridAdapter(List<? extends SItemPojo> recyclerDataArrayList) {
+    public SItemGridAdapter(List<? extends SItemPojo> recyclerDataArrayList, ViewGroup container) {
         this.recyclerDataArrayList = recyclerDataArrayList;
+        this.container = container;
     }
     
     @NonNull
@@ -39,7 +41,7 @@ public class SItemGridAdapter extends RecyclerView.Adapter<SItemGridAdapter.UmlR
     public void onBindViewHolder(@NonNull UmlRecyclerViewHolder holder, int position) {
         curData = recyclerDataArrayList.get(position);
 
-        holder.itemView.setOnClickListener(new SItemListener(holder.itemView.getContext(), curData));
+        holder.itemView.setOnClickListener(new SItemListener(container, curData));
         holder.value.setText(curData.getValue());
         holder.type.setText(curData.getType());
     }

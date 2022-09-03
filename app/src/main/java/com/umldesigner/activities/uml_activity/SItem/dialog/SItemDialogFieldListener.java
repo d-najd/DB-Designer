@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 /**
  * listener for the fields of the dialog
  */
-class SItemDialogFieldListeners implements View.OnClickListener {
+class SItemDialogFieldListener implements View.OnClickListener {
     private final SItemDialog dialog;
-    public SItemDialogFieldListeners(SItemDialog dialog){
+    public SItemDialogFieldListener(SItemDialog dialog){
         this.dialog = dialog;
     }
     
@@ -34,13 +34,13 @@ class SItemDialogFieldListeners implements View.OnClickListener {
             case R.id.refTable:
                 List<String> tableTitles = SUtils.getInstance().getTables().stream()
                         .map(STablePojo::getTitle).collect(Collectors.toList());
-    
+
                 new EditSItemDialogRTableCustomSpinner(tableTitles, (TextView)view, dialog);
                 break;
             case R.id.refField:
                 List<String> itemTitles = new ArrayList<>();
                 dialog.getSelectedTableData().getItems().forEach(o -> itemTitles.add(o.getValue()));
-                
+
                 new EditSItemDialogRItemCustomSpinner(itemTitles, (TextView)view, dialog);
                 break;
             case R.id.onUpdate:

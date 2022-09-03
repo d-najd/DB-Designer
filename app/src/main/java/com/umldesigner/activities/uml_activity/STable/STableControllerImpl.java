@@ -1,6 +1,5 @@
 package com.umldesigner.activities.uml_activity.STable;
 
-import android.content.Context;
 import android.view.ViewGroup;
 import com.umldesigner.infrastructure.uml.logic.api.controller.AbstractApiController;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
@@ -9,8 +8,8 @@ import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
-public class STableControllerImplAbstract extends AbstractApiController<STablePojo> {
-    public STableControllerImplAbstract(ViewGroup container) {
+public class STableControllerImpl extends AbstractApiController<STablePojo> {
+    public STableControllerImpl(ViewGroup container) {
         super(container);
     }
 

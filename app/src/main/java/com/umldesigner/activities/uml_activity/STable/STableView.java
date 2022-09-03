@@ -92,7 +92,7 @@ public class STableView extends ConstraintLayout implements SObject {
         umlTableRecyclerView.setLayoutManager(layoutManager);
         
         if (builder.getItems() != null){
-            TableDialogSTItemAdapter adapter = new TableDialogSTItemAdapter(builder.getItems());
+            TableDialogSTItemAdapter adapter = new TableDialogSTItemAdapter(builder.getItems(), container);
             umlTableRecyclerView.setAdapter(adapter);
         }
         
@@ -147,7 +147,7 @@ public class STableView extends ConstraintLayout implements SObject {
         Log.d("Execute", "setItems with parameters " + itemDataArrayList.toString());
         
         recyclerView = v.findViewById(R.id.uml_table_recyclerView);
-        TableDialogSTItemAdapter adapter = new TableDialogSTItemAdapter(itemDataArrayList);
+        TableDialogSTItemAdapter adapter = new TableDialogSTItemAdapter(itemDataArrayList, container);
         
         layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -173,7 +173,7 @@ public class STableView extends ConstraintLayout implements SObject {
         //server api stuff
         //lazily instantiating stuff
         if(controller == null){
-            controller = new STableControllerImplAbstract(container);
+            controller = new STableControllerImpl(container);
         }
 
         controller.put(data);

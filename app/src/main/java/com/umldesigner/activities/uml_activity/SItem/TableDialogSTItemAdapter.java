@@ -15,13 +15,15 @@ import java.util.List;
 
 public class TableDialogSTItemAdapter extends RecyclerView.Adapter<TableDialogSTItemAdapter.UmlRecyclerViewHolder>{
     private final List<? extends SItemPojo> recyclerDataArrayList;
+    private final ViewGroup container;
     private SItemPojo curData;
     
     /**
      * createAdapter for the items inside the sTable
      */
-    public TableDialogSTItemAdapter(List<? extends SItemPojo> recyclerDataArrayList) {
+    public TableDialogSTItemAdapter(List<? extends SItemPojo> recyclerDataArrayList, ViewGroup container) {
         this.recyclerDataArrayList = recyclerDataArrayList;
+        this.container = container;
     }
     
     @NonNull
@@ -36,7 +38,7 @@ public class TableDialogSTItemAdapter extends RecyclerView.Adapter<TableDialogST
     @Override
     public void onBindViewHolder(@NonNull UmlRecyclerViewHolder holder, int position) {
         curData = recyclerDataArrayList.get(position);
-        holder.itemView.setOnClickListener(new SItemListener(holder.itemView.getContext(), curData));
+        holder.itemView.setOnClickListener(new SItemListener(container, curData));
         
         holder.title.setText("- " + curData.getValue() + ": " + curData.getType());
     }

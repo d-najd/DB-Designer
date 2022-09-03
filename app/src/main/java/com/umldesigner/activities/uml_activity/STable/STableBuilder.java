@@ -71,7 +71,7 @@ public class STableBuilder {
     public STableView build(){
         Log.d("Execute", "build with builder " + this.toString());
         
-        sTableView.setOnClickListener(new STableListeners(sTableView.getData(), container));
+        sTableView.setOnClickListener(new STableListener(sTableView.getData(), container));
         sTableView.setOnLongClickListener(SUtils.getInstance().getDragListeners());
         sTableView.setVisibility(View.VISIBLE);
         container.addView(sTableView);

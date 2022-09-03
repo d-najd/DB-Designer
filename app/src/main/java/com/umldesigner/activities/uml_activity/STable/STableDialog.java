@@ -78,7 +78,7 @@ public class STableDialog extends Dialog {
      */
     private void itemsRecycler() {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        SItemGridAdapter adapter = new SItemGridAdapter(data.getItems());
+        SItemGridAdapter adapter = new SItemGridAdapter(data.getItems(), container);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -132,7 +132,7 @@ public class STableDialog extends Dialog {
                         //recreating the table because "empty table" was used
                         STablePojo tableData = STableData.newInstance(null, data.getUuid(),
                                 8f, 12f, newTitle, data.getItems());
-                        AbstractApiController<STablePojo> tableController = new STableControllerImpl(dialog.getContext());
+                        AbstractApiController<STablePojo> tableController = new STableControllerImpl(container);
                         tableController.post(tableData);
                         dialog.dismiss();
                     }
@@ -147,7 +147,7 @@ public class STableDialog extends Dialog {
                         //recreating the table because "empty table" was used
                         STablePojo tableData = STableData.newInstance(null, data.getUuid(),
                                 data.getX(), data.getY(), newTitle, data.getItems());
-                        ApiController<STablePojo> tableController = new STableControllerImpl(dialog.getContext());
+                        ApiController<STablePojo> tableController = new STableControllerImpl(container);
                         tableController.put(tableData);
                         dialog.dismiss();
                     }

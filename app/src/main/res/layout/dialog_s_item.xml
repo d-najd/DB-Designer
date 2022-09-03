@@ -204,8 +204,7 @@
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="@+id/typeEdit"
                     app:layout_constraintTop_toTopOf="@+id/textView7">
-
-                    <RadioButton
+                    <CheckBox
                         android:id="@+id/PK"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -216,8 +215,7 @@
                         android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
                         android:gravity="center_horizontal|bottom"
                         android:text="PK" />
-
-                    <RadioButton
+                    <CheckBox
                         android:id="@+id/AN"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -228,7 +226,7 @@
                         android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
                         android:gravity="center_horizontal|bottom"
                         android:text="AN" />
-                    <RadioButton
+                    <CheckBox
                         android:id="@+id/UQ"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -239,7 +237,7 @@
                         android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
                         android:gravity="center_horizontal|bottom"
                         android:text="UQ" />
-                    <RadioButton
+                    <CheckBox
                         android:id="@+id/AI"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -250,7 +248,7 @@
                         android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
                         android:gravity="center_horizontal|bottom"
                         android:text="AI" />
-                    <RadioButton
+                    <CheckBox
                         android:id="@+id/FK"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -349,40 +347,56 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:textSize="15sp"
-                    android:layout_height="wrap_content"
-                    android:lines="1"
-                    android:id="@+id/onUpdate"
-                    android:text="@string/no_action"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView11"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView11"
-                    app:layout_constraintStart_toStartOf="@+id/valueEdt"
-                    app:layout_constraintTop_toTopOf="@+id/textView11" />
+                        android:layout_width="0dp"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:id="@+id/onUpdate"
+                        android:text="@string/no_action"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView11"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView11"
+                        app:layout_constraintStart_toStartOf="@+id/valueEdt"
+                        app:layout_constraintTop_toTopOf="@+id/textView11"/>
 
-                <Button
-                    android:id="@+id/okBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ok"
-                    app:layout_constraintBottom_toBottomOf="@+id/cancelBtn"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/cancelBtn" />
 
-                <Button
-                    android:id="@+id/cancelBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:backgroundTint="@color/red"
-                    android:text="Cancel"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@+id/onUpdate"
+                        android:layout_marginTop="24dp">
 
+                    <Button
+                            android:layout_weight="2"
+                            android:id="@+id/deleteBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/red"
+                            android:text="Delete"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                    <View android:layout_width="0dp"
+                          android:layout_weight="1"
+                          android:layout_height="1dp"/>
+
+                    <Button
+                            android:layout_weight="2"
+                            android:id="@+id/cancelBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/red"
+                            android:text="Cancel"
+                            app:layout_constraintStart_toStartOf="parent"/>
+                    <Button
+                            android:id="@+id/okBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="Ok"
+                            app:layout_constraintEnd_toEndOf="parent"/>
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

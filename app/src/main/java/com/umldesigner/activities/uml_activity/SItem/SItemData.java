@@ -5,6 +5,8 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemP
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.util.UUID;
+
 /**
  * data field used exclusively for android
  *
@@ -14,8 +16,9 @@ import lombok.NonNull;
 @NoArgsConstructor
 public class SItemData extends SItemPojo {
 
-    private SItemData(@NonNull String value, @NonNull String type, int size,
+    private SItemData(String uuid, @NonNull String value, @NonNull String type, int size,
                         boolean isPrimaryKey, STablePojo table){
+        this.uuid = uuid;
         this.value = value;
         this.type = type;
         this.size = size;
@@ -32,9 +35,10 @@ public class SItemData extends SItemPojo {
      * @param table tells us which table the item belongs to
      * @return SItemData instance
      */
-    public static SItemData newInstance(@NonNull String value, @NonNull String type, int size,
+    public static SItemData newInstance(String uuid, @NonNull String value, @NonNull String type, int size,
                                         boolean isPrimaryKey,  STablePojo table){
         return new SItemData(
+                uuid,
                 value,
                 type,
                 size,
@@ -50,11 +54,12 @@ public class SItemData extends SItemPojo {
      */
     public static SItemData from(SItemPojo itemPojo){
          return new SItemData(
-                itemPojo.getValue(),
-                itemPojo.getType(),
-                itemPojo.getSize() != null ? itemPojo.getSize() : 0,
-                itemPojo.getIsPrimaryKey(),
-                itemPojo.getTable()
+                 itemPojo.getUuid(),
+                 itemPojo.getValue(),
+                 itemPojo.getType(),
+                 itemPojo.getSize() != null ? itemPojo.getSize() : 0,
+                 itemPojo.getIsPrimaryKey(),
+                 itemPojo.getTable()
         );
     }
 
@@ -64,6 +69,7 @@ public class SItemData extends SItemPojo {
      */
     public static SItemData newNoTableInstance(String value, String type){
         return new SItemData(
+                UUID.randomUUID().toString(),
                 value,
                 type,
                 0,

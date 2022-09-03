@@ -4,22 +4,27 @@ package com.umldesigner.activities.uml_activity.SItem;
 import android.util.Log;
 import android.view.View;
 
+import android.view.ViewGroup;
+import com.umldesigner.activities.uml_activity.SItem.dialog.SItemDialog;
+import com.umldesigner.infrastructure.uml.utils.DialogType;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
 /**
  * gets called when SItem is pressed, the class may need a name change?
  */
-class SItemListeners implements View.OnClickListener{
+class SItemListener implements View.OnClickListener{
+    private final ViewGroup container;
     SItemPojo data;
-    public SItemListeners(SItemPojo data){
+    public SItemListener(ViewGroup container, SItemPojo data){
         this.data = data;
+        this.container = container;
     }
 
     @Override
     public void onClick(View v) {
         Log.d("Debug", "onClick: " + v.toString());
-        
-        //SItemDialog dialog = new SItemDialog(v.getContext(), sItemData);
-        //dialog.show();
+
+        SItemDialog dialog = new SItemDialog(container, data, data.getTable(), DialogType.Edit);
+        dialog.show();
     }
 }

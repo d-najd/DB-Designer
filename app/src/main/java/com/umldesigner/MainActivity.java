@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     
     private void displayData(){
             SUtils.getInstance().clearViews();
-            ApiController<STablePojo> tController = new STableControllerImplAbstract(container);
+            ApiController<STablePojo> tController = new STableControllerImpl(container);
             tController.getAll();
 
             /*

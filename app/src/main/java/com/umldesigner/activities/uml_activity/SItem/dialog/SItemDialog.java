@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.umldesigner.Message;
@@ -30,7 +31,7 @@ import java.util.Optional;
  * @implNote mediator might be suitable here
  */
 public class SItemDialog extends Dialog {
-    private SItemData data;
+    private SItemPojo data;
     private STablePojo tableData;
     private final ViewGroup container;
     private final DialogType type;
@@ -42,7 +43,7 @@ public class SItemDialog extends Dialog {
      * @param tableData the table where the item is located at
      * @param type type of the dialog
      */
-    public SItemDialog(ViewGroup container, SItemData data, STablePojo tableData, DialogType type) {
+    public SItemDialog(ViewGroup container, SItemPojo data, STablePojo tableData, DialogType type) {
         super(container.getContext());
         this.data = data;
         this.tableData = tableData;
@@ -71,7 +72,7 @@ public class SItemDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_s_item_edit);
+        setContentView(R.layout.dialog_s_item);
 
         switch (type){
             case Create:
@@ -110,13 +111,14 @@ public class SItemDialog extends Dialog {
      * method for setting up stuff for the fields inside the dialog, stuff like listeners.
      */
     private void setupFields(){
-        SItemDialogFieldListeners itemListener = new SItemDialogFieldListeners(this);
+        SItemDialogFieldListener itemListener = new SItemDialogFieldListener(this);
         
         setupBasicFields(itemListener);
+        setupRadioFields();
         setupFKFields(itemListener);
     }
     
-    private void setupBasicFields(SItemDialogFieldListeners itemListener){
+    private void setupBasicFields(SItemDialogFieldListener itemListener){
         // getting the fields
         EditText typeEdt = findViewById(R.id.typeEdit);
         EditText valueEdt = findViewById(R.id.valueEdt);
@@ -134,19 +136,41 @@ public class SItemDialog extends Dialog {
             valueEdt.setText(data.getValue());
         }
     }
+
+    /**
+     * sets up the fields which have radio buttons, the fields inside Info tab
+     */
+    private void setupRadioFields(){
+        // getting fields
+        View pk = findViewById(R.id.PK);
+        View an = findViewById(R.id.AN);
+        View uq = findViewById(R.id.UQ);
+        View ai = findViewById(R.id.AI);
+        View fk = findViewById(R.id.FK);
+
+        // getting listener
+        SItemDialogRadioListener radioListener = new SItemDialogRadioListener(this);
+
+        // setting the listeners
+        pk.setOnClickListener(radioListener);
+        an.setOnClickListener(radioListener);
+        uq.setOnClickListener(radioListener);
+        ai.setOnClickListener(radioListener);
+        fk.setOnClickListener(radioListener);
+    }
     
     
     /**
      * sets up fields which have stuff related to the foreign key
      * @param itemListener the listener for the buttons
      */
-    private void setupFKFields(SItemDialogFieldListeners itemListener){
+    private void setupFKFields(SItemDialogFieldListener itemListener){
         // getting the fields
         TextView refTable = findViewById(R.id.refTable);
         TextView refField = findViewById(R.id.refField);
         TextView onUpdate = findViewById(R.id.onUpdate);
         TextView onDelete = findViewById(R.id.onDelete);
-    
+
         // setting the listeners
         refTable.setOnClickListener(itemListener);
         refField.setOnClickListener(itemListener);
@@ -159,7 +183,7 @@ public class SItemDialog extends Dialog {
             refTable.setText(getSelectedTableData().getTitle());
         }
     }
-    
+
     /**
      * @return the data for the selected table in the refTable field, if unable to get
      * the field a table which {{@link #data}} belongs to will be returned instead, if that
@@ -208,7 +232,6 @@ public class SItemDialog extends Dialog {
             switch (v.getId()) {
                 case R.id.okBtn:
                     pressedOk();
-                    dialog.dismiss();
                     break;
                 case R.id.cancelBtn:
                     dialog.dismiss();
@@ -252,19 +275,18 @@ public class SItemDialog extends Dialog {
 
             //data prep
             data = SItemData.newInstance(
+                    data.getUuid(),
                     valueEdt.getText().toString(),
                     typeEdt.getText().toString(),
                     size,
                     false,
                     tableData);
 
-            ApiController<SItemPojo> itemController = new SItemControllerImpl(getContext());
+            ApiController<SItemPojo> itemController = new SItemControllerImpl(container);
 
             //sending request
             switch (type) {
                 case Create:
-                    // the field will be created along with the table
-
                     //why the hell can't I just add the data and need to do this????
                     List<SItemPojo> items = (List<SItemPojo>) tableData.getItems();
                     items.add(data);
@@ -277,6 +299,8 @@ public class SItemDialog extends Dialog {
                 default:
                     throw new IllegalStateException();
             }
+
+            dialog.dismiss();
         }
     }
 }
