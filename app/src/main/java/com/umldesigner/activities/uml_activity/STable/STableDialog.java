@@ -2,7 +2,9 @@ package com.umldesigner.activities.uml_activity.STable;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -14,12 +16,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.umldesigner.Message;
 import com.umldesigner.R;
+import com.umldesigner.activities.uml_activity.SItem.SItemData;
 import com.umldesigner.activities.uml_activity.SItem.SItemGridAdapter;
 import com.umldesigner.activities.uml_activity.SItem.dialog.SItemDialog;
 import com.umldesigner.infrastructure.uml.logic.api.controller.AbstractApiController;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
+import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
+import lombok.Getter;
+
+import java.util.List;
 
 /**
  * the dialog used that pops up to when you create new table
@@ -28,16 +35,21 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
  */
 public class STableDialog extends Dialog {
     Context context;
-    STablePojo data;
+    @Getter
+    STableData data;
     DialogType type;
     ViewGroup container;
 
-    public STableDialog(ViewGroup container, STablePojo data, DialogType type) {
+    public STableDialog(ViewGroup container, STableData data, DialogType type) {
         super(container.getContext());
         this.context = container.getContext();
         this.container = container;
         this.data = data != null ? data : STableData.newEmptyInstance();
         this.type = type;
+
+        if(data == null) {
+            SUtils.getInstance().addTable(this.data.getId(), this.data);
+        }
     }
     
     @Override
@@ -60,12 +72,12 @@ public class STableDialog extends Dialog {
         }
 
         //getting fields
-        Button okBtn = findViewById(R.id.okBtn);
-        Button cancelBtn = findViewById(R.id.cancelBtn);
+        TextView okBtn = findViewById(R.id.okBtn);
+        TextView cancelBtn = findViewById(R.id.cancelBtn);
         TextView textView = findViewById(R.id.addColumnTxt);
 
         //setting listeners
-        DialogListeners listeners = new DialogListeners(this, data, type, container);
+        DialogListeners listeners = new DialogListeners(this);
         okBtn.setOnClickListener(listeners);
         cancelBtn.setOnClickListener(listeners);
         textView.setOnClickListener(listeners);
@@ -78,24 +90,28 @@ public class STableDialog extends Dialog {
      */
     private void itemsRecycler() {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        SItemGridAdapter adapter = new SItemGridAdapter(data.getItems(), container);
+        SItemGridAdapter adapter = new SItemGridAdapter((List<SItemData>) data.getItems(), container);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
-    
-    private static class DialogListeners implements View.OnClickListener {
-        private final Dialog dialog;
-        private final STablePojo data;
-        private final DialogType type;
-        private final ViewGroup container;
 
-        public DialogListeners(Dialog dialog, STablePojo data, DialogType type, ViewGroup container) {
+    @Override
+    public void dismiss() {
+        if(type == DialogType.Create) {
+            SUtils.getInstance().removeById(data.getId());
+        }
+
+        super.dismiss();
+    }
+
+    private class DialogListeners implements View.OnClickListener {
+        private final STableDialog dialog;
+        public DialogListeners(STableDialog dialog) {
             this.dialog = dialog;
-            this.data = data;
-            this.type = type;
-            this.container = container;
+
+            setTitleListener();
         }
 
         @Override
@@ -115,9 +131,33 @@ public class STableDialog extends Dialog {
             }
         }
 
+        /**
+         * TODO finish this
+         */
+        private void setTitleListener(){
+            TextView editText = dialog.findViewById(R.id.titleEdt);
+            editText.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                    data.setTitle(editText.getText().toString());
+                    return false;
+                }
+            });
+        }
+
         private void pressedColumnTxt() {
-            SItemDialog dialog = new SItemDialog(container, null, data, DialogType.Create);
-            dialog.show();
+            SItemDialog itemDialog = new SItemDialog(container, null, data, DialogType.Create);
+
+            // recreate the adapter because item may have been added, not the most optimal way of doing things but oh
+            // well
+            itemDialog.setOnDismissListener(new OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    dialog.itemsRecycler();
+                }
+            });
+
+            itemDialog.show();
         }
 
         private void pressedOk() {

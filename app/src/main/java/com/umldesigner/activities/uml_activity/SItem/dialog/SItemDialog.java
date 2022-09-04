@@ -3,6 +3,7 @@ package com.umldesigner.activities.uml_activity.SItem.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -16,11 +17,14 @@ import com.umldesigner.R;
 import com.umldesigner.activities.uml_activity.SItem.SItemControllerImpl;
 import com.umldesigner.activities.uml_activity.SItem.SItemData;
 import com.umldesigner.activities.uml_activity.STable.STableData;
+import com.umldesigner.activities.uml_activity.STable.STableView;
+import com.umldesigner.infrastructure.uml.error.ErrorTags;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +35,9 @@ import java.util.Optional;
  * @implNote mediator might be suitable here
  */
 public class SItemDialog extends Dialog {
-    private SItemPojo data;
-    private STablePojo tableData;
+    private SItemData data;
+    @Getter
+    private final STablePojo tableData;
     private final ViewGroup container;
     private final DialogType type;
 
@@ -43,7 +48,7 @@ public class SItemDialog extends Dialog {
      * @param tableData the table where the item is located at
      * @param type type of the dialog
      */
-    public SItemDialog(ViewGroup container, SItemPojo data, STablePojo tableData, DialogType type) {
+    public SItemDialog(ViewGroup container, SItemData data, STablePojo tableData, DialogType type) {
         super(container.getContext());
         this.data = data;
         this.tableData = tableData;
@@ -96,11 +101,11 @@ public class SItemDialog extends Dialog {
      */
     private void setupDialogListeners(){
         //getting the fields
-        Button okBtn = findViewById(R.id.okBtn);
-        Button cancelBtn = findViewById(R.id.cancelBtn);
+        TextView okBtn = findViewById(R.id.okBtn);
+        TextView cancelBtn = findViewById(R.id.cancelBtn);
         
         //prep
-        DialogListeners listeners = new DialogListeners(this, data);
+        DialogListeners listeners = new DialogListeners(this);
         
         //setting listeners
         okBtn.setOnClickListener(listeners);
@@ -180,29 +185,23 @@ public class SItemDialog extends Dialog {
         // setting the data
         if(data != null) {
             refField.setText(data.getValue());
-            refTable.setText(getSelectedTableData().getTitle());
+        } else {
+            if (!tableData.getItems().isEmpty()) {
+                refField.setText(tableData.getItems().get(0).getValue());
+            } else {
+                refField.setText("");
+            }
         }
+
+        String tableTitle = "";
+        try {
+            tableTitle = tableData.getTitle();
+        } catch (NullPointerException e){
+            Log.w(ErrorTags.APP_ERROR, "Unable to get table title, setting it to empty string");
+        }
+        refTable.setText(tableTitle);
     }
 
-    /**
-     * @return the data for the selected table in the refTable field, if unable to get
-     * the field a table which {{@link #data}} belongs to will be returned instead, if that
-     * fails as well null will be returned
-     */
-    public STableData getSelectedTableData(){
-            TextView refTable = findViewById(R.id.refTable);
-            Optional<STableData> optionalTable = SUtils.getInstance().getTables().parallelStream()
-               .filter(o -> o.getTitle().equals(refTable.getText().toString())).findAny();
-            
-            if(!optionalTable.isPresent()){
-                optionalTable = SUtils.getInstance().getTables().parallelStream()
-                        .filter(o -> o.getItems().contains(data)).findAny();
-    
-                return optionalTable.orElse(null);
-            }
-            return optionalTable.get();
-    }
-    
     /**
      * notifies the refField that the table got changed and for it to update the text to a field of
      * that table
@@ -210,8 +209,8 @@ public class SItemDialog extends Dialog {
     public void notifyTableChanged(){
         TextView refField = findViewById(R.id.refField);
 
-        if (!getSelectedTableData().getItems().isEmpty()) {
-            refField.setText(getSelectedTableData().getItems().get(0).getValue());
+        if (!tableData.getItems().isEmpty()) {
+            refField.setText(tableData.getItems().get(0).getValue());
         } else {
             refField.setText(null);
         }
@@ -223,7 +222,7 @@ public class SItemDialog extends Dialog {
     private class DialogListeners implements View.OnClickListener{
         Dialog dialog;
 
-        public DialogListeners(Dialog dialog, SItemPojo data){
+        public DialogListeners(Dialog dialog){
             this.dialog = dialog;
         }
         
@@ -273,27 +272,36 @@ public class SItemDialog extends Dialog {
                 return;
             }
 
-            //data prep
-            data = SItemData.newInstance(
-                    data.getUuid(),
-                    valueEdt.getText().toString(),
-                    typeEdt.getText().toString(),
-                    size,
-                    false,
-                    tableData);
-
             ApiController<SItemPojo> itemController = new SItemControllerImpl(container);
 
             //sending request
             switch (type) {
                 case Create:
+                    //data prep
+                    data = SItemData.newInstance(
+                            null,
+                            valueEdt.getText().toString(),
+                            typeEdt.getText().toString(),
+                            size,
+                            false,
+                            tableData);
+
                     //why the hell can't I just add the data and need to do this????
                     List<SItemPojo> items = (List<SItemPojo>) tableData.getItems();
                     items.add(data);
 
-                    itemController.post(data);
+                    //itemController.post(data);
                     break;
                 case Edit:
+                    //data prep
+                    data = SItemData.newInstance(
+                            data.getUuid(),
+                            valueEdt.getText().toString(),
+                            typeEdt.getText().toString(),
+                            size,
+                            false,
+                            tableData);
+
                     itemController.put(data);
                     break;
                 default:

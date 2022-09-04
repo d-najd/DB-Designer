@@ -41,7 +41,7 @@ public class SUtils {
      * {@link #viewsPut(Integer, SObject)} method
      * @see #views map containing all the views in the schema table
      */
-    private final Set<STableData> tables;
+    private final Map<Integer, STableData> tables;
 
     private final SDragListeners dragListeners;
 
@@ -55,7 +55,7 @@ public class SUtils {
         Log.d("Execute", "Create Schema Settings Singleton");
 
         views = new HashMap<>();
-        tables = new HashSet<>();
+        tables = new HashMap<>();
         appIdCounter = 1;
 
         dragListeners = MainActivity.getDragListeners();
@@ -81,7 +81,7 @@ public class SUtils {
     public void viewsPut(Integer id, SObject umlObject){
         views.put(id, umlObject);
         if(umlObject.getData() instanceof STableData){
-            tables.add((STableData) umlObject.getData());
+            tables.put(id, (STableData) umlObject.getData());
         }
     }
 
@@ -102,8 +102,45 @@ public class SUtils {
      * @see #getViews() for collection containing all views in the activity sorted by their id
      * @see #viewsPut(Integer, SObject) for more info
      */
-    public Set<STableData> getTables() {
-        return Collections.unmodifiableSet(tables);
+    //public Map<Integer, STableData> getTables() {
+    //    return Collections.unmodifiableMap(tables);
+    //}
+
+    /**
+     * @return iterator for all tables
+     */
+    public Iterator<Map.Entry<Integer, STableData>> getTableIterator(){
+        return tables.entrySet().iterator();
+    }
+
+    /**
+     * @implNote this may cause memory leak if the table is not removed, maybe add warning if table remains for longer
+     * than 10 minutes?
+     * @param id id of the table
+     * @param table the table itself
+     */
+    public void addTable(Integer id, STableData table){
+        tables.put(id, table);
+    }
+
+    /**
+     * @param id id of the table
+     * @return the table data if found null if not
+     */
+    public STableData getTabledData(Integer id){
+        return tables.get(id);
+    }
+
+    /**
+     * first attempts to call destroy on object if it exists in views, then remove it from views and then from tables
+     * @param id given id
+     */
+    public void removeById(Integer id){
+        if(views.get(id) != null){
+            Objects.requireNonNull(views.get(id)).destroy();
+        }
+        views.remove(id);
+        tables.remove(id);
     }
 
     /**

@@ -43,7 +43,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/black80"
-                android:padding="24dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/topPanel">
 
@@ -76,54 +79,43 @@
                     app:layout_constraintTop_toBottomOf="@+id/titleEdt" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintEnd_toEndOf="@+id/titleEdt"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView">
+                        android:id="@+id/constraintLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="@+id/titleEdt"
+                        app:layout_constraintTop_toBottomOf="@+id/recyclerView">
 
                     <ImageView
-                        android:id="@+id/addColumnImg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:foregroundTint="@color/red"
-                        android:src="@drawable/ic_baseline_add_24"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                            android:id="@+id/addColumnImg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:foregroundTint="@color/red"
+                            android:src="@drawable/ic_baseline_add_24"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:id="@+id/addColumnTxt"
-                        android:layout_height="wrap_content"
-                        android:text="Add Column"
-                        app:layout_constraintBottom_toBottomOf="@+id/addColumnImg"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintRight_toRightOf="@id/addColumnImg"
-                        app:layout_constraintStart_toEndOf="@+id/addColumnImg"
-                        app:layout_constraintTop_toTopOf="@+id/addColumnImg" />
+                            android:layout_width="wrap_content"
+                            android:id="@+id/addColumnTxt"
+                            android:layout_height="wrap_content"
+                            android:text="Add Column"
+                            app:layout_constraintBottom_toBottomOf="@+id/addColumnImg"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintRight_toRightOf="@id/addColumnImg"
+                            app:layout_constraintStart_toEndOf="@+id/addColumnImg"
+                            app:layout_constraintTop_toTopOf="@+id/addColumnImg"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <Button
-                    android:id="@+id/okBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Ok"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+                <include
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        layout="@layout/layout_default_buttons_bottom"
+                        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
-                <Button
-                    android:id="@+id/cancelBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:backgroundTint="@color/red"
-                    android:text="Cancel"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

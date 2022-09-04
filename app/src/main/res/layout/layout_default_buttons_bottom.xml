@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingTop="12dp"
+              android:orientation="horizontal">
+
+        <TextView
+                android:paddingEnd="12dp"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                android:textColor="@color/red"
+                android:alpha=".8"
+                android:layout_weight="2"
+                android:id="@+id/deleteBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/red"
+                android:text="Delete"/>
+
+        <View android:layout_width="0dp"
+              android:layout_weight="1"
+              android:layout_height="1dp"/>
+
+        <TextView
+                android:padding="12dp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:alpha=".8"
+                android:layout_weight="2"
+                android:id="@+id/cancelBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/red"
+                android:text="Cancel"/>
+        <TextView
+                android:paddingTop="12dp"
+                android:paddingStart="12dp"
+                android:paddingBottom="12dp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                android:textColor="@color/green"
+                android:alpha=".6"
+                android:id="@+id/okBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Save"/>
+</LinearLayout>

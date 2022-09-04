@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private void testing(){
         //creating stuff
     
-        Set<STableData> re = SUtils.getInstance().getTables();
+        //Set<STableData> re = SUtils.getInstance().getTables();
         
         ArrayList<SItemData> sAdapterFields1 = new ArrayList<>(Arrays.asList(
                 SItemData.newNoTableInstance("ProductId", "int"),

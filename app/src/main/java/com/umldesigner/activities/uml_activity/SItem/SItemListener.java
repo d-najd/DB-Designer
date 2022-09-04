@@ -14,8 +14,8 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemP
  */
 class SItemListener implements View.OnClickListener{
     private final ViewGroup container;
-    SItemPojo data;
-    public SItemListener(ViewGroup container, SItemPojo data){
+    SItemData data;
+    public SItemListener(ViewGroup container, SItemData data){
         this.data = data;
         this.container = container;
     }

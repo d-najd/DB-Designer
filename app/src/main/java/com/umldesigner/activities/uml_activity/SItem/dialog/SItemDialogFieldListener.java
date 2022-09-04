@@ -8,11 +8,12 @@ import android.widget.TextView;
 
 import com.umldesigner.Message;
 import com.umldesigner.R;
+import com.umldesigner.activities.uml_activity.SItem.SItemData;
+import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -32,16 +33,19 @@ class SItemDialogFieldListener implements View.OnClickListener {
         Context c = view.getContext();
         switch (view.getId()){
             case R.id.refTable:
-                List<String> tableTitles = SUtils.getInstance().getTables().stream()
-                        .map(STablePojo::getTitle).collect(Collectors.toList());
-
-                new EditSItemDialogRTableCustomSpinner(tableTitles, (TextView)view, dialog);
+                List<STableData> tables = new ArrayList<>();
+                for (Iterator<Map.Entry<Integer, STableData>> it = SUtils.getInstance().getTableIterator(); it.hasNext(); ) {
+                    STableData t = it.next().getValue();
+                    tables.add(t);
+                }
+                new EditSItemDialogRTableCustomSpinner(tables, (TextView)view, dialog);
                 break;
             case R.id.refField:
                 List<String> itemTitles = new ArrayList<>();
-                dialog.getSelectedTableData().getItems().forEach(o -> itemTitles.add(o.getValue()));
+                STableData re = (STableData) dialog.getTableData();
+                List<SItemData> items = (List<SItemData>) dialog.getTableData().getItems();
 
-                new EditSItemDialogRItemCustomSpinner(itemTitles, (TextView)view, dialog);
+                new EditSItemDialogRItemCustomSpinner(items, (TextView)view, dialog);
                 break;
             case R.id.onUpdate:
             case R.id.onDelete:

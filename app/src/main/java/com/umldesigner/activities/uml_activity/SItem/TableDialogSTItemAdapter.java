@@ -14,14 +14,14 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemP
 import java.util.List;
 
 public class TableDialogSTItemAdapter extends RecyclerView.Adapter<TableDialogSTItemAdapter.UmlRecyclerViewHolder>{
-    private final List<? extends SItemPojo> recyclerDataArrayList;
+    private final List<SItemData> recyclerDataArrayList;
     private final ViewGroup container;
-    private SItemPojo curData;
+    private SItemData curData;
     
     /**
      * createAdapter for the items inside the sTable
      */
-    public TableDialogSTItemAdapter(List<? extends SItemPojo> recyclerDataArrayList, ViewGroup container) {
+    public TableDialogSTItemAdapter(List<SItemData> recyclerDataArrayList, ViewGroup container) {
         this.recyclerDataArrayList = recyclerDataArrayList;
         this.container = container;
     }

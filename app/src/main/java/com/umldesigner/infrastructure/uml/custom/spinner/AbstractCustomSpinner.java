@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import lombok.Getter;
@@ -24,16 +25,16 @@ public abstract class AbstractCustomSpinner<T> {
     @Getter
     private final Context context;
     @Getter
-    private final List<T> data;
+    private final List<T> listData;
     @Getter
-    private final View view;
+    private final View parentView;
     private final PopupWindow popupWindow;
-    
-    public AbstractCustomSpinner(List<T> data, View view){
+
+    public AbstractCustomSpinner(List<T> listData, View view){
         this.context = view.getContext();
-        this.data = data;
-        this.view = view;
-        
+        this.listData = listData;
+        this.parentView = view;
+
         popupWindow = createPopupWindow();
         
         if(popupWindowPosition() == null) {
@@ -44,7 +45,7 @@ public abstract class AbstractCustomSpinner<T> {
         
         popupWindow.setWidth(100);
     }
-    
+
     /**
      * gets called from the {@link CustomSpinnerListeners} when item gets pressed
      * @param item the item object that pressed the view
@@ -68,7 +69,7 @@ public abstract class AbstractCustomSpinner<T> {
         ListView listView = new ListView(context);
         
         // set our createAdapter and pass our pop up window contents
-        listView.setAdapter(createAdapter(data));
+        listView.setAdapter(createAdapter(listData));
         
         // set the item click listener
         listView.setOnItemClickListener(new CustomSpinnerListeners(this, popupWindow));
@@ -95,11 +96,11 @@ public abstract class AbstractCustomSpinner<T> {
      * @return a generic adapter
      */
     protected ArrayAdapter<T> createAdapter(List<T> data){
-        ArrayAdapter<String> createAdapter = new ArrayAdapter<String>(context,
-                android.R.layout.simple_spinner_dropdown_item, (List<String>) data) {
+        ArrayAdapter<T> createAdapter = new ArrayAdapter<T>(context,
+                android.R.layout.simple_spinner_dropdown_item, (List<T>) data) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                String data = getItem(position);
+                String data = getTitle(getItem(position));
                 TextView listItem = new TextView(context);
                 
                 listItem.setText(data);
@@ -111,6 +112,14 @@ public abstract class AbstractCustomSpinner<T> {
         };
         
         return (ArrayAdapter<T>) createAdapter;
+    }
+
+    /**
+     * hook for allowing the user to have custom title implementation, used for when <T> is not string
+     * @return string title
+     */
+    protected String getTitle(T o){
+        return (String) o;
     }
     
     /**

@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.umldesigner.infrastructure.uml.custom.spinner.AbstractCustomSpinner;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
+import java.util.HashMap;
 import java.util.List;
 
 class EditSItemDialogActionsCustomSpinner extends AbstractCustomSpinner<String> {
@@ -29,7 +30,7 @@ class EditSItemDialogActionsCustomSpinner extends AbstractCustomSpinner<String> 
     public void pressed(TextView item, int itemPosition) {
         Log.d("Debug", "pressed: " + item.toString() + itemPosition);
         
-        TextView parentView = (TextView) getView();
+        TextView parentView = (TextView) getParentView();
         parentView.setText(item.getText().toString());
     }
 }

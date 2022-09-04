@@ -17,14 +17,14 @@ import java.util.List;
  * item adapter for the tables in the grid
  */
 public class SItemGridAdapter extends RecyclerView.Adapter<SItemGridAdapter.UmlRecyclerViewHolder>{
-    private final List<? extends SItemPojo> recyclerDataArrayList;
+    private final List<SItemData> recyclerDataArrayList;
     private final ViewGroup container;
-    private SItemPojo curData;
+    private SItemData curData;
     
     /**
      * createAdapter used for the dialog for editing the sTable
      */
-    public SItemGridAdapter(List<? extends SItemPojo> recyclerDataArrayList, ViewGroup container) {
+    public SItemGridAdapter(List<SItemData> recyclerDataArrayList, ViewGroup container) {
         this.recyclerDataArrayList = recyclerDataArrayList;
         this.container = container;
     }

@@ -35,11 +35,9 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
     @Setter
     private RecyclerView recyclerView; //this is used for getting stuff for the sfk
 
-    private static STableData emptyInstance;
-
    private STableData(Integer id, String uuid, float x, float y,
                       String title, List<? extends SItemPojo> items){
-       this.id = id;
+       this.id = id != null ? id : SUtils.getInstance().getNextId();
        this.uuid = uuid;
        this.x = x;
        this.y = y;
@@ -65,14 +63,16 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
                    "are valid");
        }
 
-      return new STableData(
-              id != null ? id : SUtils.getInstance().getNextId(),
-              uuid,
-              x,
-              y,
-              title,
-              items
-      );
+       STableData data = new STableData(
+               id,
+               uuid,
+               x,
+               y,
+               title,
+               items
+       );
+
+       return data;
    }
 
     /**
@@ -82,18 +82,15 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
      * @see #newInstance(Integer, String, float, float, String, List)
      * @return empty instance
      */
-   public static STableData newEmptyInstance(){
-       if(emptyInstance == null) {
-           return new STableData(
-                   null,
-                   null,
-                   -1,
-                   -1,
-                   null,
-                   null
-           );
-       }
-       return emptyInstance;
+   public static STableData newEmptyInstance() {
+       return new STableData(
+               null,
+               null,
+               -1,
+               -1,
+               null,
+               null
+       );
    }
 
     /**
