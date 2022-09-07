@@ -1,6 +1,8 @@
 package com.umldesigner.activities.uml_activity.SItem;
 
 import com.umldesigner.activities.uml_activity.STable.STableData;
+import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
+import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -14,10 +16,12 @@ import java.util.UUID;
  * that way
  */
 @NoArgsConstructor
-public class SItemData extends SItemPojo {
+public class SItemData extends SItemPojo implements BaseDataInterface {
 
+    private int id;
     private SItemData(String uuid, @NonNull String value, @NonNull String type, int size,
                         boolean isPrimaryKey, STableData table){
+        this.id = SUtils.getInstance().getNextId();
         this.uuid = uuid;
         this.value = value;
         this.type = type;
@@ -78,4 +82,8 @@ public class SItemData extends SItemPojo {
         );
     }
 
+    @Override
+    public Object getId() {
+        return id;
+    }
 }

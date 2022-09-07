@@ -2,10 +2,10 @@ package com.umldesigner.activities.uml_activity.STable;
 
 import android.util.Log;
 import com.umldesigner.activities.uml_activity.SItem.SItemData;
-import com.umldesigner.infrastructure.uml.logic.api.controller.AbstractApiController;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
+import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
@@ -13,7 +13,7 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemP
 import java.util.ArrayList;
 import java.util.List;
 
-class STableRequestHandler implements RequestHandler {
+class STableRequestHandler implements RequestHandler<STablePojo> {
     private static STableRequestHandler instance;
     public static STableRequestHandler getInstance(){
         if (instance == null){
@@ -23,17 +23,14 @@ class STableRequestHandler implements RequestHandler {
     }
 
     @Override
-    public void receiveData(List<?> requestedData, AbstractApiController<?> controller, ApiRequest code) {
-        Log.d("Execute", "Requested data" + requestedData == null ? requestedData.toString() : "no data"
-                        + controller.toString() + code.toString());
+    public void receiveData(List<STablePojo> requestedData, ApiController<STablePojo> controller, ApiRequest request) {
+        Log.d("Execute", "receiveData with request: " + request.toString() + " and received data count " + requestedData.size());
 
         if (controller.getEndpoint().equals(Endpoints.TABLE)){
-            switch (code){
+            switch (request){
                 case getAll:
                     SUtils.getInstance().clearViews();
-
-                    List<STablePojo> tables = (List<STablePojo>) requestedData;
-                    for(STablePojo pojo : tables){
+                    for(STablePojo pojo : requestedData){
 
                         ArrayList<SItemData> items = new ArrayList<>();
                         for(SItemPojo itemPojo : pojo.getItems()){

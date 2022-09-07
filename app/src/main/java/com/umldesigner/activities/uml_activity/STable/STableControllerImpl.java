@@ -4,11 +4,13 @@ import android.view.ViewGroup;
 import com.umldesigner.infrastructure.uml.logic.api.controller.AbstractApiController;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
+import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
-public class STableControllerImpl extends AbstractApiController<STablePojo> {
+public class STableControllerImpl extends AbstractApiController<STablePojo> implements ApiController<STablePojo> {
+
     public STableControllerImpl(ViewGroup container) {
         super(container);
     }
@@ -19,7 +21,7 @@ public class STableControllerImpl extends AbstractApiController<STablePojo> {
     }
 
     @Override
-    protected RequestHandler setRequestHandler() {
+    protected RequestHandler<STablePojo> setRequestHandler() {
         return STableRequestHandler.getInstance();
     }
 

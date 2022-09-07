@@ -14,7 +14,6 @@ import com.umldesigner.infrastructure.uml.utils.SUtils;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * listener for the fields of the dialog
@@ -33,8 +32,8 @@ class SItemDialogFieldListener implements View.OnClickListener {
         int id = view.getId();
         if(id == R.id.refTable){
             List<STableData> tables = new ArrayList<>();
-            for (Iterator<Map.Entry<Integer, STableData>> it = SUtils.getInstance().getTableIterator(); it.hasNext(); ) {
-                STableData t = it.next().getValue();
+            for (Iterator<STableData> it = SUtils.getInstance().getTableIterator(); it.hasNext(); ) {
+                STableData t = it.next();
                 tables.add(t);
             }
             new EditSItemDialogRTableCustomSpinner(tables, (TextView)view, dialog);

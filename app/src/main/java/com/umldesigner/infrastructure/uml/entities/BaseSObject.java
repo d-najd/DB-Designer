@@ -1,7 +1,6 @@
 package com.umldesigner.infrastructure.uml.entities;
 
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
-import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.pojos.BasePojo;
 
 /**
  * Uml Object that has only the most basic of functionality, this is android specific and should
@@ -29,4 +28,5 @@ public interface BaseSObject extends BaseDestroyable {
      void updateData();
      
      BaseDataInterface getData();
+
 }

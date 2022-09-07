@@ -8,5 +8,6 @@ package com.umldesigner.infrastructure.uml.entities;
  */
 public interface Movable {
     void move(float x, float y);
+
 }
 

@@ -1,18 +1,15 @@
 package com.umldesigner.infrastructure.uml.utils;
 
 import android.util.Log;
-
 import com.umldesigner.MainActivity;
 import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.infrastructure.uml.entities.SObject;
-
-import java.util.*;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 
-@Getter
+import java.util.*;
+
 /**
  * utils for the schema related stuff
  * @see com.umldesigner.infrastructure.uml.logic.app.SSettings
@@ -43,6 +40,9 @@ public class SUtils {
      */
     private final Map<Integer, STableData> tables;
 
+    private final Map<String, STableData> tablesByUuid;
+
+    @Getter
     private final SDragListeners dragListeners;
 
     //endregion
@@ -56,6 +56,7 @@ public class SUtils {
 
         views = new HashMap<>();
         tables = new HashMap<>();
+        tablesByUuid = new HashMap<>();
         appIdCounter = 1;
 
         dragListeners = MainActivity.getDragListeners();
@@ -81,7 +82,7 @@ public class SUtils {
     public void viewsPut(Integer id, SObject umlObject){
         views.put(id, umlObject);
         if(umlObject.getData() instanceof STableData){
-            tables.put(id, (STableData) umlObject.getData());
+            addTable(id, (STableData) umlObject.getData());
         }
     }
 
@@ -98,19 +99,10 @@ public class SUtils {
     }
 
     /**
-     * @return unmodifiable set of all the tables
-     * @see #getViews() for collection containing all views in the activity sorted by their id
-     * @see #viewsPut(Integer, SObject) for more info
+     * @return iterator for all table values
      */
-    //public Map<Integer, STableData> getTables() {
-    //    return Collections.unmodifiableMap(tables);
-    //}
-
-    /**
-     * @return iterator for all tables
-     */
-    public Iterator<Map.Entry<Integer, STableData>> getTableIterator(){
-        return tables.entrySet().iterator();
+    public Iterator<STableData> getTableIterator(){
+        return tables.values().iterator();
     }
 
     /**
@@ -121,11 +113,12 @@ public class SUtils {
      */
     public void addTable(Integer id, STableData table){
         tables.put(id, table);
+        tablesByUuid.put(table.getUuid(), table);
     }
 
     /**
      * @param id id of the table
-     * @return the table data if found null if not
+     * @return the table data if the object exists null of it does not
      */
     public STableData getTabledData(Integer id){
         return tables.get(id);
@@ -144,20 +137,15 @@ public class SUtils {
     }
 
     /**
-     * returns unmodifiable map of all the views in the uml activity
-     * @see
-     * @return
-     */
-    public Map<Integer, SObject> getViews() {
-        return Collections.unmodifiableMap(views);
-    }
-
-    /**
      * gets a field from {@link #views} with a given id
      * @param id the given id
      * @return Key and Value of the given id if it exists null if it doesn't
      */
     public SObject getViewById(Integer id){
         return views.get(id);
+    }
+
+    public STableData getTableByUuid(String id){
+        return tablesByUuid.get(id);
     }
 }
