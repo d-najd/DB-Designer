@@ -1,23 +1,20 @@
 package com.umldesigner.activities.uml_activity.SItem;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.umldesigner.R;
-import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
 import java.util.List;
 
 public class TableDialogSTItemAdapter extends RecyclerView.Adapter<TableDialogSTItemAdapter.UmlRecyclerViewHolder>{
     private final List<SItemData> recyclerDataArrayList;
     private final ViewGroup container;
-    private SItemData curData;
-    
+
     /**
      * createAdapter for the items inside the sTable
      */
@@ -35,11 +32,13 @@ public class TableDialogSTItemAdapter extends RecyclerView.Adapter<TableDialogST
         return new UmlRecyclerViewHolder(view);
     }
     
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull UmlRecyclerViewHolder holder, int position) {
-        curData = recyclerDataArrayList.get(position);
+        SItemData curData = recyclerDataArrayList.get(position);
         holder.itemView.setOnClickListener(new SItemListener(container, curData));
-        
+
+
         holder.title.setText("- " + curData.getValue() + ": " + curData.getType());
     }
     

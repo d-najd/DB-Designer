@@ -7,28 +7,21 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
-
 import com.umldesigner.Message;
 import com.umldesigner.R;
 import com.umldesigner.activities.uml_activity.SItem.SItemControllerImpl;
 import com.umldesigner.activities.uml_activity.SItem.SItemData;
 import com.umldesigner.activities.uml_activity.STable.STableData;
-import com.umldesigner.activities.uml_activity.STable.STableView;
 import com.umldesigner.infrastructure.uml.error.ErrorTags;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
-import com.umldesigner.infrastructure.uml.utils.SUtils;
-import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * the dialog used that pops up to when you create new table
@@ -37,7 +30,7 @@ import java.util.Optional;
 public class SItemDialog extends Dialog {
     private SItemData data;
     @Getter
-    private final STablePojo tableData;
+    private final STableData tableData;
     private final ViewGroup container;
     private final DialogType type;
 
@@ -48,7 +41,7 @@ public class SItemDialog extends Dialog {
      * @param tableData the table where the item is located at
      * @param type type of the dialog
      */
-    public SItemDialog(ViewGroup container, SItemData data, STablePojo tableData, DialogType type) {
+    public SItemDialog(ViewGroup container, SItemData data, STableData tableData, DialogType type) {
         super(container.getContext());
         this.data = data;
         this.tableData = tableData;
@@ -59,7 +52,7 @@ public class SItemDialog extends Dialog {
     /**
      * @return returns list of available actions for the field (actions on the onDelete and OnUpdate
      * fields)
-     * @implNote this may not be the best position to store this but I can't think of another place
+     * @implNote this may not be the best position to store this, but I can't think of another place
      */
     public static List<String> getAllActions(Context context){
         List<String> actions = new ArrayList<>();
@@ -82,11 +75,11 @@ public class SItemDialog extends Dialog {
         switch (type){
             case Create:
                 TextView title = findViewById(R.id.title);
-                title.setText("Create Item");
+                title.setText(R.string.createitem);
                 break;
             case Edit:
                 title = findViewById(R.id.title);
-                title.setText("Edit Item");
+                title.setText(R.string.edititem);
                 break;
             default:
                 throw new IllegalArgumentException("invalid dialog type");
@@ -118,19 +111,20 @@ public class SItemDialog extends Dialog {
     private void setupFields(){
         SItemDialogFieldListener itemListener = new SItemDialogFieldListener(this);
         
-        setupBasicFields(itemListener);
+        setupBasicFields();
         setupRadioFields();
         setupFKFields(itemListener);
     }
     
-    private void setupBasicFields(SItemDialogFieldListener itemListener){
+    private void setupBasicFields(){
         // getting the fields
         EditText typeEdt = findViewById(R.id.typeEdit);
         EditText valueEdt = findViewById(R.id.valueEdt);
+        /*
         EditText sizeEdt = findViewById(R.id.sizeEdt);
         EditText defaultEdt = findViewById(R.id.defaultEdt);
         EditText descriptionEdt = findViewById(R.id.descriptionEdt);
-      
+         */
         // preparing the data
         
         //y = re.findall("\(.*\)", txt1)
@@ -228,15 +222,14 @@ public class SItemDialog extends Dialog {
         
         @Override
         public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.okBtn:
-                    pressedOk();
-                    break;
-                case R.id.cancelBtn:
-                    dialog.dismiss();
-                    break;
-                default:
-                    throw new IllegalStateException("invalid view id " + v.getId() + " in " + this.getClass().getSimpleName());
+            int id = v.getId();
+
+            if(id == R.id.okBtn){
+                pressedOk();
+            } else if(id == R.id.cancelBtn) {
+                dialog.dismiss();
+            } else {
+                throw new IllegalStateException("invalid view id " + v.getId() + " in " + this.getClass().getSimpleName());
             }
         }
 
@@ -245,13 +238,15 @@ public class SItemDialog extends Dialog {
             EditText typeEdt = dialog.findViewById(R.id.typeEdit);
             EditText valueEdt = dialog.findViewById(R.id.valueEdt);
             EditText sizeEdt = dialog.findViewById(R.id.sizeEdt);
-            EditText defaultEdt = dialog.findViewById(R.id.defaultEdt);
-            EditText descriptionEdt = dialog.findViewById(R.id.descriptionEdt);
+            //EditText defaultEdt = dialog.findViewById(R.id.defaultEdt);
+            //EditText descriptionEdt = dialog.findViewById(R.id.descriptionEdt);
 
+            /*
             TextView refTable = dialog.findViewById(R.id.refTable);
             TextView refField = dialog.findViewById(R.id.refField);
             TextView onUpdate = dialog.findViewById(R.id.onUpdate);
             TextView onDelete = dialog.findViewById(R.id.onDelete);
+             */
 
             //data field prep
             int size = 0;
@@ -286,10 +281,11 @@ public class SItemDialog extends Dialog {
                             false,
                             tableData);
 
-                    //why the hell can't I just add the data and need to do this????
-                    List<SItemPojo> items = (List<SItemPojo>) tableData.getItems();
-                    items.add(data);
-
+                    /*
+                        this cast does not fail because tableData.getItems() is bundled wildcard type which extends
+                        SItemPojo which means it has to be instanced of the pojo or the pojo itself
+                     */
+                    tableData.getItems().add(data);
                     //itemController.post(data);
                     break;
                 case Edit:

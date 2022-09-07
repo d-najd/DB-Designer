@@ -68,7 +68,7 @@ class SFKFacade {
     
     /**
      * checks if the tables are overlapping
-     * @return true if the tables are overlapping false if the are not
+     * @return true if the tables are overlapping false if they are not
      */
     public boolean isOverLapping() {
         Log.d("Execute", "isOverlapping");

@@ -2,24 +2,21 @@ package com.umldesigner.activities.uml_activity.STable;
 
 import android.util.Log;
 import android.util.Pair;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.umldesigner.activities.uml_activity.SFK.SFKView;
+import com.umldesigner.activities.uml_activity.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObservable;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObserver;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
 
 /**
  * data field used exclusively for android
@@ -36,7 +33,7 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
     private RecyclerView recyclerView; //this is used for getting stuff for the sfk
 
    private STableData(Integer id, String uuid, float x, float y,
-                      String title, List<? extends SItemPojo> items){
+                      String title, List<SItemData> items){
        this.id = id != null ? id : SUtils.getInstance().getNextId();
        this.uuid = uuid;
        this.x = x;
@@ -56,14 +53,14 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
      * @return new instance
      */
    public static STableData newInstance(Integer id, String uuid, float x, float y, @NonNull String title,
-                                       List<? extends SItemPojo> items){
+                                       List<SItemData> items){
        if(x < 0 || y < 0){
            throw new IllegalArgumentException("negative positions are not accepted," +
                    "if using an empty instance (see constructor newEmptyInstance) make sure that the all the fields" +
                    "are valid");
        }
 
-       STableData data = new STableData(
+       return new STableData(
                id,
                uuid,
                x,
@@ -71,8 +68,6 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
                title,
                items
        );
-
-       return data;
    }
 
     /**
@@ -92,6 +87,54 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
                null
        );
    }
+
+    public static STableData from(STablePojo tableData) {
+
+       if(tableData == null){
+           return null;
+       }
+
+       /*
+            warning is suppressed because in backend SItemData/STaleData etc. are used and to create those it is forced
+            to provide *data of those classes instead of the pojo
+        */
+        List<SItemData> items = new ArrayList<>();
+        if(tableData.getItems() != null){
+            @SuppressWarnings("unchecked")
+            List<SItemData> tableItems = (List<SItemData>) tableData.getItems();
+            items.addAll(tableItems);
+        }
+
+        return new STableData(
+                null,
+                tableData.getUuid(),
+                tableData.getX(),
+                tableData.getY(),
+                tableData.getTitle(),
+                items
+        );
+    }
+
+    /**
+     *
+     * @return data of items, if null will return empty List
+     */
+    public List<SItemData> getItems(){
+        if(super.getItems() == null){
+            return null;
+        }
+
+        /*
+        warning is suppressed because in backend SItemData/STaleData etc. are used and to create those it is forced
+        to provide *data of those classes instead of the pojo
+        */
+        @SuppressWarnings("unchecked")
+        List<SItemData> itemData = (List<SItemData>) super.getItems();
+        if (itemData.isEmpty()){
+            itemData = new ArrayList<>();
+        }
+        return itemData;
+    }
 
     /**
      * sets the x position in the data and updates the itemData n stuff

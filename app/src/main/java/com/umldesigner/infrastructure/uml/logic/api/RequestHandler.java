@@ -11,7 +11,7 @@ public interface RequestHandler {
      *                   controller got called
      * @param requestedData the data requested from the server
      * @param request of the method that got called, like update, get etc
-     * @param success true if the request was success false if it wasnt
+     * @param success true if the request was success false if it wasn't
      */
-    void receiveData(List<?> requestedData, AbstractApiController controller, ApiRequest request);
+    void receiveData(List<?> requestedData, AbstractApiController<?> controller, ApiRequest request);
 }

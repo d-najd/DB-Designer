@@ -3,11 +3,9 @@ package com.umldesigner.activities.uml_activity.SItem.dialog;
 
 import android.util.Log;
 import android.widget.TextView;
-
 import com.umldesigner.infrastructure.uml.custom.spinner.AbstractCustomSpinner;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
-import java.util.HashMap;
 import java.util.List;
 
 class EditSItemDialogActionsCustomSpinner extends AbstractCustomSpinner<String> {

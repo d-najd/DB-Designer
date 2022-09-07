@@ -5,5 +5,7 @@
     <string name="restrict">Restrict</string>>
     <string name="cascade">Cascade</string>>
     <string name="set_null">Set NULL</string>>
-    <string name="set_default">Set Default</string>>
+    <string name="set_default">Set Default</string>
+    <string name="createitem">Create Item</string>
+    <string name="edititem">Edit Item</string>>
 </resources>

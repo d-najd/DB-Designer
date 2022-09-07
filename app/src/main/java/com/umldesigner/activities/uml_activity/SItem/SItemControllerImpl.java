@@ -10,7 +10,6 @@ public class SItemControllerImpl extends AbstractApiController<SItemPojo> {
     public SItemControllerImpl(ViewGroup container) {
         super(container);
     }
-    
     @Override
     protected String setEndpoint() {
         return Endpoints.ITEM;

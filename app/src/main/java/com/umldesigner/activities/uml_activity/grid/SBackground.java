@@ -28,7 +28,7 @@ class SBackground extends View {
     
         Log.d("Execute ", "onDraw Schema Background");
         
-        //float yOff = topbar.getHeight();
+        //float yOff = topBar.getHeight();
         float yOff = 0;
         
         for (int x = 0; x < 1000; x++){

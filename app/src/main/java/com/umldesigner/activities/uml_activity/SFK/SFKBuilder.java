@@ -24,7 +24,6 @@ public class SFKBuilder {
      * @param fPos position of the field in the field table, the "primary key"
      * @param sTableData data of the second table, this is used for getting position of the table n stuff
      * @param sPos position of the first in the second table, the "secondary key"
-     * @param shouldRegister tells us whether the sfk's should be registered list of sfk's inside the table
      * @implNote it is possible to swap this is {@link com.umldesigner.infrastructure.uml.data.BaseDataInterface}
      * if need arise, we may be able to get the position of the recyclerview when instantiating a
      * table and the position of the item when instantiation the items and this will lead to fewer

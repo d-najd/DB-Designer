@@ -1,6 +1,6 @@
 package com.umldesigner.activities.uml_activity.SItem;
 
-import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
+import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -10,14 +10,14 @@ import java.util.UUID;
 /**
  * data field used exclusively for android
  *
- * @apiNote considered changing this to a decorator but I think it will be more painful to maintain
+ * @apiNote considered changing this to a decorator, but I think it will be more painful to maintain
  * that way
  */
 @NoArgsConstructor
 public class SItemData extends SItemPojo {
 
     private SItemData(String uuid, @NonNull String value, @NonNull String type, int size,
-                        boolean isPrimaryKey, STablePojo table){
+                        boolean isPrimaryKey, STableData table){
         this.uuid = uuid;
         this.value = value;
         this.type = type;
@@ -36,7 +36,7 @@ public class SItemData extends SItemPojo {
      * @return SItemData instance
      */
     public static SItemData newInstance(String uuid, @NonNull String value, @NonNull String type, int size,
-                                        boolean isPrimaryKey,  STablePojo table){
+                                        boolean isPrimaryKey, STableData table){
         return new SItemData(
                 uuid,
                 value,
@@ -59,7 +59,7 @@ public class SItemData extends SItemPojo {
                  itemPojo.getType(),
                  itemPojo.getSize() != null ? itemPojo.getSize() : 0,
                  itemPojo.getIsPrimaryKey(),
-                 itemPojo.getTable()
+                 STableData.from(itemPojo.getTable())
         );
     }
 

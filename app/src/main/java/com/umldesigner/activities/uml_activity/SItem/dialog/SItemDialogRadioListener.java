@@ -1,18 +1,12 @@
 package com.umldesigner.activities.uml_activity.SItem.dialog;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RadioButton;
 import com.umldesigner.Message;
 import com.umldesigner.R;
 import com.umldesigner.infrastructure.uml.error.ErrorTags;
-
-import java.lang.reflect.Array;
-import java.util.HashMap;
 
 /**
  * listeners for the "radioGroup" in the type field inside the SItemDialog.
@@ -28,7 +22,6 @@ public class SItemDialogRadioListener implements View.OnClickListener {
         this.dialog = dialog;
     }
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         Log.d("Debug", "onClick: " + view.toString());
@@ -48,34 +41,24 @@ public class SItemDialogRadioListener implements View.OnClickListener {
 
         //turnOnOffBtn(curBtn);
 
-        switch (view.getId()){
-            case R.id.PK:
-                CompoundButton an = dialog.findViewById(R.id.AN);
+        int id = view.getId();
 
-                if (curBtn.isChecked()){
-                   an.setChecked(false);
-                   an.setEnabled(false);
-                } else {
-                    an.setEnabled(true);
-                }
-                break;
-            case R.id.AN:
-            case R.id.UQ:
-            case R.id.AI:
-            case R.id.FK:
-                break;
-            default:
-                Message.defErrMessage(c);
-                break;
+        if(id == R.id.PK){
+            CompoundButton an = dialog.findViewById(R.id.AN);
+
+            if (curBtn.isChecked()){
+                an.setChecked(false);
+                an.setEnabled(false);
+            } else {
+                an.setEnabled(true);
+            }
+        } else if(
+                id == R.id.AN ||
+                id == R.id.UQ ||
+                id == R.id.AI ||
+                id == R.id.FK){ } else {
+            Message.defErrMessage(c);
+            Log.e(ErrorTags.APP_ERROR, "Invalid pressed view id");
         }
     }
-
-    /**
-     * turns the radiobutton on if it was off and off if it was on
-     * @param curBtn
-     */
-    private void turnOnOffBtn(RadioButton curBtn){
-        curBtn.setChecked(!curBtn.isEnabled());
-    }
-
 }

@@ -1,5 +1,6 @@
 package com.umldesigner.activities.uml_activity.SFK;
 
+import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,21 +9,19 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.umldesigner.activities.uml_activity.STable.STableDataBuffer;
 import com.umldesigner.activities.uml_activity.STable.STableData;
+import com.umldesigner.activities.uml_activity.STable.STableDataBuffer;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObservable;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObserver;
+import lombok.Getter;
 
 import javax.security.auth.Destroyable;
 
-import lombok.Getter;
-
 //https://blogs.sitepointstatic.com/examples/tech/svg-curves/cubic-curve.html
 
+@SuppressLint("ViewConstructor")
 public class SFKView extends View implements Destroyable, BaseObserver {
-    private final SSettings settingsInstance;
     private final SFKFacade sfkFacade;
     
     @Getter
@@ -43,8 +42,8 @@ public class SFKView extends View implements Destroyable, BaseObserver {
     
     public SFKView(SFKBuilder sfkBuilder){
         super(sfkBuilder.getContainer().getContext());
-        
-        settingsInstance = SSettings.getInstance();
+
+        SSettings settingsInstance = SSettings.getInstance();
         sfkFacade = new SFKFacade(this);
         
         this.fTableData = sfkBuilder.getFTableData();
@@ -62,7 +61,7 @@ public class SFKView extends View implements Destroyable, BaseObserver {
     }
     
     /**
-     * @implNote this will cause problems if the view is not removed from the sfk's inside the
+     * @implNote this will cause problems if the view is not removed from the sdk's inside the
      * TableData which contain this (one contains this key as a primary fTableData, the other as
      * secondary sTableData)
      */

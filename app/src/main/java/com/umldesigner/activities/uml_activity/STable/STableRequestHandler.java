@@ -23,7 +23,7 @@ class STableRequestHandler implements RequestHandler {
     }
 
     @Override
-    public void receiveData(List<?> requestedData, AbstractApiController controller, ApiRequest code) {
+    public void receiveData(List<?> requestedData, AbstractApiController<?> controller, ApiRequest code) {
         Log.d("Execute", "Requested data" + requestedData == null ? requestedData.toString() : "no data"
                         + controller.toString() + code.toString());
 

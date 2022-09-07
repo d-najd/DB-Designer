@@ -2,9 +2,7 @@ package com.umldesigner.activities.uml_activity.SItem.dialog;
 
 import android.util.Log;
 import android.widget.TextView;
-
 import com.umldesigner.activities.uml_activity.SItem.SItemData;
-import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.infrastructure.uml.custom.spinner.AbstractCustomSpinner;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 

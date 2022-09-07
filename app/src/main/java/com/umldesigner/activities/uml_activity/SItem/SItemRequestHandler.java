@@ -18,7 +18,7 @@ class SItemRequestHandler implements RequestHandler {
 
 
     @Override
-    public void receiveData(List<?> requestedData, AbstractApiController controller, ApiRequest request) {
+    public void receiveData(List<?> requestedData, AbstractApiController<?> controller, ApiRequest request) {
 
     }
 }
