@@ -15,4 +15,10 @@ public class ErrorTags {
      * error for the api side of things
      */
     public static final String API_ERROR = "Api Error";
+
+    /**
+     * warning that something probably went wrong
+     */
+    public static final String APP_WARN = "App Warning";
+
 }
