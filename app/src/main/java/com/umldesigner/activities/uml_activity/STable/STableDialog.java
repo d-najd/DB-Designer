@@ -168,8 +168,9 @@ public class STableDialog extends Dialog {
                         Message.message(dialog.getContext(), "Please define title");
                     } else {
                         //recreating the table because "empty table" was used
+
                         STablePojo tableData = STableData.newInstance(null, data.getUuid(),
-                                8f, 12f, newTitle, data.getItems());
+                                8f, 12f, newTitle, data.getItems()).getPojo();
                         AbstractApiController<STablePojo> tableController = new STableControllerImpl(container);
                         tableController.post(tableData);
                         dialog.dismiss();
@@ -184,7 +185,7 @@ public class STableDialog extends Dialog {
                     } else {
                         //recreating the table because "empty table" was used
                         STablePojo tableData = STableData.newInstance(null, data.getUuid(),
-                                data.getX(), data.getY(), newTitle, data.getItems());
+                                data.getX(), data.getY(), newTitle, data.getItems()).getPojo();
                         ApiController<STablePojo> tableController = new STableControllerImpl(container);
                         tableController.put(tableData);
                         dialog.dismiss();

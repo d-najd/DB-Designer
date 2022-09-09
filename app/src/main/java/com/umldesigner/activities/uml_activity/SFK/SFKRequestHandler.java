@@ -1,7 +1,9 @@
 package com.umldesigner.activities.uml_activity.SFK;
 
+import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import com.umldesigner.Message;
 import com.umldesigner.activities.uml_activity.SItem.SItemData;
 import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.infrastructure.uml.error.ErrorTags;
@@ -11,6 +13,7 @@ import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.foreign_key.dto.SFKPojo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class SFKRequestHandler implements RequestHandler<SFKPojo> {
@@ -95,20 +98,23 @@ class SFKRequestHandler implements RequestHandler<SFKPojo> {
                     super.run();
                     Looper.prepare();
 
-                    //boolean for telling us if all the pojos don't exist in sUtils
-                    boolean allNotExist = false;
-
                     while (maxWaitTime >= curWait) {
+                        //boolean for telling us if all the pojos don't exist in sUtils
+                        boolean allNotExist = false;
+
                         for (SFKPojo pojo : requestedData) {
-                            if (sUtils.getTableByUuid(pojo.getIdentity().getFirstUuid()) == null ||
-                                    sUtils.getTableByUuid(pojo.getIdentity().getSecondUuid()) == null) {
+                            STableData f = sUtils.getTableByUuid(pojo.getFirstTableUuid());
+                            STableData s = sUtils.getTableByUuid(pojo.getSecondTableUuid());
+
+                            if (sUtils.getTableByUuid(pojo.getFirstTableUuid()) == null ||
+                                    sUtils.getTableByUuid(pojo.getSecondTableUuid()) == null) {
                                 allNotExist = true;
                                 break;
                             }
                         }
 
                         //if the tables don't exist we need to repeat
-                        if (!allNotExist) {
+                        if (allNotExist) {
                             try {
                                 sleep(delayBetweenChecks);
                                 curWait += delayBetweenChecks;
@@ -116,12 +122,20 @@ class SFKRequestHandler implements RequestHandler<SFKPojo> {
                                 throw new RuntimeException(e);
                             }
                         } else {
-                            parent.continueSetup(requestedData, controller, request);
+                            //getting the main thread and forwarding the request to it
+                            new Handler(controller.getContainer().getContext().getMainLooper()).post(()
+                                    -> parent.continueSetup(requestedData, controller, request));
                             return;
                         }
                     }
-
-                    Log.w(ErrorTags.APP_WARN, "there doesn't seem to be any SFK's for the current table");
+                    if(requestedData != null){
+                        ArrayList<String> tableUuids = new ArrayList<>(sUtils.getTablesByUuid().keySet());
+                        Log.e(ErrorTags.APP_ERROR, "unable to find table assigned to one of the sfk's "
+                                + requestedData + " available tables are by uuid's are " + tableUuids);
+                        Message.defErrMessage(controller.getContainer().getContext());
+                    } else {
+                        Log.w(ErrorTags.APP_WARN, "there doesn't seem to be any SFK's for the current table");
+                    }
                 }
             };
             thread.start();

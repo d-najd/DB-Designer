@@ -86,8 +86,7 @@ public class SFKView extends View implements Destroyable, BaseObserver {
     @Override
     public void updateObserver(BaseObservable observable, Object args) {
         if (args instanceof STableDataBuffer){
-            SFKView newView = new SFKBuilder(container, fTableData, fTablePos, sTableData, sTablePos)
-                    .shouldNotRegister().build();
+            SFKView newView = new SFKBuilder(container, fTableData, fTablePos, sTableData, sTablePos).build();
             
             ((STableDataBuffer) args).addValue(this, newView);
         } else {

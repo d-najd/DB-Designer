@@ -10,6 +10,7 @@ import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObservable;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObserver;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
+import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -17,11 +18,16 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * data field used exclusively for android
  */
-public class STableData extends STablePojo implements BaseDataInterface, BaseObservable {
+public class STableData implements BaseDataInterface<STablePojo>, BaseObservable{
+
+    @Getter
+    private final STablePojo pojo;
     @Getter
     private final HashSet<SFKView> foreignKeys = new HashSet<>();
     
@@ -35,11 +41,10 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
    private STableData(Integer id, String uuid, float x, float y,
                       String title, List<SItemData> items){
        this.id = id != null ? id : SUtils.getInstance().getNextId();
-       this.uuid = uuid;
-       this.x = x;
-       this.y = y;
-       this.title = title;
-       this.items = items != null ? items : new ArrayList<>();
+
+       //basically getting the pojo of each item and turning that into a list
+       List<SItemPojo> castedPojos = items.stream().map(SItemData::getPojo).collect(Collectors.toList());
+       this.pojo = new STablePojo(title, castedPojos, uuid, x, y);
    }
 
     /**
@@ -90,19 +95,24 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
 
     public static STableData from(STablePojo tableData) {
 
-       if(tableData == null){
-           return null;
-       }
+        if (tableData == null) {
+            return null;
+        }
 
        /*
             warning is suppressed because in backend SItemData/STaleData etc. are used and to create those it is forced
             to provide *data of those classes instead of the pojo
         */
         List<SItemData> items = new ArrayList<>();
-        if(tableData.getItems() != null){
+        if (tableData.getItems() != null) {
+            /*
+                we are converting pojo to data so its items should be pojo's as well
+             */
             @SuppressWarnings("unchecked")
-            List<SItemData> tableItems = (List<SItemData>) tableData.getItems();
-            items.addAll(tableItems);
+            List<SItemPojo> tableItems = (List<SItemPojo>) tableData.getItems();
+            for(SItemPojo itemPojo : tableItems){
+                items.add(SItemData.from(itemPojo));
+            }
         }
 
         return new STableData(
@@ -120,7 +130,7 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
      * @return data of items, if null will return empty List
      */
     public List<SItemData> getItems(){
-        if(super.getItems() == null){
+        if(pojo.getItems() == null){
             return null;
         }
 
@@ -129,7 +139,7 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
         to provide *data of those classes instead of the pojo
         */
         @SuppressWarnings("unchecked")
-        List<SItemData> itemData = (List<SItemData>) super.getItems();
+        List<SItemData> itemData = (List<SItemData>) pojo.getItems();
         if (itemData.isEmpty()){
             itemData = new ArrayList<>();
         }
@@ -141,7 +151,13 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
      * @return item by its uuid or null if it doesn't exist in the current table
      */
     public SItemData getItemByUuid(String uuid){
-        return (SItemData) items.parallelStream().filter(o -> o.getUuid().equals(uuid)).findAny().orElse(null);
+        List<SItemData> items = getItems();
+        for(SItemData item : items){
+            if(uuid.equals(item.getPojo().getUuid())){
+                return item;
+            }
+        }
+        return null;
     }
 
     /**
@@ -150,7 +166,7 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
      * @return position in the items list of the item
      */
     public int getItemPosition(String uuid){
-        return items.indexOf(getItemByUuid(uuid));
+        return getItems().indexOf(getItemByUuid(uuid));
     }
 
     /**
@@ -159,22 +175,27 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
      * @return the position of the item in the items list
      */
     public int getItemPosition(SItemData item){
-        return items.indexOf(item);
+        return getItems().indexOf(item);
     }
 
-    /**
-     * sets the x position in the data and updates the itemData n stuff
-     * @param x
-     */
-    
-    @Override
+    public String getUuid(){
+        return pojo.getUuid();
+    }
+
+    public Float getX(){
+        return pojo.getX();
+    }
+
+    public Float getY(){
+        return pojo.getY();
+    }
+
     public void setX(Float x) {
-        super.setX(x);
+        pojo.setX(x);
     }
     
-    @Override
     public void setY(Float y) {
-        super.setY(y);
+        pojo.setY(y);
     }
     
     @Override
@@ -201,12 +222,19 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
             Pair<SFKView, SFKView> curValue = sTableDataBuffer.getBuffer().get(i);
             
             //destroying the observer, NOTE removeObserver is called from inside the destroy method
-            assert curValue != null;
-            curValue.first.destroy();
-    
-            //saving the new key's
-            curValue.first.getSTableData().registerObserver(curValue.second);
-            curValue.first.getFTableData().registerObserver(curValue.second);
+            Objects.requireNonNull(curValue).first.destroy();
         }
+    }
+
+    public String getTitle() {
+        return pojo.getTitle();
+    }
+
+    public void setTitle(String title) {
+        pojo.setTitle(title);
+    }
+
+    public void setItems(List<SItemData> itemDataArrayList) {
+        pojo.setItems(itemDataArrayList);
     }
 }

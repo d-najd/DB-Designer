@@ -56,7 +56,7 @@ public class STableBuilder {
      * @param items list of items
      * @return the builder
      */
-    public STableBuilder addItems(ArrayList<SItemData> items) {
+    public STableBuilder addItems(List<SItemData> items) {
         for (SItemData item : items){
             item.setTable(sTableView.getData());
         }

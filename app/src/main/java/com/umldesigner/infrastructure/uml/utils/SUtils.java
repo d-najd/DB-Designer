@@ -32,7 +32,6 @@ public class SUtils {
      */
 
     private final Map<Integer, SObject> views;
-
     /**
      * holds set of all tables located in the schema activity, items are added through the
      * {@link #viewsPut(Integer, SObject)} method
@@ -74,6 +73,29 @@ public class SUtils {
     }
 
     /**
+     * @return modifiable table map, mapped by their uuid
+     */
+    public Map<String, STableData> getTablesByUuid(){
+        return Collections.unmodifiableMap(tablesByUuid);
+    }
+
+    /**
+     * @return iterator for all table values
+     */
+    public Iterator<STableData> getTableIterator(){
+        return tables.values().iterator();
+    }
+
+    /**
+     * gets a field from {@link #views} with a given id
+     * @param id the given id
+     * @return Key and Value of the given id if it exists null if it doesn't
+     */
+    public SObject getViewById(Integer id){
+        return views.get(id);
+    }
+
+    /**
      * puts a view in the {@link #views} with a given id, if the object is instance of {@link STableData} them the
      * object will also be put in {@link #tables}
      * @see #getViews()
@@ -85,6 +107,30 @@ public class SUtils {
             addTable(id, (STableData) umlObject.getData());
         }
     }
+
+    /**
+     * @param id id of the table
+     * @return the table data if the object exists null of it does not
+     */
+    public STableData getTable(Integer id){
+        return tables.get(id);
+    }
+
+    public STableData getTableByUuid(String id){
+        return tablesByUuid.get(id);
+    }
+
+    /**
+     * @implNote this may cause memory leak if the table is not removed, maybe add warning if table remains for longer
+     * than 10 minutes?
+     * @param id id of the table
+     * @param table the table itself
+     */
+    public void addTable(Integer id, STableData table){
+        tables.put(id, table);
+        tablesByUuid.put(table.getUuid(), table);
+    }
+
 
     /**
      * clears all of the {@link #views} and {@link #tables} and runs the {@link SObject#destroy()} method on all objects
@@ -99,32 +145,6 @@ public class SUtils {
     }
 
     /**
-     * @return iterator for all table values
-     */
-    public Iterator<STableData> getTableIterator(){
-        return tables.values().iterator();
-    }
-
-    /**
-     * @implNote this may cause memory leak if the table is not removed, maybe add warning if table remains for longer
-     * than 10 minutes?
-     * @param id id of the table
-     * @param table the table itself
-     */
-    public void addTable(Integer id, STableData table){
-        tables.put(id, table);
-        tablesByUuid.put(table.getUuid(), table);
-    }
-
-    /**
-     * @param id id of the table
-     * @return the table data if the object exists null of it does not
-     */
-    public STableData getTabledData(Integer id){
-        return tables.get(id);
-    }
-
-    /**
      * first attempts to call destroy on object if it exists in views, then remove it from views and then from tables
      * @param id given id
      */
@@ -136,16 +156,8 @@ public class SUtils {
         tables.remove(id);
     }
 
-    /**
-     * gets a field from {@link #views} with a given id
-     * @param id the given id
-     * @return Key and Value of the given id if it exists null if it doesn't
-     */
-    public SObject getViewById(Integer id){
-        return views.get(id);
+    public void removeTableByUuid(String uuid){
+        tablesByUuid.remove(uuid);
     }
 
-    public STableData getTableByUuid(String id){
-        return tablesByUuid.get(id);
-    }
 }

@@ -298,7 +298,10 @@ public class SItemDialog extends Dialog {
                             false,
                             tableData);
 
-                    itemController.put(data);
+                    /**
+                     * TODO proper cloning of the pojo?
+                     */
+                    itemController.put(data.getPojo());
                     break;
                 default:
                     throw new IllegalStateException();

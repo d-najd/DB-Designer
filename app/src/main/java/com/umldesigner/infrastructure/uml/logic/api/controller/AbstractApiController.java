@@ -2,7 +2,6 @@ package com.umldesigner.infrastructure.uml.logic.api.controller;
 
 import android.content.Context;
 import android.util.Log;
-
 import android.view.ViewGroup;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -12,7 +11,9 @@ import com.umldesigner.infrastructure.uml.error.ErrorTags;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
 import com.umldesigner.infrastructure.uml.utils.ApiUtils;
-
+import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.utils.MyCloneable;
+import lombok.Getter;
+import lombok.NonNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,9 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import lombok.Getter;
-import lombok.NonNull;
-
 /**
  * controller for the backend
  *
@@ -33,7 +31,7 @@ import lombok.NonNull;
  *           UmlDesignerShared
  */
 
-public abstract class AbstractApiController<T> implements ApiController<T> {
+public abstract class AbstractApiController<T extends MyCloneable> implements ApiController<T> {
     @Getter
     protected final Context context;
     protected final ApiUtils apiUtils;
@@ -94,7 +92,7 @@ public abstract class AbstractApiController<T> implements ApiController<T> {
      * </pre>
      *
      * @implNote make sure that the final address is assembled before calling this method since methods like
-     * {{@link #getPostUrl(Object)}} may depend on it
+     * {{@link #getPostUrl(MyCloneable)}} may depend on it
      * @param o the given object
      * @return cleaned up object
      */
@@ -153,7 +151,7 @@ public abstract class AbstractApiController<T> implements ApiController<T> {
      * xx.xx.xx:xx/{uuid}
      * 
      * @implSpec if not overridden "" will be returned as to not cause any problems by returning null
-     * @see #post(Object)
+     * @see #post(MyCloneable)
      */
     protected String getPostUrl(T o){
         return "";
@@ -161,16 +159,16 @@ public abstract class AbstractApiController<T> implements ApiController<T> {
     /**
      * @param o the data parameter contained within the view should be passed here
      *          
-     * @implSpec first the given object is being used to in {{@link #getPostUrl(Object)}} to get custom post url if 
-     * specified, then the object is converted to json but before that {@link #objectPrep(Object)} is called from
+     * @implSpec first the given object is being used to in {{@link #getPostUrl(MyCloneable)}} to get custom post url if
+     * specified, then the object is converted to json but before that {@link #objectPrep(MyCloneable)} is called from
      * inside the objectToJson. after that
      * StringRequest is sent to the backend, if the request is received the json object is
      * converted into java object and then sent to the receiver along with the current controller and post as the
      * request type, if the request fails then {{@link ApiUtils#getErrorListener()}} is used to handle the error
      *
-     * @see #getPostUrl(Object) for specifying a custom post method url
-     * @see #objectToJSON(Object)
-     * @see #objectPrep(Object) 
+     * @see #getPostUrl(MyCloneable) for specifying a custom post method url
+     * @see #objectToJSON(MyCloneable)
+     * @see #objectPrep(MyCloneable)
      */
     public void post(T o){
         Log.d("Execute", "update on object " + o.getClass() + ", with class " + this.getClass().getSimpleName());
@@ -208,26 +206,26 @@ public abstract class AbstractApiController<T> implements ApiController<T> {
     /**
      * returns the last part of the url, the uuid of the object that needs to be updated
      * xx.xx.xx:xx/{uuid}
-     * @see #put(Object)
+     * @see #put(MyCloneable)
      */
     protected String getPutUrl(T o){
         throw new IllegalStateException("when using default put method override getPutUrl(T)");
     }
 
     /**
-     * @implNote {@link #getPutUrl(Object)} must be overridden if this method is used otherwise IllegalStateException
+     * @implNote {@link #getPutUrl(MyCloneable)} must be overridden if this method is used otherwise IllegalStateException
      * will be thrown
      *
-     * @implSpec first the given object is being used to in {{@link #getPutUrl(Object)}} to get the custom url
+     * @implSpec first the given object is being used to in {{@link #getPutUrl(MyCloneable)}} to get the custom url
      * which <h1>is not optional</h1>, then the object is converted to json
-     * but before that {@link #objectPrep(Object)} is called from inside the objectToJson,
+     * but before that {@link #objectPrep(MyCloneable)} is called from inside the objectToJson,
      * after that a StringRequest to the backend, if the request is successful the json object is
      * converted into java object and then sent to the receiver along with the current controller and post as the
      * request type, if the request fails then {{@link ApiUtils#getErrorListener()}} is used to handle the error
      *
-     * @see #getPostUrl(Object) for specifying a custom post method url
-     * @see #objectToJSON(Object)
-     * @see #objectPrep(Object) 
+     * @see #getPostUrl(MyCloneable) for specifying a custom post method url
+     * @see #objectToJSON(MyCloneable)
+     * @see #objectPrep(MyCloneable)
      */
      final public void put(T o){
         Log.d("Execute", "update on object " + o.getClass() + ", with class" + this.getClass().getSimpleName());
@@ -271,14 +269,16 @@ public abstract class AbstractApiController<T> implements ApiController<T> {
     /**
      * converts java objects to json objects
      *
-     * @implSpec {@link #objectPrep(Object)} is called before the object is converted to json
+     * @implSpec {@link #objectPrep(MyCloneable)} is called before the object is converted to json
      *
      * @param o the input java object
      * @return a json object
-     * @see #objectPrep(Object)
+     * @see #objectPrep(MyCloneable)
      */
     private JSONObject objectToJSON(T o) {
         JSONObject convertedJObject = null;
+
+        o = (T) o.getClone();
         try {
             String jsonInString = new Gson().toJson(objectPrep(o), tClass);
             convertedJObject = new JSONObject(jsonInString);

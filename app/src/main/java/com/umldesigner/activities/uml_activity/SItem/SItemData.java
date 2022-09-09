@@ -3,7 +3,9 @@ package com.umldesigner.activities.uml_activity.SItem;
 import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
+import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
@@ -16,18 +18,30 @@ import java.util.UUID;
  * that way
  */
 @NoArgsConstructor
-public class SItemData extends SItemPojo implements BaseDataInterface {
-
+public class SItemData implements BaseDataInterface<SItemPojo>{
     private int id;
+
+    //I have no idea why I can't set this to final
+    @Getter
+    private SItemPojo pojo;
+
+    @Getter
+    private STableData table;
+
     private SItemData(String uuid, @NonNull String value, @NonNull String type, int size,
                         boolean isPrimaryKey, STableData table){
         this.id = SUtils.getInstance().getNextId();
-        this.uuid = uuid;
-        this.value = value;
-        this.type = type;
-        this.size = size;
-        this.isPrimaryKey = isPrimaryKey;
+
+        String tableUuid = null;
+        if(table != null){
+            tableUuid = table.getPojo().getUuid();
+        }
+        STablePojo tablePojo = null;
+        if (table != null){
+            tablePojo = table.getPojo();
+        }
         this.table = table;
+        this.pojo = new SItemPojo(uuid, type, value, size, tableUuid, tablePojo, isPrimaryKey);
     }
 
     /**
@@ -85,5 +99,25 @@ public class SItemData extends SItemPojo implements BaseDataInterface {
     @Override
     public Object getId() {
         return id;
+    }
+
+    public String getUuid() {
+        return pojo.getUuid();
+    }
+
+    public String getType() {
+        return pojo.getType();
+    }
+
+    public String getValue() {
+        return pojo.getValue();
+    }
+
+    public void setTable(STableData table) {
+        pojo.setTable(table.getPojo());
+    }
+
+    public STableData getTable(){
+        return table;
     }
 }

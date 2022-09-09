@@ -3,10 +3,12 @@ package com.umldesigner.activities.uml_activity.SFK;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.identities.BaseMIdentityPojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.foreign_key.dto.SFKPojo;
+import lombok.Getter;
 import lombok.NonNull;
 
-public class SFKData extends SFKPojo implements BaseDataInterface {
-
+public class SFKData implements BaseDataInterface<SFKPojo> {
+    @Getter
+    private final SFKPojo pojo;
     private SFKData(
             @NonNull String fUuid,
             @NonNull String sUuid,
@@ -14,11 +16,12 @@ public class SFKData extends SFKPojo implements BaseDataInterface {
             @NonNull String sTUuid,
             String onDelete,
             String onUpdate){
-        this.identity = new BaseMIdentityPojo(fUuid, sUuid);
-        this.firstTableUuid = fTUuid;
-        this.secondTableUuid = sTUuid;
-        this.onDelete = onDelete != null ? onDelete : "ca";
-        this.onUpdate = onUpdate != null ? onUpdate : "ca";
+        this.pojo = new SFKPojo(
+                new BaseMIdentityPojo(fUuid, sUuid),
+                fTUuid, sTUuid,
+                onDelete != null ? onDelete : "ca",
+                onUpdate != null ? onUpdate : "ca"
+                );
     }
 
     public static SFKData newInstance(
@@ -53,12 +56,8 @@ public class SFKData extends SFKPojo implements BaseDataInterface {
         );
     }
 
-
-    /**
-     * @return new instance of the identity object to prevent mutability
-     */
     @Override
-    public Object getId() {
-        return new BaseMIdentityPojo(getIdentity().getFirstUuid(), getIdentity().getSecondUuid());
+    public SFKPojo getId() {
+        return pojo;
     }
 }

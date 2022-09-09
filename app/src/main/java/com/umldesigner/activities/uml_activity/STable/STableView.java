@@ -5,24 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.umldesigner.R;
+import com.umldesigner.activities.uml_activity.SItem.SItemData;
 import com.umldesigner.activities.uml_activity.SItem.TableDialogSTItemAdapter;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
-import com.umldesigner.activities.uml_activity.SItem.SItemData;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
-
-import java.util.ArrayList;
-
 import lombok.Getter;
+
+import java.util.List;
 
 public class STableView extends ConstraintLayout implements SObject {
     @Getter
@@ -143,7 +140,7 @@ public class STableView extends ConstraintLayout implements SObject {
      * @param itemDataArrayList the given itemArrayList
      * @see #updateData()
      */
-    public void setItems(ArrayList<SItemData> itemDataArrayList) {
+    public void setItems(List<SItemData> itemDataArrayList) {
         Log.d("Execute", "setItems with parameters " + itemDataArrayList.toString());
         
         recyclerView = v.findViewById(R.id.uml_table_recyclerView);
@@ -176,7 +173,10 @@ public class STableView extends ConstraintLayout implements SObject {
             controller = new STableControllerImpl(container);
         }
 
-        controller.put(data);
+        /**
+         * TODO fix this
+         */
+        controller.put(data.getPojo());
     }
     
 }

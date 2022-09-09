@@ -32,8 +32,14 @@ class STableRequestHandler implements RequestHandler<STablePojo> {
                     SUtils.getInstance().clearViews();
                     for(STablePojo pojo : requestedData){
 
-                        ArrayList<SItemData> items = new ArrayList<>();
-                        for(SItemPojo itemPojo : pojo.getItems()){
+                        List<SItemData> items = new ArrayList<>();
+
+                        /*
+                            the received always contains pojo's
+                         */
+                        @SuppressWarnings("unchecked")
+                        List<SItemPojo> itemPojos = (List<SItemPojo>) pojo.getItems();
+                        for(SItemPojo itemPojo : itemPojos){
                             items.add(SItemData.from(itemPojo));
                         }
 
