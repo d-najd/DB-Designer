@@ -137,6 +137,32 @@ public class STableData extends STablePojo implements BaseDataInterface, BaseObs
     }
 
     /**
+     * @param uuid uuid of the item
+     * @return item by its uuid or null if it doesn't exist in the current table
+     */
+    public SItemData getItemByUuid(String uuid){
+        return (SItemData) items.parallelStream().filter(o -> o.getUuid().equals(uuid)).findAny().orElse(null);
+    }
+
+    /**
+     * finds item position by given item uuid
+     * @param uuid uuid of the item
+     * @return position in the items list of the item
+     */
+    public int getItemPosition(String uuid){
+        return items.indexOf(getItemByUuid(uuid));
+    }
+
+    /**
+     * finds item position of the given item
+     * @param item the given item
+     * @return the position of the item in the items list
+     */
+    public int getItemPosition(SItemData item){
+        return items.indexOf(item);
+    }
+
+    /**
      * sets the x position in the data and updates the itemData n stuff
      * @param x
      */

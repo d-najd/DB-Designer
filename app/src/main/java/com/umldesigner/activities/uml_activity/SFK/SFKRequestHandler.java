@@ -1,7 +1,10 @@
 package com.umldesigner.activities.uml_activity.SFK;
 
+import android.os.Looper;
 import android.util.Log;
-import com.umldesigner.Message;
+import com.umldesigner.activities.uml_activity.SItem.SItemData;
+import com.umldesigner.activities.uml_activity.STable.STableData;
+import com.umldesigner.infrastructure.uml.error.ErrorTags;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
@@ -30,11 +33,28 @@ class SFKRequestHandler implements RequestHandler<SFKPojo> {
     /**
      * this method gets called once we are sure that all sfk's exist
      */
-    public void continueSetup(List<SFKPojo> requestedData, ApiController<SFKPojo> controller, ApiRequest request){
-        Message.message(controller.getContainer().getContext(), "hello");
+    synchronized public void continueSetup(List<SFKPojo> requestedData, ApiController<SFKPojo> controller, ApiRequest request){
+        Log.d("Execute", "continueSetup");
+
+        for(SFKPojo pojo : requestedData) {
+            STableData fTable = SUtils.getInstance().getTableByUuid(pojo.getFirstTableUuid());
+            STableData sTable = SUtils.getInstance().getTableByUuid(pojo.getSecondTableUuid());
+
+            SItemData fItem = fTable.getItemByUuid(pojo.getIdentity().getFirstUuid());
+            SItemData sItem = sTable.getItemByUuid(pojo.getIdentity().getSecondUuid());
+
+            new SFKBuilder(
+                    controller.getContainer(),
+                    fTable,
+                    fTable.getItemPosition(fItem),
+                    sTable,
+                    sTable.getItemPosition(sItem)
+            ).build();
+        }
+
     }
 
-    private static class CheckTablesExist{
+    private static class CheckTablesExist {
         private final SFKRequestHandler parent;
         private final List<SFKPojo> requestedData;
         private final ApiController<SFKPojo> controller;
@@ -47,13 +67,13 @@ class SFKRequestHandler implements RequestHandler<SFKPojo> {
         long delayBetweenChecks = 200;
 
         //maximum waiting time for the items to be received, if it goes past this error should get thrown (in ms)
-        long maxWaitTime = 10_000;
+        long maxWaitTime = 10_00;
 
         /**
          * @implNote no need to call runCheck method, it gets called automatically
          */
         public CheckTablesExist(SFKRequestHandler parent, List<SFKPojo> requestedData,
-                                ApiController<SFKPojo> controller, ApiRequest request){
+                                ApiController<SFKPojo> controller, ApiRequest request) {
             this.parent = parent;
             this.requestedData = requestedData;
             this.controller = controller;
@@ -66,37 +86,42 @@ class SFKRequestHandler implements RequestHandler<SFKPojo> {
          * still not done). if they don't exist wait 10 seconds, and check every 200ms for changes.
          * after 10 seconds if they still aren't present error message gets displayed to the user
          */
-        private void runCheck(){
+        synchronized private void runCheck() {
             SUtils sUtils = SUtils.getInstance();
 
-            final boolean[] allNotExist = {false};
             Thread thread = new Thread() {
                 @Override
                 public void run() {
                     super.run();
+                    Looper.prepare();
 
                     //boolean for telling us if all the pojos don't exist in sUtils
+                    boolean allNotExist = false;
 
-                    while(maxWaitTime >= curWait){
-                        for(SFKPojo pojo : requestedData){
-                            if(sUtils.getTableByUuid(pojo.getIdentity().getFirstUuid()) == null ||
-                               sUtils.getTableByUuid(pojo.getIdentity().getSecondUuid()) == null){
-                                allNotExist[0] = true;
+                    while (maxWaitTime >= curWait) {
+                        for (SFKPojo pojo : requestedData) {
+                            if (sUtils.getTableByUuid(pojo.getIdentity().getFirstUuid()) == null ||
+                                    sUtils.getTableByUuid(pojo.getIdentity().getSecondUuid()) == null) {
+                                allNotExist = true;
                                 break;
                             }
                         }
 
                         //if the tables don't exist we need to repeat
-                        if(!allNotExist[0]) {
+                        if (!allNotExist) {
                             try {
                                 sleep(delayBetweenChecks);
                                 curWait += delayBetweenChecks;
-                                runCheck();
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
+                        } else {
+                            parent.continueSetup(requestedData, controller, request);
+                            return;
                         }
                     }
+
+                    Log.w(ErrorTags.APP_WARN, "there doesn't seem to be any SFK's for the current table");
                 }
             };
             thread.start();
