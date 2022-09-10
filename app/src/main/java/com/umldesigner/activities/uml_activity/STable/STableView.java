@@ -176,7 +176,7 @@ public class STableView extends ConstraintLayout implements SObject {
         /**
          * TODO fix this
          */
-        controller.put(data.getPojo());
+        controller.put(data);
     }
     
 }

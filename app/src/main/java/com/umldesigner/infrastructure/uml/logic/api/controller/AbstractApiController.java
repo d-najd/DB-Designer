@@ -31,12 +31,12 @@ import java.util.Map;
  *           UmlDesignerShared
  */
 
-public abstract class AbstractApiController<T extends MyCloneable> implements ApiController<T> {
+public abstract class AbstractApiController<T extends MyCloneable<T>> implements ApiController<T> {
     @Getter
     protected final Context context;
     protected final ApiUtils apiUtils;
     @Getter
-    protected final RequestHandler requestHandler;
+    protected final RequestHandler<T> requestHandler;
     @Getter
     protected final String url;
     @Getter
@@ -74,7 +74,7 @@ public abstract class AbstractApiController<T extends MyCloneable> implements Ap
      * use this to define a request handler for the controller
      * @return the request handler
      */
-    protected abstract RequestHandler setRequestHandler();
+    protected abstract RequestHandler<T> setRequestHandler();
 
     /**
      * hook for cleaning up the object before it is converted to json.
@@ -278,12 +278,12 @@ public abstract class AbstractApiController<T extends MyCloneable> implements Ap
     private JSONObject objectToJSON(T o) {
         JSONObject convertedJObject = null;
 
-        o = (T) o.getClone();
+        T oClone = o.clone();
         try {
-            String jsonInString = new Gson().toJson(objectPrep(o), tClass);
+            String jsonInString = new Gson().toJson(objectPrep(oClone), tClass);
             convertedJObject = new JSONObject(jsonInString);
         } catch (JSONException e) {
-            Log.e(ErrorTags.APP_ERROR, "Error converting " + o.getClass().getSimpleName() + " to json object");
+            Log.e(ErrorTags.APP_ERROR, "Error converting " + oClone.getClass().getSimpleName() + " to json object");
             Log.e(ErrorTags.APP_ERROR, "Make sure that the pojo is being passes and not the data");
             e.printStackTrace();
         }

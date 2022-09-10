@@ -3,10 +3,8 @@ package com.umldesigner.activities.uml_activity.SItem;
 import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
-import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.util.UUID;
@@ -17,31 +15,21 @@ import java.util.UUID;
  * @apiNote considered changing this to a decorator, but I think it will be more painful to maintain
  * that way
  */
-@NoArgsConstructor
-public class SItemData implements BaseDataInterface<SItemPojo>{
-    private int id;
-
-    //I have no idea why I can't set this to final
-    @Getter
-    private SItemPojo pojo;
+public class SItemData extends SItemPojo implements BaseDataInterface<SItemPojo> {
+    private final int id;
 
     @Getter
-    private STableData table;
+    private final STableData table;
 
     private SItemData(String uuid, @NonNull String value, @NonNull String type, int size,
                         boolean isPrimaryKey, STableData table){
         this.id = SUtils.getInstance().getNextId();
-
-        String tableUuid = null;
-        if(table != null){
-            tableUuid = table.getPojo().getUuid();
-        }
-        STablePojo tablePojo = null;
-        if (table != null){
-            tablePojo = table.getPojo();
-        }
+        this.uuid = uuid;
+        this.value = value;
+        this.type = type;
+        this.size = size;
+        this.isPrimaryKey = isPrimaryKey;
         this.table = table;
-        this.pojo = new SItemPojo(uuid, type, value, size, tableUuid, tablePojo, isPrimaryKey);
     }
 
     /**
@@ -101,23 +89,21 @@ public class SItemData implements BaseDataInterface<SItemPojo>{
         return id;
     }
 
-    public String getUuid() {
-        return pojo.getUuid();
+    /*
+    @Override
+    public SItemPojo clone() {
+        try {
+            SItemPojo clone = (SItemPojo) super.clone();
+            STablePojo tableData = clone.getTable();
+            if (tableData != null) {
+                clone.setTable(tableData.clone());
+            }
+
+            return (SItemPojo) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 
-    public String getType() {
-        return pojo.getType();
-    }
-
-    public String getValue() {
-        return pojo.getValue();
-    }
-
-    public void setTable(STableData table) {
-        pojo.setTable(table.getPojo());
-    }
-
-    public STableData getTable(){
-        return table;
-    }
+     */
 }

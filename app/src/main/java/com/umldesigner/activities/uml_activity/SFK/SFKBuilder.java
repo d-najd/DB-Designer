@@ -16,7 +16,6 @@ public class SFKBuilder {
     private final STableData sTableData;
     private final int sPos;
     private final int fPos;
-    private boolean shouldRegister = true;
     /**
      * creates a SFK builder
      * @param container the viewGroup where the views will be added
@@ -38,21 +37,10 @@ public class SFKBuilder {
         this.sPos = sPos;
     }
     
-    /**
-     * notifies that the builder should not register the current view as an observer,
-     * default is true
-     */
-    public SFKBuilder shouldNotRegister(){
-        shouldRegister = false;
-        return this;
-    }
-    
-    public SFKView build(){
+    public SFKView build() {
         sfkView = new SFKView(this);
-        if (shouldRegister) {
-            fTableData.registerObserver(sfkView);
-            sTableData.registerObserver(sfkView);
-        }
+        fTableData.registerObserver(sfkView);
+        sTableData.registerObserver(sfkView);
         return sfkView;
     }
 

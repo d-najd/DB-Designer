@@ -12,9 +12,7 @@ package com.umldesigner.infrastructure.uml.data;
  * @implNote id is used instead of Uuid because a view uses int instead of string for the setId
  * method
  */
-public interface BaseDataInterface<T>{
+public interface BaseDataInterface<T> {
     Object getId();
-
-    T getPojo();
 
 }

@@ -3,7 +3,7 @@ package com.umldesigner.infrastructure.uml.logic.api.controller;
 import android.view.ViewGroup;
 import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.utils.MyCloneable;
 
-public interface ApiController<T extends MyCloneable> {
+public interface ApiController<T extends MyCloneable<T>> {
 
     /**
      * the base endpoint, for ex /s/table

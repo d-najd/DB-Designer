@@ -285,8 +285,8 @@ public class SItemDialog extends Dialog {
                         this cast does not fail because tableData.getItems() is bundled wildcard type which extends
                         SItemPojo which means it has to be instanced of the pojo or the pojo itself
                      */
-                    tableData.getItems().add(data);
-                    //itemController.post(data);
+                    tableData.addItem(data);
+                    itemController.post(data);
                     break;
                 case Edit:
                     //data prep
@@ -297,11 +297,7 @@ public class SItemDialog extends Dialog {
                             size,
                             false,
                             tableData);
-
-                    /**
-                     * TODO proper cloning of the pojo?
-                     */
-                    itemController.put(data.getPojo());
+                    itemController.put(data);
                     break;
                 default:
                     throw new IllegalStateException();

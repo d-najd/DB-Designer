@@ -103,9 +103,6 @@ class SFKRequestHandler implements RequestHandler<SFKPojo> {
                         boolean allNotExist = false;
 
                         for (SFKPojo pojo : requestedData) {
-                            STableData f = sUtils.getTableByUuid(pojo.getFirstTableUuid());
-                            STableData s = sUtils.getTableByUuid(pojo.getSecondTableUuid());
-
                             if (sUtils.getTableByUuid(pojo.getFirstTableUuid()) == null ||
                                     sUtils.getTableByUuid(pojo.getSecondTableUuid()) == null) {
                                 allNotExist = true;

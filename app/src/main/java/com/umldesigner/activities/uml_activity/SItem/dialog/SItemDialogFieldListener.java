@@ -43,7 +43,8 @@ class SItemDialogFieldListener implements View.OnClickListener {
                 this cast should not fail because for the android side of things there should be used SItemData
                 all around, altho it may be preferable to force this in the future
              */
-            List<SItemData> items = dialog.getTableData().getItems();
+            @SuppressWarnings("unchecked")
+            List<SItemData> items = (List<SItemData>) dialog.getTableData().getItems();
 
             new EditSItemDialogRItemCustomSpinner(items, (TextView)view, dialog);
         } else if (id == R.id.onUpdate || id == R.id.onDelete) {

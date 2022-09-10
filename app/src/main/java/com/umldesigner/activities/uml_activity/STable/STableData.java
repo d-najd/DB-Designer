@@ -19,15 +19,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * data field used exclusively for android
  */
-public class STableData implements BaseDataInterface<STablePojo>, BaseObservable{
+public class STableData extends STablePojo implements BaseDataInterface<STablePojo>, BaseObservable {
 
-    @Getter
-    private final STablePojo pojo;
     @Getter
     private final HashSet<SFKView> foreignKeys = new HashSet<>();
     
@@ -41,10 +38,11 @@ public class STableData implements BaseDataInterface<STablePojo>, BaseObservable
    private STableData(Integer id, String uuid, float x, float y,
                       String title, List<SItemData> items){
        this.id = id != null ? id : SUtils.getInstance().getNextId();
-
-       //basically getting the pojo of each item and turning that into a list
-       List<SItemPojo> castedPojos = items.stream().map(SItemData::getPojo).collect(Collectors.toList());
-       this.pojo = new STablePojo(title, castedPojos, uuid, x, y);
+       this.uuid = uuid;
+       this.x = x;
+       this.y = y;
+       this.title = title;
+       this.items = items != null ? items : new ArrayList<>();
    }
 
     /**
@@ -125,35 +123,19 @@ public class STableData implements BaseDataInterface<STablePojo>, BaseObservable
         );
     }
 
-    /**
-     *
-     * @return data of items, if null will return empty List
-     */
-    public List<SItemData> getItems(){
-        if(pojo.getItems() == null){
-            return null;
-        }
-
-        /*
-        warning is suppressed because in backend SItemData/STaleData etc. are used and to create those it is forced
-        to provide *data of those classes instead of the pojo
-        */
-        @SuppressWarnings("unchecked")
-        List<SItemData> itemData = (List<SItemData>) pojo.getItems();
-        if (itemData.isEmpty()){
-            itemData = new ArrayList<>();
-        }
-        return itemData;
-    }
 
     /**
      * @param uuid uuid of the item
      * @return item by its uuid or null if it doesn't exist in the current table
      */
     public SItemData getItemByUuid(String uuid){
-        List<SItemData> items = getItems();
+        /*
+            frontend stuff only accepts SItemData so there shouldn't be any problem
+         */
+        @SuppressWarnings("unchecked")
+        List<SItemData> items = (List<SItemData>) getItems();
         for(SItemData item : items){
-            if(uuid.equals(item.getPojo().getUuid())){
+            if(uuid.equals(item.getUuid())){
                 return item;
             }
         }
@@ -177,27 +159,6 @@ public class STableData implements BaseDataInterface<STablePojo>, BaseObservable
     public int getItemPosition(SItemData item){
         return getItems().indexOf(item);
     }
-
-    public String getUuid(){
-        return pojo.getUuid();
-    }
-
-    public Float getX(){
-        return pojo.getX();
-    }
-
-    public Float getY(){
-        return pojo.getY();
-    }
-
-    public void setX(Float x) {
-        pojo.setX(x);
-    }
-    
-    public void setY(Float y) {
-        pojo.setY(y);
-    }
-    
     @Override
     public void registerObserver(BaseObserver o) {
         Log.d("Execute", "registerObserver: ");
@@ -226,15 +187,37 @@ public class STableData implements BaseDataInterface<STablePojo>, BaseObservable
         }
     }
 
-    public String getTitle() {
-        return pojo.getTitle();
+    public void addItem(SItemData itemData){
+
+        /*
+            this cast does not fail because tableData.getItems() is bundled wildcard type which extends
+            SItemPojo which means it has to be instanced of the pojo or the pojo itself
+        */
+        @SuppressWarnings("unchecked")
+        List<SItemData> tempItems = (List<SItemData>) items;
+        tempItems.add(itemData);
     }
 
-    public void setTitle(String title) {
-        pojo.setTitle(title);
+    /*
+    @Override
+    public STablePojo clone() {
+        try {
+            STablePojo clone = (STablePojo) super.clone();
+
+            // ? extends ... means that it F****** EXTENDS IT WHICH MEANS IT'S INSTANCE OF IT SHUT THE F*** UP
+            @SuppressWarnings("unchecked")
+            List<SItemPojo> items = (List<SItemPojo>) clone.getItems();
+            List<SItemPojo> clonedItems = new ArrayList<>();
+            for (SItemPojo item : items) {
+                item.setTable(null);
+                clonedItems.add(item.clone());
+                item.setTable(clone);
+            }
+            return clone;
+        } catch (CloneNotSupportedException e){
+            throw new AssertionError();
+        }
     }
 
-    public void setItems(List<SItemData> itemDataArrayList) {
-        pojo.setItems(itemDataArrayList);
-    }
+     */
 }

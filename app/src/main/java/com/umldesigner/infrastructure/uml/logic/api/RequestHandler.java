@@ -9,7 +9,7 @@ import java.util.List;
  * @implSpec the request handler should be made singleton because there should not be reason for more than one handler
  * to exist inside an application,
  */
-public interface RequestHandler<T extends MyCloneable> {
+public interface RequestHandler<T extends MyCloneable<T>> {
     /**
      * send method call back to the activity where it was called from once the request has been received
      * @param controller used for getting the endpoint of the controller thus letting us to know which
