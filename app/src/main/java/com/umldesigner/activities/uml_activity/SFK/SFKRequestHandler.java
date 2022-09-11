@@ -15,6 +15,7 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.foreign_key.dto.SFKPo
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 class SFKRequestHandler implements RequestHandler<SFKPojo> {
     private static SFKRequestHandler instance;
@@ -28,7 +29,8 @@ class SFKRequestHandler implements RequestHandler<SFKPojo> {
 
     @Override
     public void receiveData(List<SFKPojo> requestedData, ApiController<SFKPojo> controller, ApiRequest request) {
-        Log.d("Execute", "receiveData with code: " + request.toString() + " and received data count " + requestedData.size());
+        Log.d("Execute", "receiveData with request: " + request.toString() + " and received data count "
+                + Objects.requireNonNullElse(requestedData, new ArrayList<>()).size());
 
         new CheckTablesExist(this, requestedData, controller, request);
     }

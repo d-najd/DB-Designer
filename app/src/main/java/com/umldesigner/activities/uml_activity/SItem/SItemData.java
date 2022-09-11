@@ -89,21 +89,4 @@ public class SItemData extends SItemPojo implements BaseDataInterface<SItemPojo>
         return id;
     }
 
-    /*
-    @Override
-    public SItemPojo clone() {
-        try {
-            SItemPojo clone = (SItemPojo) super.clone();
-            STablePojo tableData = clone.getTable();
-            if (tableData != null) {
-                clone.setTable(tableData.clone());
-            }
-
-            return (SItemPojo) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
-    }
-
-     */
 }

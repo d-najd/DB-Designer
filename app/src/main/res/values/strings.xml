@@ -1,11 +1,13 @@
 <resources>
-    <string name="app_name">UmlDesigner</string>
+    <string name="appName">UmlDesigner</string>
     <string name="createTableFab">createTableFab</string>
-    <string name="no_action">No Action</string>
+    <string name="noAction">No Action</string>
     <string name="restrict">Restrict</string>>
     <string name="cascade">Cascade</string>>
-    <string name="set_null">Set NULL</string>>
-    <string name="set_default">Set Default</string>
-    <string name="createitem">Create Item</string>
-    <string name="edititem">Edit Item</string>>
+    <string name="setNull">Set NULL</string>>
+    <string name="setDefault">Set Default</string>
+    <string name="createItem">Create Item</string>
+    <string name="editItem">Edit Item</string>
+    <string name="createTable">Create Table</string>
+    <string name="editTable">Edit Table</string>>
 </resources>

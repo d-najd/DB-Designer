@@ -59,17 +59,4 @@ public class SFKData extends SFKPojo implements BaseDataInterface<SFKPojo> {
     public Integer getId() {
         return id;
     }
-
-
-    /*
-    @Override
-    public SFKPojo clone() {
-        try {
-            return (SFKPojo) super.clone();
-        } catch (CloneNotSupportedException e){
-            throw new AssertionError();
-        }
-    }
-
-     */
 }

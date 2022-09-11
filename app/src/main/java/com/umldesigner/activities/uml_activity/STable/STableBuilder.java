@@ -11,7 +11,6 @@ import com.umldesigner.infrastructure.uml.utils.SUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -66,7 +65,7 @@ public class STableBuilder {
     }
     
     public STableView build(){
-        Log.d("Execute", "build with builder " + this.toString());
+        Log.d("Execute", "build with builder " + this);
         
         sTableView.setOnClickListener(new STableListener(sTableView.getData(), container));
         sTableView.setOnLongClickListener(SUtils.getInstance().getDragListeners());

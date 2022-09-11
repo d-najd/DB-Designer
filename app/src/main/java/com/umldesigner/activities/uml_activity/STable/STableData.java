@@ -197,27 +197,4 @@ public class STableData extends STablePojo implements BaseDataInterface<STablePo
         List<SItemData> tempItems = (List<SItemData>) items;
         tempItems.add(itemData);
     }
-
-    /*
-    @Override
-    public STablePojo clone() {
-        try {
-            STablePojo clone = (STablePojo) super.clone();
-
-            // ? extends ... means that it F****** EXTENDS IT WHICH MEANS IT'S INSTANCE OF IT SHUT THE F*** UP
-            @SuppressWarnings("unchecked")
-            List<SItemPojo> items = (List<SItemPojo>) clone.getItems();
-            List<SItemPojo> clonedItems = new ArrayList<>();
-            for (SItemPojo item : items) {
-                item.setTable(null);
-                clonedItems.add(item.clone());
-                item.setTable(clone);
-            }
-            return clone;
-        } catch (CloneNotSupportedException e){
-            throw new AssertionError();
-        }
-    }
-
-     */
 }

@@ -12,6 +12,7 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemP
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 class STableRequestHandler implements RequestHandler<STablePojo> {
     private static STableRequestHandler instance;
@@ -24,7 +25,8 @@ class STableRequestHandler implements RequestHandler<STablePojo> {
 
     @Override
     public void receiveData(List<STablePojo> requestedData, ApiController<STablePojo> controller, ApiRequest request) {
-        Log.d("Execute", "receiveData with request: " + request.toString() + " and received data count " + requestedData.size());
+        Log.d("Execute", "receiveData with request: " + request.toString() + " and received data count "
+                + Objects.requireNonNullElse(requestedData, new ArrayList<>()).size());
 
         if (controller.getEndpoint().equals(Endpoints.TABLE)){
             switch (request){

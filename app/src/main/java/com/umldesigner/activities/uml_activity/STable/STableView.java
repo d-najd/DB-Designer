@@ -1,5 +1,6 @@
 package com.umldesigner.activities.uml_activity.STable;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,13 +22,13 @@ import lombok.Getter;
 
 import java.util.List;
 
+@SuppressLint("ViewConstructor")
 public class STableView extends ConstraintLayout implements SObject {
     @Getter
     private STableData data;
     private final View v;
     @Getter
     private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
     private final ViewGroup container;
     //server api stuff
     private ApiController<STablePojo> controller;
@@ -44,7 +45,7 @@ public class STableView extends ConstraintLayout implements SObject {
      *      _______________
      * </pre>
      *
-     * @param           builder which holds all of the data
+     * @param           builder which holds all the data
      * @implNote        builder is used because we want to make sure STableView is made from the
      *                  builder
      */
@@ -112,15 +113,15 @@ public class STableView extends ConstraintLayout implements SObject {
     public void destroy() {
         container.removeView(this);
     }
-    
+
     @Override
     public <T extends BaseDataInterface> void setData(T data) {
         Log.d("Execute", "setData with parameter " + data.toString());
-        
+
         this.data = (STableData) data;
     }
-    
-    
+
+
     /**
      * sets the title of the Table View but does not guarantee updating the data, use {@link #updateData()} for that
      *
@@ -145,15 +146,15 @@ public class STableView extends ConstraintLayout implements SObject {
         
         recyclerView = v.findViewById(R.id.uml_table_recyclerView);
         TableDialogSTItemAdapter adapter = new TableDialogSTItemAdapter(itemDataArrayList, container);
-        
-        layoutManager = new LinearLayoutManager(v.getContext());
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         
         data.setItems(itemDataArrayList);
         data.setRecyclerView(recyclerView);
     }
-    
+
     @Override
     public void updateData() {
         Log.d("Execute", "updateData");
@@ -173,9 +174,6 @@ public class STableView extends ConstraintLayout implements SObject {
             controller = new STableControllerImpl(container);
         }
 
-        /**
-         * TODO fix this
-         */
         controller.put(data);
     }
     

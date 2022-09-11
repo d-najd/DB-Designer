@@ -1,12 +1,10 @@
 package com.umldesigner.activities.uml_activity.STable;
 
 import android.util.Pair;
-
 import com.umldesigner.activities.uml_activity.SFK.SFKView;
+import lombok.Getter;
 
 import java.util.HashMap;
-
-import lombok.Getter;
 
 public class STableDataBuffer {
     @Getter
@@ -17,9 +15,8 @@ public class STableDataBuffer {
      * while it is iterating we create a buffer which holds the old object (the first value) and the
      * new object with the updated data from the table (second value) and after the iterator is done
      * we start another iterator and since we are iterating the buffer not the specific object,
-     * destroying that object wont affect the iterator in any way, destroying is done because removal
-     * of specific lines on the canvas is impossible so I had to resort to recreating the view.
-     *
+     * destroying that object won't affect the iterator in any way, destroying is done because removal
+     * of specific lines on the canvas is impossible, so I had to resort to recreating the view.
      * this is written like this to make sure that nothing gets broken when the first view gets removed
      */
     @Getter

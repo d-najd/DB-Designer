@@ -57,11 +57,11 @@ public class SItemDialog extends Dialog {
     public static List<String> getAllActions(Context context){
         List<String> actions = new ArrayList<>();
         
-        actions.add(context.getString(R.string.no_action));
+        actions.add(context.getString(R.string.noAction));
         actions.add(context.getString(R.string.restrict));
         actions.add(context.getString(R.string.cascade));
-        actions.add(context.getString(R.string.set_null));
-        actions.add(context.getString(R.string.set_default));
+        actions.add(context.getString(R.string.setNull));
+        actions.add(context.getString(R.string.setDefault));
         
         return actions;
     }
@@ -75,11 +75,11 @@ public class SItemDialog extends Dialog {
         switch (type){
             case Create:
                 TextView title = findViewById(R.id.title);
-                title.setText(R.string.createitem);
+                title.setText(R.string.createItem);
                 break;
             case Edit:
                 title = findViewById(R.id.title);
-                title.setText(R.string.edititem);
+                title.setText(R.string.editItem);
                 break;
             default:
                 throw new IllegalArgumentException("invalid dialog type");

@@ -2,9 +2,7 @@ package com.umldesigner.activities.uml_activity.STable;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -60,10 +58,10 @@ public class STableDialog extends Dialog {
         TextView title = findViewById(R.id.title);
         switch (type) {
             case Create:
-                title.setText("Create Table");
+                title.setText(R.string.createTable);
                 break;
             case Edit:
-                title.setText("Edit Table");
+                title.setText(R.string.editTable);
                 break;
             default:
                 throw new IllegalArgumentException("define valid type, " + type + " is not valid");
@@ -88,6 +86,11 @@ public class STableDialog extends Dialog {
      */
     private void itemsRecycler() {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
+
+        /*
+
+         */
+        @SuppressWarnings("unchecked")
         SItemGridAdapter adapter = new SItemGridAdapter((List<SItemData>) data.getItems(), container);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -114,18 +117,16 @@ public class STableDialog extends Dialog {
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.okBtn:
-                    pressedOk();
-                    break;
-                case R.id.cancelBtn:
-                    dialog.dismiss();
-                    break;
-                case R.id.addColumnTxt:
-                    pressedColumnTxt();
-                    break;
-                default:
-                    throw new IllegalStateException("invalid view id " + v.getId() + " in " + this.getClass().getSimpleName());
+            int id = v.getId();
+
+            if(id == R.id.okBtn) {
+                pressedOk();
+            } else if (id == R.id.cancelBtn) {
+                dialog.dismiss();
+            } else if (id == R.id.addColumnTxt){
+                pressedColumnTxt();
+            } else {
+                throw new IllegalStateException("invalid view id " + v.getId() + " in " + this.getClass().getSimpleName());
             }
         }
 
@@ -134,12 +135,9 @@ public class STableDialog extends Dialog {
          */
         private void setTitleListener(){
             TextView editText = dialog.findViewById(R.id.titleEdt);
-            editText.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                    data.setTitle(editText.getText().toString());
-                    return false;
-                }
+            editText.setOnKeyListener((view, i, keyEvent) -> {
+                data.setTitle(editText.getText().toString());
+                return false;
             });
         }
 
@@ -148,12 +146,7 @@ public class STableDialog extends Dialog {
 
             // recreate the adapter because item may have been added, not the most optimal way of doing things but oh
             // well
-            itemDialog.setOnDismissListener(new OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    dialog.itemsRecycler();
-                }
-            });
+            itemDialog.setOnDismissListener(dialogInterface -> dialog.itemsRecycler());
 
             itemDialog.show();
         }
