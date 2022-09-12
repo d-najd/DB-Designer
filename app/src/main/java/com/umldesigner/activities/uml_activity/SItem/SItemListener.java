@@ -20,7 +20,7 @@ class SItemListener implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        Log.d("Debug", "onClick: " + v.toString());
+        Log.d("Execute", "onClick: " + v.toString());
 
         SItemDialog dialog = new SItemDialog(container, data, data.getTable(), DialogType.Edit);
         dialog.show();

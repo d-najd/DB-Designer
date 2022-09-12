@@ -4,7 +4,6 @@ import com.umldesigner.activities.uml_activity.STable.STableData;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
-import lombok.Getter;
 import lombok.NonNull;
 
 import java.util.UUID;
@@ -12,14 +11,10 @@ import java.util.UUID;
 /**
  * data field used exclusively for android
  *
- * @apiNote considered changing this to a decorator, but I think it will be more painful to maintain
- * that way
+ * @apiNote considered changing this to a decorator, but I think it will become hard to maintain
  */
 public class SItemData extends SItemPojo implements BaseDataInterface<SItemPojo> {
     private final int id;
-
-    @Getter
-    private final STableData table;
 
     private SItemData(String uuid, @NonNull String value, @NonNull String type, int size,
                         boolean isPrimaryKey, STableData table){
@@ -89,4 +84,11 @@ public class SItemData extends SItemPojo implements BaseDataInterface<SItemPojo>
         return id;
     }
 
+    /**
+     * preventing unnecessary casting in client code
+     * @return S*Data of type of the table field
+     */
+    public STableData getTable(){
+        return (STableData) super.getTable();
+    }
 }
