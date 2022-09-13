@@ -9,7 +9,7 @@ App used for designing uml diagams for sql databases from your phone
 To clone and run the application, and the backend in related projects tab, you will need [Android Studio](https://developer.android.com/studio) and [Git](https://git-scm.com/downloads) installed
 from your command line
 ``` sh
-git clone https://github.com/d-najd/UmlDesigner UmlDesignerApp
+git clone --recursive https://github.com/d-najd/UmlDesigner UmlDesignerApp
 ```
 After the cloning of the repository is done open android studio and go to File->Open->Select project location and then you run the app
 
