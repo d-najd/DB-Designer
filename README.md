@@ -1,6 +1,6 @@
 # Uml Designer
 
-App used for designing uml diagams for sql databases 
+App used for designing uml diagams for sql databases from your phone
 
 ![Repo Size](https://img.shields.io/github/repo-size/d-najd/UmlDesigner)
 
