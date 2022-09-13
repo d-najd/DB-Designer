@@ -1,12 +1,12 @@
 # Uml Designer
 
-App used for designing uml diagams in multiple ways 
+App used for designing uml diagams for sql databases 
 
 ![Repo Size](https://img.shields.io/github/repo-size/d-najd/UmlDesigner)
 
 ## Setup
 
-To clone and run the application, you will need [Android Studio](https://developer.android.com/studio) and [Git](https://git-scm.com/downloads) installed on your command line.
+To clone and run the application, and the backend in related projects tab, you will need [Android Studio](https://developer.android.com/studio) and [Git](https://git-scm.com/downloads) installed
 from your command line
 ``` sh
 git clone https://github.com/d-najd/UmlDesigner UmlDesignerApp
@@ -18,13 +18,13 @@ After the cloning of the repository is done open android studio and go to File->
  - Group support (work in progress)
  - OAuth 2.0 auth (work in progress)
  - Json support (work in progress)
-   - Ability to generate uml diagrams from json files
- - Mysql support (work in progress)
+   - Ability to generate basic diagrams from json files
+ - Sql support (work in progress)
    - Ability to generate uml diagrams from mysql code
-
+   - Ability to generate code for generating the database from existing diagrams
 ## Downloads
  (todo build the app automatically and send a link here, jenkins and gitlab might be used for this?)
 
 ## Related Projects
  - Backend for the app: https://github.com/d-najd/UmlDesigner
- - Shared repository (submodule) which is used between the projects: https://github.com/d-najd/UmlDesignerShared
+ - Shared repository (submodule) which is used to store shared data in the projects: https://github.com/d-najd/UmlDesignerShared
