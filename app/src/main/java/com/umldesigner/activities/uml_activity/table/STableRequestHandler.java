@@ -1,7 +1,7 @@
-package com.umldesigner.activities.uml_activity.STable;
+package com.umldesigner.activities.uml_activity.table;
 
 import android.util.Log;
-import com.umldesigner.activities.uml_activity.SItem.SItemData;
+import com.umldesigner.activities.uml_activity.table_item.SItemData;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
@@ -28,7 +28,7 @@ class STableRequestHandler implements RequestHandler<STablePojo> {
         Log.d("Execute", "receiveData with request: " + request.toString() + " and received data count "
                 + Objects.requireNonNullElse(requestedData, new ArrayList<>()).size());
 
-        if (controller.getEndpoint().equals(Endpoints.TABLE)){
+        if (controller.getEndpoint().equals(Endpoints.table.toString())){
             switch (request){
                 case getAll:
                     SUtils.getInstance().clearViews();

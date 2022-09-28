@@ -1,7 +1,7 @@
-package com.umldesigner.activities.uml_activity.STable;
+package com.umldesigner.activities.uml_activity.table;
 
 import android.util.Pair;
-import com.umldesigner.activities.uml_activity.SFK.SFKView;
+import com.umldesigner.activities.uml_activity.foreign_key.SFKView;
 import lombok.Getter;
 
 import java.util.HashMap;

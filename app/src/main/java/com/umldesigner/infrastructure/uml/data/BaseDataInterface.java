@@ -11,6 +11,9 @@ package com.umldesigner.infrastructure.uml.data;
  *
  * @implNote id is used instead of Uuid because a view uses int instead of string for the setId
  * method
+ *
+ * @implNote TODO the id generation can be improved with an annotation that that will be added at the class declaration,
+ *              and it would generate id's automatically and possibly automate or improve other stuff as well
  */
 public interface BaseDataInterface<T> {
     Object getId();

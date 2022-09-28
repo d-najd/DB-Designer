@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.SItem.dialog;
+package com.umldesigner.activities.uml_activity.table_item.dialog;
 
 import android.content.Context;
 import android.util.Log;

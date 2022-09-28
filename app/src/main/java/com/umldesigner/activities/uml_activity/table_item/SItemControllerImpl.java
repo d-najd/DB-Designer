@@ -1,10 +1,10 @@
-package com.umldesigner.activities.uml_activity.SItem;
+package com.umldesigner.activities.uml_activity.table_item;
 
 
 import android.view.ViewGroup;
-import com.umldesigner.infrastructure.uml.logic.api.controller.AbstractApiController;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
+import com.umldesigner.infrastructure.uml.logic.api.controller.AbstractApiController;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 
@@ -14,7 +14,7 @@ public class SItemControllerImpl extends AbstractApiController<SItemPojo> implem
     }
     @Override
     protected String setEndpoint() {
-        return Endpoints.ITEM;
+        return Endpoints.item.toString();
     }
     @Override
     protected RequestHandler<SItemPojo> setRequestHandler() {
@@ -31,7 +31,7 @@ public class SItemControllerImpl extends AbstractApiController<SItemPojo> implem
     }
     @Override
     protected String getPostUrl(SItemPojo o) {
-       return Endpoints.TABLE_RAW  + "/" + o.getTable().getUuid();
+       return Endpoints.Raw.tableRaw.toString()  + "/" + o.getTable().getUuid();
     }
 
 }

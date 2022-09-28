@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.SFK;
+package com.umldesigner.activities.uml_activity.foreign_key;
 
 import android.view.ViewGroup;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
@@ -13,7 +13,7 @@ public class SFKControllerImpl extends AbstractApiController<SFKPojo> implements
     }
     @Override
     protected String setEndpoint() {
-        return Endpoints.ITEM_FK;
+        return Endpoints.itemForeignKey.toString();
     }
 
     @Override

@@ -1,10 +1,10 @@
-package com.umldesigner.activities.uml_activity.STable;
+package com.umldesigner.activities.uml_activity.table;
 
 import android.util.Log;
 import android.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
-import com.umldesigner.activities.uml_activity.SFK.SFKView;
-import com.umldesigner.activities.uml_activity.SItem.SItemData;
+import com.umldesigner.activities.uml_activity.foreign_key.SFKView;
+import com.umldesigner.activities.uml_activity.table_item.SItemData;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObservable;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObserver;

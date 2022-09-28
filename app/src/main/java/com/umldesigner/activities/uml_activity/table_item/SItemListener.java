@@ -1,10 +1,10 @@
-package com.umldesigner.activities.uml_activity.SItem;
+package com.umldesigner.activities.uml_activity.table_item;
 
 
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import com.umldesigner.activities.uml_activity.SItem.dialog.SItemDialog;
+import com.umldesigner.activities.uml_activity.table_item.dialog.SItemDialog;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
 
 /**

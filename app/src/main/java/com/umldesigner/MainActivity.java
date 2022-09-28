@@ -3,17 +3,12 @@ package com.umldesigner;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatActivity;
-import com.umldesigner.activities.uml_activity.SFK.SFKControllerImpl;
-import com.umldesigner.activities.uml_activity.SItem.SItemData;
-import com.umldesigner.activities.uml_activity.STable.STableBuilder;
-import com.umldesigner.activities.uml_activity.STable.STableControllerImpl;
-import com.umldesigner.activities.uml_activity.STable.STableData;
-import com.umldesigner.activities.uml_activity.STable.STableView;
 import com.umldesigner.activities.uml_activity.grid.SDragListeners;
-import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
+import com.umldesigner.activities.uml_activity.table.STableBuilder;
+import com.umldesigner.activities.uml_activity.table.STableData;
+import com.umldesigner.activities.uml_activity.table.STableView;
+import com.umldesigner.activities.uml_activity.table_item.SItemData;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
-import com.umldesigner.submodules.UmlDesignerShared.schema.foreign_key.dto.SFKPojo;
-import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -57,10 +52,11 @@ public class MainActivity extends AppCompatActivity {
     
     private void displayData(){
             SUtils.getInstance().clearViews();
-            ApiController<STablePojo> tController = new STableControllerImpl(container);
-            tController.getAll();
-            ApiController<SFKPojo> sfkController = new SFKControllerImpl(container);
-            sfkController.getAll();
+
+            //ApiController<STablePojo> tController = new STableControllerImpl(container);
+            //tController.getAll();
+            //ApiController<SFKPojo> sfkController = new SFKControllerImpl(container);
+            //sfkController.getAll();
 
             /*
             for(STableData curData : SUtils.getInstance().getAllTables()){

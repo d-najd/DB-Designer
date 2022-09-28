@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.SFK;
+package com.umldesigner.activities.uml_activity.foreign_key;
 
 import android.util.Log;
 import android.util.Pair;
@@ -7,7 +7,7 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.umldesigner.Message;
-import com.umldesigner.activities.uml_activity.STable.STableData;
+import com.umldesigner.activities.uml_activity.table.STableData;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
 class SFKFacade {

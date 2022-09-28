@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.SFK;
+package com.umldesigner.activities.uml_activity.foreign_key;
 
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.utils.SUtils;

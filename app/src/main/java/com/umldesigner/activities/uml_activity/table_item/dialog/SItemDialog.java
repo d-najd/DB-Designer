@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.SItem.dialog;
+package com.umldesigner.activities.uml_activity.table_item.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,9 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.umldesigner.Message;
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.SItem.SItemControllerImpl;
-import com.umldesigner.activities.uml_activity.SItem.SItemData;
-import com.umldesigner.activities.uml_activity.STable.STableData;
+import com.umldesigner.activities.uml_activity.table_item.SItemControllerImpl;
+import com.umldesigner.activities.uml_activity.table_item.SItemData;
+import com.umldesigner.activities.uml_activity.table.STableData;
 import com.umldesigner.infrastructure.uml.error.ErrorTags;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.DialogType;

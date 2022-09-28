@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.view.View;
 
 import com.umldesigner.infrastructure.uml.utils.DialogType;
-import com.umldesigner.activities.uml_activity.STable.STableDialog;
+import com.umldesigner.activities.uml_activity.table.STableDialog;
 import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.activities.uml_activity.grid.SGridCreate;
 import lombok.Getter;

@@ -1,15 +1,14 @@
-package com.umldesigner.activities.uml_activity.SItem.dialog;
+package com.umldesigner.activities.uml_activity.table_item.dialog;
 
 import android.util.Log;
 import android.widget.TextView;
-
-import com.umldesigner.activities.uml_activity.STable.STableData;
+import com.umldesigner.activities.uml_activity.table_item.SItemData;
 import com.umldesigner.infrastructure.uml.custom.spinner.AbstractCustomSpinner;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 
 import java.util.List;
 
-class EditSItemDialogRTableCustomSpinner extends AbstractCustomSpinner<STableData> {
+class EditSItemDialogRItemCustomSpinner extends AbstractCustomSpinner<SItemData> {
     SItemDialog dialog;
     
     /**
@@ -21,7 +20,7 @@ class EditSItemDialogRTableCustomSpinner extends AbstractCustomSpinner<STableDat
      * the same name or having a field with the same name inside a table is impossible so there
      * isn't a need for the id nor any other field inside the table or the table itself
      */
-    public EditSItemDialogRTableCustomSpinner(List<STableData> data, TextView v, SItemDialog dialog) {
+    public EditSItemDialogRItemCustomSpinner(List<SItemData> data, TextView v, SItemDialog dialog) {
         super(data, v);
         this.dialog = dialog;
     }
@@ -37,13 +36,10 @@ class EditSItemDialogRTableCustomSpinner extends AbstractCustomSpinner<STableDat
         
         TextView parentView = (TextView) getParentView();
         parentView.setText(item.getText().toString());
-        parentView.setTag(getListData().get(itemPosition).getId());
-        
-        dialog.notifyTableChanged();
     }
 
     @Override
-    protected String getTitle(STableData o) {
-        return o.getTitle();
+    protected String getTitle(SItemData o) {
+        return o.getValue();
     }
 }

@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.SFK;
+package com.umldesigner.activities.uml_activity.foreign_key;
 
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
@@ -9,8 +9,8 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
-import com.umldesigner.activities.uml_activity.STable.STableData;
-import com.umldesigner.activities.uml_activity.STable.STableDataBuffer;
+import com.umldesigner.activities.uml_activity.table.STableData;
+import com.umldesigner.activities.uml_activity.table.STableDataBuffer;
 import com.umldesigner.infrastructure.uml.logic.app.SSettings;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObservable;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObserver;

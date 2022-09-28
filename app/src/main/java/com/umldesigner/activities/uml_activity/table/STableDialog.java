@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.STable;
+package com.umldesigner.activities.uml_activity.table;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.umldesigner.Message;
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.SItem.SItemData;
-import com.umldesigner.activities.uml_activity.SItem.SItemGridAdapter;
-import com.umldesigner.activities.uml_activity.SItem.dialog.SItemDialog;
+import com.umldesigner.activities.uml_activity.table_item.SItemData;
+import com.umldesigner.activities.uml_activity.table_item.SItemGridAdapter;
+import com.umldesigner.activities.uml_activity.table_item.dialog.SItemDialog;
 import com.umldesigner.infrastructure.uml.logic.api.controller.AbstractApiController;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.DialogType;

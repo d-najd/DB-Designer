@@ -2,7 +2,7 @@ package com.umldesigner.infrastructure.uml.utils;
 
 import android.util.Log;
 import com.umldesigner.MainActivity;
-import com.umldesigner.activities.uml_activity.STable.STableData;
+import com.umldesigner.activities.uml_activity.table.STableData;
 import com.umldesigner.activities.uml_activity.grid.SDragListeners;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 import lombok.AccessLevel;

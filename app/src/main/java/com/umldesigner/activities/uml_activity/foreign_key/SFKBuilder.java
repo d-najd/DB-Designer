@@ -1,8 +1,8 @@
-package com.umldesigner.activities.uml_activity.SFK;
+package com.umldesigner.activities.uml_activity.foreign_key;
 
 import android.view.ViewGroup;
 
-import com.umldesigner.activities.uml_activity.STable.STableData;
+import com.umldesigner.activities.uml_activity.table.STableData;
 
 import lombok.AccessLevel;
 import lombok.Getter;

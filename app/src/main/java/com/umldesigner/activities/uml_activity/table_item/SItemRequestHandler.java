@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.SItem;
+package com.umldesigner.activities.uml_activity.table_item;
 
 
 import android.util.Log;

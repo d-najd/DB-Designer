@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.STable;
+package com.umldesigner.activities.uml_activity.table;
 
 import android.view.ViewGroup;
 import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
@@ -19,7 +19,7 @@ public class STableControllerImpl extends AbstractApiController<STablePojo> impl
 
     @Override
     protected String setEndpoint() {
-        return Endpoints.TABLE;
+        return Endpoints.table.toString();
     }
 
     @Override

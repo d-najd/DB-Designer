@@ -1,6 +1,6 @@
-package com.umldesigner.activities.uml_activity.SItem;
+package com.umldesigner.activities.uml_activity.table_item;
 
-import com.umldesigner.activities.uml_activity.STable.STableData;
+import com.umldesigner.activities.uml_activity.table.STableData;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;

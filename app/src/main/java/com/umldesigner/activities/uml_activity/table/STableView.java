@@ -1,4 +1,4 @@
-package com.umldesigner.activities.uml_activity.STable;
+package com.umldesigner.activities.uml_activity.table;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -10,8 +10,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.umldesigner.R;
-import com.umldesigner.activities.uml_activity.SItem.SItemData;
-import com.umldesigner.activities.uml_activity.SItem.TableDialogSTItemAdapter;
+import com.umldesigner.activities.uml_activity.table_item.SItemData;
+import com.umldesigner.activities.uml_activity.table_item.TableDialogSTItemAdapter;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;

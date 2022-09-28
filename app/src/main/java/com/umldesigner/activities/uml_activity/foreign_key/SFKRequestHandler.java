@@ -1,11 +1,11 @@
-package com.umldesigner.activities.uml_activity.SFK;
+package com.umldesigner.activities.uml_activity.foreign_key;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import com.umldesigner.Message;
-import com.umldesigner.activities.uml_activity.SItem.SItemData;
-import com.umldesigner.activities.uml_activity.STable.STableData;
+import com.umldesigner.activities.uml_activity.table_item.SItemData;
+import com.umldesigner.activities.uml_activity.table.STableData;
 import com.umldesigner.infrastructure.uml.error.ErrorTags;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
