@@ -16,6 +16,7 @@ import java.util.UUID;
 public class SItemData extends SItemPojo implements BaseDataInterface<SItemPojo> {
     private final int id;
 
+    //TODO fix this
     private SItemData(String uuid, @NonNull String value, @NonNull String type, int size,
                         boolean isPrimaryKey, STableData table){
         this.id = SUtils.getInstance().getNextId();
@@ -23,7 +24,6 @@ public class SItemData extends SItemPojo implements BaseDataInterface<SItemPojo>
         this.value = value;
         this.type = type;
         this.size = size;
-        this.isPrimaryKey = isPrimaryKey;
         this.table = table;
     }
 
@@ -59,7 +59,7 @@ public class SItemData extends SItemPojo implements BaseDataInterface<SItemPojo>
                  itemPojo.getValue(),
                  itemPojo.getType(),
                  itemPojo.getSize() != null ? itemPojo.getSize() : 0,
-                 itemPojo.getIsPrimaryKey(),
+                 false,
                  STableData.from(itemPojo.getTable())
         );
     }

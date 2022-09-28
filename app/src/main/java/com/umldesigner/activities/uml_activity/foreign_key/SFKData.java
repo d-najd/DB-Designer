@@ -2,7 +2,6 @@ package com.umldesigner.activities.uml_activity.foreign_key;
 
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
-import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.identities.BaseMIdentityPojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.foreign_key.dto.SFKPojo;
 import lombok.NonNull;
 
@@ -16,9 +15,6 @@ public class SFKData extends SFKPojo implements BaseDataInterface<SFKPojo> {
             String onDelete,
             String onUpdate){
         this.id = SUtils.getInstance().getNextId();
-        this.identity = new BaseMIdentityPojo(fUuid, sUuid);
-        this.firstTableUuid = fTUuid;
-        this.secondTableUuid = sTUuid;
         this.onDelete = onDelete != null ? onDelete : "ca";
         this.onUpdate = onUpdate != null ? onUpdate : "ca";
     }

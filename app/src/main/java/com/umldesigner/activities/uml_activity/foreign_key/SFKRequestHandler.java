@@ -4,8 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import com.umldesigner.Message;
-import com.umldesigner.activities.uml_activity.table_item.SItemData;
-import com.umldesigner.activities.uml_activity.table.STableData;
 import com.umldesigner.infrastructure.uml.error.ErrorTags;
 import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
@@ -42,18 +40,23 @@ class SFKRequestHandler implements RequestHandler<SFKPojo> {
         Log.d("Execute", "continueSetup");
 
         for(SFKPojo pojo : requestedData) {
-            STableData fTable = SUtils.getInstance().getTableByUuid(pojo.getFirstTableUuid());
-            STableData sTable = SUtils.getInstance().getTableByUuid(pojo.getSecondTableUuid());
+            //TODO fix this
+           // STableData fTable = SUtils.getInstance().getTableByUuid(pojo.getFirstTableUuid());
+           // STableData sTable = SUtils.getInstance().getTableByUuid(pojo.getSecondTableUuid());
 
-            SItemData fItem = fTable.getItemByUuid(pojo.getIdentity().getFirstUuid());
-            SItemData sItem = sTable.getItemByUuid(pojo.getIdentity().getSecondUuid());
+          //  SItemData fItem = fTable.getItemByUuid(pojo.getIdentity().getFirstUuid());
+          //  SItemData sItem = sTable.getItemByUuid(pojo.getIdentity().getSecondUuid());
 
             new SFKBuilder(
                     controller.getContainer(),
-                    fTable,
-                    fTable.getItemPosition(fItem),
-                    sTable,
-                    sTable.getItemPosition(sItem)
+                    null,
+                    -1,
+                    null,
+                    -1
+                    //fTable,
+                    //fTable.getItemPosition(fItem),
+                    //sTable,
+                    //sTable.getItemPosition(sItem)
             ).build();
         }
 
@@ -105,11 +108,12 @@ class SFKRequestHandler implements RequestHandler<SFKPojo> {
                         boolean allNotExist = false;
 
                         for (SFKPojo pojo : requestedData) {
-                            if (sUtils.getTableByUuid(pojo.getFirstTableUuid()) == null ||
-                                    sUtils.getTableByUuid(pojo.getSecondTableUuid()) == null) {
+                            //TODO fix this
+                           // if (sUtils.getTableByUuid(pojo.getFirstTableUuid()) == null ||
+                            //        sUtils.getTableByUuid(pojo.getSecondTableUuid()) == null) {
                                 allNotExist = true;
                                 break;
-                            }
+                           // }
                         }
 
                         //if the tables don't exist we need to repeat

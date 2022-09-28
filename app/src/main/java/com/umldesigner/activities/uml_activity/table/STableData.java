@@ -1,9 +1,7 @@
 package com.umldesigner.activities.uml_activity.table;
 
 import android.util.Log;
-import android.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
-import com.umldesigner.activities.uml_activity.foreign_key.SFKView;
 import com.umldesigner.activities.uml_activity.table_item.SItemData;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.logic.app.observer.BaseObservable;
@@ -16,17 +14,16 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * data field used exclusively for android
  */
 public class STableData extends STablePojo implements BaseDataInterface<STablePojo>, BaseObservable {
 
-    @Getter
-    private final HashSet<SFKView> foreignKeys = new HashSet<>();
+    //TODO fix this
+    //@Getter
+    //private final HashSet<SFKView> foreignKeys = new HashSet<>();
     
     @Getter
     private final Integer id;
@@ -162,18 +159,19 @@ public class STableData extends STablePojo implements BaseDataInterface<STablePo
     @Override
     public void registerObserver(BaseObserver o) {
         Log.d("Execute", "registerObserver: ");
-        foreignKeys.add((SFKView) o);
+        //foreignKeys.add((SFKView) o);
     }
     
     @Override
     public void removeObserver(BaseObserver o) {
         Log.d("Execute", "removeObserver: " + o.toString());
-        foreignKeys.remove((SFKView) o);
+        //foreignKeys.remove((SFKView) o);
     }
     
     @Override
     public void notifyObservers() {
         Log.d("Execute", "notifyObservers: ");
+        /*
         STableDataBuffer sTableDataBuffer = new STableDataBuffer();
         for(SFKView sfk : foreignKeys){
             sfk.updateObserver(this, sTableDataBuffer);
@@ -185,6 +183,8 @@ public class STableData extends STablePojo implements BaseDataInterface<STablePo
             //destroying the observer, NOTE removeObserver is called from inside the destroy method
             Objects.requireNonNull(curValue).first.destroy();
         }
+
+         */
     }
 
     public void addItem(SItemData itemData){

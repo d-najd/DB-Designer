@@ -67,6 +67,8 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
     /**
      * sets the part of the url after the "http://xx.xx:xx/", has similar functionality to the
      * request controller that is located above the class declaration in spring boot controllers
+     *
+     * TODO replace this with enum based system
      */
     protected abstract String setEndpoint();
 
@@ -92,7 +94,7 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
      * </pre>
      *
      * @implNote make sure that the final address is assembled before calling this method since methods like
-     * {{@link #getPostUrl(MyCloneable)}} may depend on it
+     * {{@link #setPostUrl(MyCloneable)}} may depend on it
      * @param o the given object
      * @return cleaned up object
      */
@@ -153,20 +155,20 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
      * @implSpec if not overridden "" will be returned as to not cause any problems by returning null
      * @see #post(MyCloneable)
      */
-    protected String getPostUrl(T o){
+    protected String setPostUrl(T o){
         return "";
     }
     /**
      * @param o the data parameter contained within the view should be passed here
      *          
-     * @implSpec first the given object is being used to in {{@link #getPostUrl(MyCloneable)}} to get custom post url if
+     * @implSpec first the given object is being used to in {{@link #setPostUrl(MyCloneable)}} to get custom post url if
      * specified, then the object is converted to json but before that {@link #objectPrep(MyCloneable)} is called from
      * inside the objectToJson. after that
      * StringRequest is sent to the backend, if the request is received the json object is
      * converted into java object and then sent to the receiver along with the current controller and post as the
      * request type, if the request fails then {{@link ApiUtils#getErrorListener()}} is used to handle the error
      *
-     * @see #getPostUrl(MyCloneable) for specifying a custom post method url
+     * @see #setPostUrl(MyCloneable) for specifying a custom post method url
      * @see #objectToJSON(MyCloneable)
      * @see #objectPrep(MyCloneable)
      */
@@ -178,7 +180,7 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
             Log.e(ErrorTags.API_ERROR, "Attempting to use update method with no object attached");
         }
 
-        String curUrl = url + getPostUrl(o);
+        String curUrl = url + setPostUrl(o);
         JSONObject jsonObject = objectToJSON(o);
 
         StringRequest request = new StringRequest(
@@ -208,22 +210,22 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
      * xx.xx.xx:xx/{uuid}
      * @see #put(MyCloneable)
      */
-    protected String getPutUrl(T o){
+    protected String setPutUrl(T o){
         throw new IllegalStateException("when using default put method override getPutUrl(T)");
     }
 
     /**
-     * @implNote {@link #getPutUrl(MyCloneable)} must be overridden if this method is used otherwise IllegalStateException
+     * @implNote {@link #setPutUrl(MyCloneable)} must be overridden if this method is used otherwise IllegalStateException
      * will be thrown
      *
-     * @implSpec first the given object is being used to in {{@link #getPutUrl(MyCloneable)}} to get the custom url
+     * @implSpec first the given object is being used to in {{@link #setPutUrl(MyCloneable)}} to get the custom url
      * which <h1>is not optional</h1>, then the object is converted to json
      * but before that {@link #objectPrep(MyCloneable)} is called from inside the objectToJson,
      * after that a StringRequest to the backend, if the request is successful the json object is
      * converted into java object and then sent to the receiver along with the current controller and post as the
      * request type, if the request fails then {{@link ApiUtils#getErrorListener()}} is used to handle the error
      *
-     * @see #getPostUrl(MyCloneable) for specifying a custom post method url
+     * @see #setPostUrl(MyCloneable) for specifying a custom post method url
      * @see #objectToJSON(MyCloneable)
      * @see #objectPrep(MyCloneable)
      */
@@ -235,7 +237,7 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
             Log.e(ErrorTags.API_ERROR, "Attempting to use update method with no object attached");
         }
 
-        String curUrl = url + getPutUrl(o);
+        String curUrl = url + setPutUrl(o);
         JSONObject jsonObject = objectToJSON(o);
 
         StringRequest request = new StringRequest(

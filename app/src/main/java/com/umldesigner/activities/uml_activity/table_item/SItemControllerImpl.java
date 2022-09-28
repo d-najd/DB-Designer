@@ -26,11 +26,11 @@ public class SItemControllerImpl extends AbstractApiController<SItemPojo> implem
         return o;
     }
     @Override
-    protected String getPutUrl(SItemPojo o) {
+    protected String setPutUrl(SItemPojo o) {
         return "/" + o.getUuid();
     }
     @Override
-    protected String getPostUrl(SItemPojo o) {
+    protected String setPostUrl(SItemPojo o) {
        return Endpoints.Raw.tableRaw.toString()  + "/" + o.getTable().getUuid();
     }
 

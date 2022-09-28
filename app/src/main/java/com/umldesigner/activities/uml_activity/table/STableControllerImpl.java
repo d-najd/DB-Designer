@@ -28,7 +28,7 @@ public class STableControllerImpl extends AbstractApiController<STablePojo> impl
     }
 
     @Override
-    protected String getPutUrl(STablePojo o) {
+    protected String setPutUrl(STablePojo o) {
         return "/" + o.getUuid();
     }
 

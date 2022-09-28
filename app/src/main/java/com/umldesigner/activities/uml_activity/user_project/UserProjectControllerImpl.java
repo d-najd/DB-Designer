@@ -21,33 +21,6 @@ public class UserProjectControllerImpl extends AbstractApiController<UserProject
     protected RequestHandler<UserProjectPojo> setRequestHandler() {
         return null;
     }
-}
-/*
-public class SItemControllerImpl extends AbstractApiController<SItemPojo> implements ApiController<SItemPojo> {
-    public SItemControllerImpl(ViewGroup container) {
-        super(container);
-    }
-    @Override
-    protected String setEndpoint() {
-        return Endpoints.ITEM;
-    }
-    @Override
-    protected RequestHandler<SItemPojo> setRequestHandler() {
-        return SItemRequestHandler.getInstance();
-    }
-    @Override
-    protected SItemPojo objectPrep(SItemPojo o) {
-        o.setTable(null);
-        return o;
-    }
-    @Override
-    protected String getPutUrl(SItemPojo o) {
-        return "/" + o.getUuid();
-    }
-    @Override
-    protected String getPostUrl(SItemPojo o) {
-        return Endpoints.TABLE_RAW  + "/" + o.getTable().getUuid();
-    }
+
 
 }
-*/
