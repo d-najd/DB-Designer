@@ -84,7 +84,7 @@ public class STableData extends STablePojo implements BaseDataInterface<STablePo
                -1,
                -1,
                null,
-               null
+               new ArrayList<>()
        );
    }
 
@@ -94,15 +94,12 @@ public class STableData extends STablePojo implements BaseDataInterface<STablePo
             return null;
         }
 
-       /*
-            warning is suppressed because in backend SItemData/STaleData etc. are used and to create those it is forced
-            to provide *data of those classes instead of the pojo
-        */
         List<SItemData> items = new ArrayList<>();
         if (tableData.getItems() != null) {
             /*
-                we are converting pojo to data so its items should be pojo's as well
-             */
+                Warning is suppressed because *Data of classes are used for the backend, so we can be sure that *Data is
+                used for the item as well and not pojo
+            */
             @SuppressWarnings("unchecked")
             List<SItemPojo> tableItems = (List<SItemPojo>) tableData.getItems();
             for(SItemPojo itemPojo : tableItems){
@@ -126,9 +123,10 @@ public class STableData extends STablePojo implements BaseDataInterface<STablePo
      * @return item by its uuid or null if it doesn't exist in the current table
      */
     public SItemData getItemByUuid(String uuid){
-        /*
-            frontend stuff only accepts SItemData so there shouldn't be any problem
-         */
+            /*
+                Warning is suppressed because *Data of classes are used for the backend, so we can be sure that *Data is
+                used for the item as well and not pojo
+            */
         @SuppressWarnings("unchecked")
         List<SItemData> items = (List<SItemData>) getItems();
         for(SItemData item : items){

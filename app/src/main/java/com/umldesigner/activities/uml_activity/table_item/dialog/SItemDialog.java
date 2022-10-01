@@ -11,9 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.umldesigner.Message;
 import com.umldesigner.R;
+import com.umldesigner.activities.uml_activity.table.STableData;
 import com.umldesigner.activities.uml_activity.table_item.SItemControllerImpl;
 import com.umldesigner.activities.uml_activity.table_item.SItemData;
-import com.umldesigner.activities.uml_activity.table.STableData;
 import com.umldesigner.infrastructure.uml.error.ErrorTags;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
@@ -278,7 +278,6 @@ public class SItemDialog extends Dialog {
                             valueEdt.getText().toString(),
                             typeEdt.getText().toString(),
                             size,
-                            false,
                             tableData);
 
                     /*
@@ -295,7 +294,6 @@ public class SItemDialog extends Dialog {
                             valueEdt.getText().toString(),
                             typeEdt.getText().toString(),
                             size,
-                            false,
                             tableData);
                     itemController.put(data);
                     break;

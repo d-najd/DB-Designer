@@ -12,8 +12,8 @@ public class SFKControllerImpl extends AbstractApiController<SFKPojo> implements
         super(container);
     }
     @Override
-    protected String setEndpoint() {
-        return Endpoints.itemForeignKey.toString();
+    protected Endpoints setEndpoint() {
+        return Endpoints.itemForeignKey;
     }
 
     @Override

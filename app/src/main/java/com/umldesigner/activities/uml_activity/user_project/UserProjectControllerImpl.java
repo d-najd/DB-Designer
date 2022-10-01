@@ -13,13 +13,13 @@ public class UserProjectControllerImpl extends AbstractApiController<UserProject
     }
 
     @Override
-    protected String setEndpoint() {
-        return Endpoints.project.toString();
+    protected Endpoints setEndpoint() {
+        return Endpoints.project;
     }
 
     @Override
     protected RequestHandler<UserProjectPojo> setRequestHandler() {
-        return null;
+        return UserProjectRequestHandlerImpl.getInstance();
     }
 
 

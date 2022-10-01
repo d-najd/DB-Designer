@@ -8,7 +8,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.umldesigner.infrastructure.uml.error.ErrorTags;
-import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
+import com.umldesigner.infrastructure.uml.logic.api.RequestTypes;
+import com.umldesigner.infrastructure.uml.logic.api.Endpoints;
 import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
 import com.umldesigner.infrastructure.uml.utils.ApiUtils;
 import com.umldesigner.submodules.UmlDesignerShared.infrastructure.pojo.utils.MyCloneable;
@@ -40,7 +41,7 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
     @Getter
     protected final String url;
     @Getter
-    protected final String endpoint;
+    protected final Endpoints endpoint;
     
     private final Class<T> tClass;
 
@@ -70,7 +71,7 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
      *
      * TODO replace this with enum based system
      */
-    protected abstract String setEndpoint();
+    protected abstract Endpoints setEndpoint();
 
     /**
      * use this to define a request handler for the controller
@@ -125,7 +126,7 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
                             pojos.add(curObject);
                         }
                         
-                        requestHandler.receiveData(pojos, this, ApiRequest.getAll);
+                        requestHandler.receiveData(pojos, this, RequestTypes.getAll);
                     } catch (JSONException e){
                         e.printStackTrace();
                     }
@@ -187,7 +188,7 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
                 Request.Method.POST,
                 curUrl,
                 response -> {
-                    requestHandler.receiveData(null, this, ApiRequest.post);
+                    requestHandler.receiveData(null, this, RequestTypes.post);
                 },
                 apiUtils.getErrorListener()
         ) {
@@ -250,7 +251,7 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
                     pojos.add(
                             gson.fromJson(response, tClass));
     
-                    requestHandler.receiveData(pojos, this, ApiRequest.put);
+                    requestHandler.receiveData(pojos, this, RequestTypes.put);
                 },
                 apiUtils.getErrorListener()
         ) {

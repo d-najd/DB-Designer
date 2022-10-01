@@ -20,7 +20,7 @@ public class ApiUtils {
     /**
      * ip of the api
      */
-    public static final String IP = "http://192.168.1.9:8080";
+    public static final String IP = "http://192.168.1.11:8080";
     
     /**
      * request queue for the api calls

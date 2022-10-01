@@ -5,17 +5,16 @@ import android.os.Looper;
 import android.util.Log;
 import com.umldesigner.Message;
 import com.umldesigner.infrastructure.uml.error.ErrorTags;
-import com.umldesigner.infrastructure.uml.logic.api.ApiRequest;
-import com.umldesigner.infrastructure.uml.logic.api.RequestHandler;
+import com.umldesigner.infrastructure.uml.logic.api.AbstractRequestHandler;
+import com.umldesigner.infrastructure.uml.logic.api.RequestTypes;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.foreign_key.dto.SFKPojo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-class SFKRequestHandler implements RequestHandler<SFKPojo> {
+class SFKRequestHandler extends AbstractRequestHandler<SFKPojo> {
     private static SFKRequestHandler instance;
 
     public static SFKRequestHandler getInstance(){
@@ -25,18 +24,15 @@ class SFKRequestHandler implements RequestHandler<SFKPojo> {
         return instance;
     }
 
-    @Override
-    public void receiveData(List<SFKPojo> requestedData, ApiController<SFKPojo> controller, ApiRequest request) {
-        Log.d("Execute", "receiveData with request: " + request.toString() + " and received data count "
-                + Objects.requireNonNullElse(requestedData, new ArrayList<>()).size());
-
-        new CheckTablesExist(this, requestedData, controller, request);
-    }
+    //@Override
+    //public void receiveData(List<SFKPojo> requestedData, ApiController<SFKPojo> controller, RequestTypes request) {kjl
+        //new CheckTablesExist(this, requestedData, controller, request);
+    //}
 
     /**
      * this method gets called once we are sure that all sfk's exist
      */
-    synchronized public void continueSetup(List<SFKPojo> requestedData, ApiController<SFKPojo> controller, ApiRequest request){
+    synchronized public void continueSetup(List<SFKPojo> requestedData, ApiController<SFKPojo> controller, RequestTypes request){
         Log.d("Execute", "continueSetup");
 
         for(SFKPojo pojo : requestedData) {
@@ -66,7 +62,7 @@ class SFKRequestHandler implements RequestHandler<SFKPojo> {
         private final SFKRequestHandler parent;
         private final List<SFKPojo> requestedData;
         private final ApiController<SFKPojo> controller;
-        private final ApiRequest request;
+        private final RequestTypes request;
 
         //how much time we have currently waited so far (in ms)
         long curWait = 0;
@@ -81,7 +77,7 @@ class SFKRequestHandler implements RequestHandler<SFKPojo> {
          * @implNote no need to call runCheck method, it gets called automatically
          */
         public CheckTablesExist(SFKRequestHandler parent, List<SFKPojo> requestedData,
-                                ApiController<SFKPojo> controller, ApiRequest request) {
+                                ApiController<SFKPojo> controller, RequestTypes request) {
             this.parent = parent;
             this.requestedData = requestedData;
             this.controller = controller;
@@ -93,6 +89,8 @@ class SFKRequestHandler implements RequestHandler<SFKPojo> {
          * @implSpec method for checking if the tables and items exist in the table (for example if the request for getting them is
          * still not done). if they don't exist wait 10 seconds, and check every 200ms for changes.
          * after 10 seconds if they still aren't present error message gets displayed to the user
+         *
+         * TODO check if this still works or remove it if it has no use, disabled atm
          */
         synchronized private void runCheck() {
             SUtils sUtils = SUtils.getInstance();

@@ -13,8 +13,8 @@ public class SItemControllerImpl extends AbstractApiController<SItemPojo> implem
         super(container);
     }
     @Override
-    protected String setEndpoint() {
-        return Endpoints.item.toString();
+    protected Endpoints setEndpoint() {
+        return Endpoints.item;
     }
     @Override
     protected RequestHandler<SItemPojo> setRequestHandler() {

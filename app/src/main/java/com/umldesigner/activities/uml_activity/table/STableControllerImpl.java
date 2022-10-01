@@ -18,8 +18,8 @@ public class STableControllerImpl extends AbstractApiController<STablePojo> impl
     }
 
     @Override
-    protected String setEndpoint() {
-        return Endpoints.table.toString();
+    protected Endpoints setEndpoint() {
+        return Endpoints.table;
     }
 
     @Override

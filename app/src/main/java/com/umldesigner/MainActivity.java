@@ -8,7 +8,10 @@ import com.umldesigner.activities.uml_activity.table.STableBuilder;
 import com.umldesigner.activities.uml_activity.table.STableData;
 import com.umldesigner.activities.uml_activity.table.STableView;
 import com.umldesigner.activities.uml_activity.table_item.SItemData;
+import com.umldesigner.activities.uml_activity.user_project.UserProjectControllerImpl;
+import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
+import com.umldesigner.submodules.UmlDesignerShared.schema.user_project.UserProjectPojo;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -51,8 +54,10 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private void displayData(){
-            SUtils.getInstance().clearViews();
+        SUtils.getInstance().clearViews();
 
+        ApiController<UserProjectPojo> pController = new UserProjectControllerImpl(container);
+        pController.getAll();
             //ApiController<STablePojo> tController = new STableControllerImpl(container);
             //tController.getAll();
             //ApiController<SFKPojo> sfkController = new SFKControllerImpl(container);

@@ -1,6 +1,7 @@
 package com.umldesigner.activities.uml_activity.table_item;
 
 import com.umldesigner.activities.uml_activity.table.STableData;
+import com.umldesigner.activities.uml_activity.table_item.item_info.SItemInfoData;
 import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
@@ -9,22 +10,20 @@ import lombok.NonNull;
 import java.util.UUID;
 
 /**
- * data field used exclusively for android
- *
- * @apiNote considered changing this to a decorator, but I think it will become hard to maintain
+ * @apiNote considered changing this to a decorator, but it because of difficulties to maintain it I decided not to
  */
 public class SItemData extends SItemPojo implements BaseDataInterface<SItemPojo> {
     private final int id;
 
-    //TODO fix this
     private SItemData(String uuid, @NonNull String value, @NonNull String type, int size,
-                        boolean isPrimaryKey, STableData table){
+                      SItemInfoData itemInfo, STableData table){
         this.id = SUtils.getInstance().getNextId();
         this.uuid = uuid;
         this.value = value;
         this.type = type;
         this.size = size;
         this.table = table;
+        this.itemInfo = itemInfo;
     }
 
     /**
@@ -32,18 +31,17 @@ public class SItemData extends SItemPojo implements BaseDataInterface<SItemPojo>
      * @param value the value field in the item
      * @param type the type of the field (ex varchar, int)
      * @param size whether the field type has size and how much it is (ex varchar(50))
-     * @param isPrimaryKey whether the given field is a primary key or a normal instance
      * @param table tells us which table the item belongs to
      * @return SItemData instance
      */
     public static SItemData newInstance(String uuid, @NonNull String value, @NonNull String type, int size,
-                                        boolean isPrimaryKey, STableData table){
+                                        STableData table){
         return new SItemData(
                 uuid,
                 value,
                 type,
                 size,
-                isPrimaryKey,
+                null,
                 table
         );
     }
@@ -59,7 +57,7 @@ public class SItemData extends SItemPojo implements BaseDataInterface<SItemPojo>
                  itemPojo.getValue(),
                  itemPojo.getType(),
                  itemPojo.getSize() != null ? itemPojo.getSize() : 0,
-                 false,
+                 SItemInfoData.from(itemPojo.getItemInfo()),
                  STableData.from(itemPojo.getTable())
         );
     }
@@ -74,7 +72,7 @@ public class SItemData extends SItemPojo implements BaseDataInterface<SItemPojo>
                 value,
                 type,
                 0,
-                false,
+                null,
                 null
         );
     }
