@@ -1,7 +1,9 @@
 package com.umldesigner.activities.uml_activity.user_project;
 
 
+import com.umldesigner.activities.uml_activity.foreign_key.SFKBuilder;
 import com.umldesigner.activities.uml_activity.table.STableBuilder;
+import com.umldesigner.activities.uml_activity.table.STableData;
 import com.umldesigner.activities.uml_activity.table_item.SItemData;
 import com.umldesigner.infrastructure.uml.logic.api.AbstractRequestHandler;
 import com.umldesigner.infrastructure.uml.logic.api.RequestTypes;
@@ -12,6 +14,7 @@ import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemP
 import com.umldesigner.submodules.UmlDesignerShared.schema.user_project.UserProjectPojo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 class UserProjectRequestHandlerImpl extends AbstractRequestHandler<UserProjectPojo> {
@@ -72,5 +75,27 @@ class UserProjectRequestHandlerImpl extends AbstractRequestHandler<UserProjectPo
                     .addItems(items)
                     .build();
         }
+
+        Iterator<STableData> iterator = SUtils.getInstance().getTableIterator();
+        while(iterator.hasNext()){
+            STableData tableData = iterator.next();
+
+            for(int i = 0; i < tableData.getItems().size(); i++){
+                SItemData itemData = (SItemData) tableData.getItems().get(i);
+                STableData sTableData = SUtils.getInstance().getTableByUuid(itemData
+                        .getItemInfo().getForeignKey().getReferencedTableUuid());
+
+                new SFKBuilder(
+                        controller.getContainer(),
+                        tableData,
+                        i,
+                        sTableData,
+                        sTableData.getItemPosition(itemData.getItemInfo().getForeignKey().getReferencedUuid())
+                ).build();
+
+            }
+        }
     }
+
+
 }

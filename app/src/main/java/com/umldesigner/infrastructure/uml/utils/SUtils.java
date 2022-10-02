@@ -2,8 +2,9 @@ package com.umldesigner.infrastructure.uml.utils;
 
 import android.util.Log;
 import com.umldesigner.MainActivity;
-import com.umldesigner.activities.uml_activity.table.STableData;
 import com.umldesigner.activities.uml_activity.grid.SDragListeners;
+import com.umldesigner.activities.uml_activity.table.STableData;
+import com.umldesigner.infrastructure.uml.data.BaseDataInterface;
 import com.umldesigner.infrastructure.uml.entities.SObject;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -32,6 +33,9 @@ public class SUtils {
      */
 
     private final Map<Integer, SObject> views;
+
+    private final Map<String, BaseDataInterface<?>> dataByUuid;
+
     /**
      * holds set of all tables located in the schema activity, items are added through the
      * {@link #viewsPut(Integer, SObject)} method
@@ -56,6 +60,7 @@ public class SUtils {
         views = new HashMap<>();
         tables = new HashMap<>();
         tablesByUuid = new HashMap<>();
+        dataByUuid = new HashMap<>();
         appIdCounter = 1;
 
         dragListeners = MainActivity.getDragListeners();
@@ -98,13 +103,13 @@ public class SUtils {
     /**
      * puts a view in the {@link #views} with a given id, if the object is instance of {@link STableData} them the
      * object will also be put in {@link #tables}
-     * @see #getViews()
-     * @see #getTables()
      */
     public void viewsPut(Integer id, SObject umlObject){
         views.put(id, umlObject);
-        if(umlObject.getData() instanceof STableData){
-            addTable(id, (STableData) umlObject.getData());
+        if(umlObject.getData() instanceof BaseDataInterface<?>) {
+            if (umlObject.getData() instanceof STableData) {
+                addTable(id, (STableData) umlObject.getData());
+            }
         }
     }
 
@@ -118,6 +123,17 @@ public class SUtils {
 
     public STableData getTableByUuid(String id){
         return tablesByUuid.get(id);
+    }
+
+    public <T extends BaseDataInterface<?>> T getDataByUuid(String uuid, Class<T> className) {
+        if (className.isInstance(dataByUuid.get(uuid))) {
+            //line above checks
+            @SuppressWarnings("unchecked")
+            T data = (T) dataByUuid.get(uuid);
+            return data;
+        } else {
+            throw new IllegalArgumentException("invalid class type specified");
+        }
     }
 
     /**
@@ -155,9 +171,4 @@ public class SUtils {
         views.remove(id);
         tables.remove(id);
     }
-
-    public void removeTableByUuid(String uuid){
-        tablesByUuid.remove(uuid);
-    }
-
 }

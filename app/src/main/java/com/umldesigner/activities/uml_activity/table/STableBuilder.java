@@ -45,13 +45,13 @@ public class STableBuilder {
         this.y = y * SSettings.getInstance().getSpacing();
         this.container = container;
         this.context = container.getContext();
-        
         sTableView = new STableView(this);
         sTableView.setVisibility(View.GONE);
     }
     
     /**
      * adds all the items and sets the table for those items
+     * @implSpec sets the correct table and sets the table id for each of the referecend
      * @param items list of items
      * @return the builder
      */
@@ -65,7 +65,7 @@ public class STableBuilder {
     }
     
     public STableView build(){
-        Log.d("Execute", "build with builder " + this);
+        Log.d("Execute", "build with builder " + this.getClass().getSimpleName());
         
         sTableView.setOnClickListener(new STableListener(sTableView.getData(), container));
         sTableView.setOnLongClickListener(SUtils.getInstance().getDragListeners());

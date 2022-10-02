@@ -11,11 +11,13 @@ public class SFKData extends SFKPojo implements BaseDataInterface<SFKPojo> {
     private SFKData(
             @NonNull String uuid,
             @NonNull String referencedUuid,
+            @NonNull String referencedTableUuid,
             String onDelete,
             String onUpdate) {
         this.id = SUtils.getInstance().getNextId();
         this.uuid = uuid;
         this.referencedUuid = referencedUuid;
+        this.referencedTableUuid = referencedTableUuid;
         this.onDelete = onDelete != null ? onDelete : "ca";
         this.onUpdate = onUpdate != null ? onUpdate : "ca";
     }
@@ -24,6 +26,7 @@ public class SFKData extends SFKPojo implements BaseDataInterface<SFKPojo> {
         return new SFKData(
                 pojo.getUuid(),
                 pojo.getReferencedUuid(),
+                pojo.getReferencedTableUuid(),
                 pojo.getOnDelete(),
                 pojo.getOnUpdate()
         );
