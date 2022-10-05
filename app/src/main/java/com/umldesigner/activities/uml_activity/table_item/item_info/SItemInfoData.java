@@ -13,11 +13,12 @@ public class SItemInfoData extends SItemInfoPojo implements BaseDataInterface<SI
     @Getter
     private final Integer id;
 
-    private SItemInfoData(String uuid, Boolean primaryKey, Boolean uniqueKey, Boolean autoIncrement, Boolean unsigned,
+    private SItemInfoData(String uuid, Boolean primaryKey, Boolean allowNull, Boolean uniqueKey, Boolean autoIncrement, Boolean unsigned,
                           SFKData foreignKey, Set<SFKData> referencedForeignKeys){
         this.id = SUtils.getInstance().getNextId();
         this.uuid = uuid;
         this.primaryKey = primaryKey  != null ? primaryKey : false;
+        this.allowNull = allowNull != null ? allowNull : false;
         this.uniqueKey = uniqueKey != null ? uniqueKey : false;
         this.autoIncrement = autoIncrement != null ? autoIncrement : false;
         this.unsigned = unsigned != null ? unsigned : false;
@@ -32,16 +33,18 @@ public class SItemInfoData extends SItemInfoPojo implements BaseDataInterface<SI
                 null,
                 null,
                 null,
+                null,
                 foreignKey,
                 referencedForeignKeys
         );
     }
 
-    public static SItemInfoData newInstance(String uuid, Boolean primaryKey, Boolean uniqueKey, Boolean autoIncrement, Boolean unsigned,
+    public static SItemInfoData newInstance(String uuid, Boolean primaryKey, Boolean allowNull, Boolean uniqueKey, Boolean autoIncrement, Boolean unsigned,
                           SFKData foreignKey, Set<SFKData> referencedForeignKeys){
         return new SItemInfoData(
                 uuid,
                 primaryKey,
+                allowNull,
                 uniqueKey,
                 autoIncrement,
                 unsigned,
@@ -70,6 +73,7 @@ public class SItemInfoData extends SItemInfoPojo implements BaseDataInterface<SI
         return new SItemInfoData(
                 pojo.getUuid(),
                 pojo.getPrimaryKey(),
+                pojo.getAllowNull(),
                 pojo.getUniqueKey(),
                 pojo.getAutoIncrement(),
                 pojo.getUnsigned(),

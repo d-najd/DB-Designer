@@ -9,6 +9,7 @@ import com.umldesigner.infrastructure.uml.logic.api.AbstractRequestHandler;
 import com.umldesigner.infrastructure.uml.logic.api.RequestTypes;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.SUtils;
+import com.umldesigner.submodules.UmlDesignerShared.schema.foreign_key.dto.SFKPojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table.dto.STablePojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.user_project.UserProjectPojo;
@@ -82,20 +83,20 @@ class UserProjectRequestHandlerImpl extends AbstractRequestHandler<UserProjectPo
 
             for(int i = 0; i < tableData.getItems().size(); i++){
                 SItemData itemData = (SItemData) tableData.getItems().get(i);
-                STableData sTableData = SUtils.getInstance().getTableByUuid(itemData
-                        .getItemInfo().getForeignKey().getReferencedTableUuid());
+                SFKPojo itemSfk = itemData.getItemInfo().getForeignKey();
+                if(itemSfk != null) {
+                    STableData sTableData = SUtils.getInstance().getTableByUuid(itemSfk.getReferencedTableUuid_());
 
-                new SFKBuilder(
-                        controller.getContainer(),
-                        tableData,
-                        i,
-                        sTableData,
-                        sTableData.getItemPosition(itemData.getItemInfo().getForeignKey().getReferencedUuid())
-                ).build();
+                    new SFKBuilder(
+                            controller.getContainer(),
+                            tableData,
+                            i,
+                            sTableData,
+                            sTableData.getItemPosition(itemData.getItemInfo().getForeignKey().getReferencedUuid())
+                    ).build();
+                }
 
             }
         }
     }
-
-
 }

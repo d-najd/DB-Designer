@@ -32,6 +32,27 @@ public class STableControllerImpl extends AbstractApiController<STablePojo> impl
         return "/" + o.getUuid();
     }
 
+    //TODO this is hard coded, fix it
+    @Override
+    protected String setPostUrl(STablePojo o) {
+        return Endpoints.Raw.projectRaw + "/54badac5-70ef-4a31-b04b-6633ad68257c";
+    }
+
+    @Override
+    public void post(STablePojo o) {
+        super.post(o);
+/*
+        ApiController<SFKPojo> controller = new SFKControllerImpl(container);
+        for(SItemPojo item : o.getItems()){
+            try{
+                controller.post(item.getItemInfo().getForeignKey());
+            } catch (Exception ignored){ }
+        }
+
+ */
+
+    }
+
     @Override
     protected STablePojo objectPrep(STablePojo o) {
         o.setX(o.getX() / SSettings.getInstance().getSpacing());

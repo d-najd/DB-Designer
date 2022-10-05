@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.umldesigner.Message;
@@ -14,9 +15,11 @@ import com.umldesigner.R;
 import com.umldesigner.activities.uml_activity.table.STableData;
 import com.umldesigner.activities.uml_activity.table_item.SItemControllerImpl;
 import com.umldesigner.activities.uml_activity.table_item.SItemData;
+import com.umldesigner.activities.uml_activity.table_item.item_info.SItemInfoData;
 import com.umldesigner.infrastructure.uml.error.ErrorTags;
 import com.umldesigner.infrastructure.uml.logic.api.controller.ApiController;
 import com.umldesigner.infrastructure.uml.utils.DialogType;
+import com.umldesigner.submodules.UmlDesignerShared.schema.item_info.SItemInfoPojo;
 import com.umldesigner.submodules.UmlDesignerShared.schema.table_item.dto.SItemPojo;
 import lombok.Getter;
 
@@ -141,11 +144,11 @@ public class SItemDialog extends Dialog {
      */
     private void setupRadioFields(){
         // getting fields
-        View pk = findViewById(R.id.PK);
-        View an = findViewById(R.id.AN);
-        View uq = findViewById(R.id.UQ);
-        View ai = findViewById(R.id.AI);
-        View fk = findViewById(R.id.FK);
+        CheckBox pk = findViewById(R.id.PK);
+        CheckBox an = findViewById(R.id.AN);
+        CheckBox uq = findViewById(R.id.UQ);
+        CheckBox ai = findViewById(R.id.AI);
+        CheckBox fk = findViewById(R.id.FK);
 
         // getting listener
         SItemDialogRadioListener radioListener = new SItemDialogRadioListener(this);
@@ -156,6 +159,15 @@ public class SItemDialog extends Dialog {
         uq.setOnClickListener(radioListener);
         ai.setOnClickListener(radioListener);
         fk.setOnClickListener(radioListener);
+
+        if(data != null) {
+            SItemInfoPojo itemInfo = data.getItemInfo();
+            pk.setChecked(itemInfo.getPrimaryKey());
+            an.setChecked(itemInfo.getAllowNull());
+            uq.setChecked(itemInfo.getUniqueKey());
+            ai.setChecked(itemInfo.getAutoIncrement());
+            fk.setChecked(itemInfo.getForeignKey() != null);
+        }
     }
     
     
@@ -241,6 +253,11 @@ public class SItemDialog extends Dialog {
             //EditText defaultEdt = dialog.findViewById(R.id.defaultEdt);
             //EditText descriptionEdt = dialog.findViewById(R.id.descriptionEdt);
 
+            CheckBox pk = dialog.findViewById(R.id.PK);
+            CheckBox an = dialog.findViewById(R.id.AN);
+            CheckBox uq = dialog.findViewById(R.id.UQ);
+            CheckBox ai = dialog.findViewById(R.id.AI);
+
             /*
             TextView refTable = dialog.findViewById(R.id.refTable);
             TextView refField = dialog.findViewById(R.id.refField);
@@ -269,31 +286,50 @@ public class SItemDialog extends Dialog {
 
             ApiController<SItemPojo> itemController = new SItemControllerImpl(container);
 
+
             //sending request
             switch (type) {
                 case Create:
                     //data prep
+                    SItemInfoData itemInfoData = SItemInfoData.newInstance(
+                            null,
+                            pk.isChecked(),
+                            an.isChecked(),
+                            uq.isChecked(),
+                            ai.isChecked(),
+                            null,
+                            null,
+                            null);
                     data = SItemData.newInstance(
                             null,
                             valueEdt.getText().toString(),
                             typeEdt.getText().toString(),
                             size,
+                            itemInfoData,
                             tableData);
 
-                    /*
-                        this cast does not fail because tableData.getItems() is bundled wildcard type which extends
-                        SItemPojo which means it has to be instanced of the pojo or the pojo itself
-                     */
                     tableData.addItem(data);
-                    itemController.post(data);
+                    if(tableData.getUuid() != null) {
+                        itemController.post(data);
+                    }
                     break;
                 case Edit:
                     //data prep
+                    itemInfoData = SItemInfoData.newInstance(
+                            data.getUuid(),
+                            pk.isChecked(),
+                            an.isChecked(),
+                            uq.isChecked(),
+                            ai.isChecked(),
+                            null,
+                            null,
+                            null);
                     data = SItemData.newInstance(
                             data.getUuid(),
                             valueEdt.getText().toString(),
                             typeEdt.getText().toString(),
                             size,
+                            itemInfoData,
                             tableData);
                     itemController.put(data);
                     break;

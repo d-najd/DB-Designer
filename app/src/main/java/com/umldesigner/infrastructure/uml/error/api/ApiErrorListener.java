@@ -25,14 +25,6 @@ public class ApiErrorListener implements Response.ErrorListener {
                 case 400:
                     Message.message(context, "Bad request");
                     Log.e(ErrorTags.API_ERROR, "Bad request error: " + new String(error.networkResponse.data));
-                case 401:
-                    Message.message(context, "Wrong credentials");
-                    Log.e(ErrorTags.API_ERROR, "Entered wrong credentials, error: " + new String(error.networkResponse.data));
-                    break;
-                case 403:
-                    Message.message(context, "Missing authorities for current action");
-                    Log.e(ErrorTags.API_ERROR, "Missing authorities for request, error: " + new String(error.networkResponse.data));
-                    break;
                 case 418:
                     Message.message(context, "The server refuses to brew coffee because it is a teapot");
                     Log.e(ErrorTags.API_ERROR, "server says it is a teapot, error: " + new String(error.networkResponse.data));

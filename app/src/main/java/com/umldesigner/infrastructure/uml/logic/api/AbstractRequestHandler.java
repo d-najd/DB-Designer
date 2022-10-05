@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AbstractRequestHandler<T extends MyCloneable<T>> implements RequestHandler<T> {
-
+public abstract class AbstractRequestHandler<T extends MyCloneable<T>> implements RequestHandler<T> {
     public void receiveData(List<T> requestedData, ApiController<T> controller, RequestTypes request) {
         Log.d("Execute", "receiveData with request: " + request.toString() + " and received data count "
                 + Objects.requireNonNullElse(requestedData, new ArrayList<>()).size());
@@ -33,7 +32,7 @@ public class AbstractRequestHandler<T extends MyCloneable<T>> implements Request
      * @implSpec if left unoverridden will throw illegal state exception when called
      */
     public void receiveGetByUuid(List<T> requestedData, ApiController<T> controller, RequestTypes request) {
-        throw new IllegalStateException("should add request handler for the get by uuid method in class: "
+        throw new IllegalStateException("should add request handler for the get all method in class: "
                 + getClass().getSimpleName());
     }
 
@@ -45,19 +44,7 @@ public class AbstractRequestHandler<T extends MyCloneable<T>> implements Request
                 + getClass().getSimpleName());
     }
 
-    /**
-     * @implSpec if left unoverridden will throw illegal state exception when called
-     */
-    public void receivePostData(List<T> requestedData, ApiController<T> controller, RequestTypes request) {
-        throw new IllegalStateException("should add request handler for the post method in class: "
-                + getClass().getSimpleName());
-    }
+    public void receivePostData(List<T> requestedData, ApiController<T> controller, RequestTypes request) { }
 
-    /**
-     * @implSpec if left unoverridden will throw illegal state exception when called
-     */
-    public void receivePutData(List<T> requestedData, ApiController<T> controller, RequestTypes request) {
-        throw new IllegalStateException("should add request handler for the put method in class: "
-                + getClass().getSimpleName());
-    }
+    public void receivePutData(List<T> requestedData, ApiController<T> controller, RequestTypes request) { }
 }

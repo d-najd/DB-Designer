@@ -35,13 +35,13 @@ public class SItemData extends SItemPojo implements BaseDataInterface<SItemPojo>
      * @return SItemData instance
      */
     public static SItemData newInstance(String uuid, @NonNull String value, @NonNull String type, int size,
-                                        STableData table){
+                                        SItemInfoData itemInfoData, STableData table){
         return new SItemData(
                 uuid,
                 value,
                 type,
                 size,
-                null,
+                itemInfoData,
                 table
         );
     }

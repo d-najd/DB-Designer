@@ -162,6 +162,7 @@ public class STableDialog extends Dialog {
                     } else {
                         //recreating the table because "empty table" was used
 
+
                         @SuppressWarnings("unchecked")
                         STablePojo tableData = STableData.newInstance(null, data.getUuid(),
                                 8f, 12f, newTitle, (List<SItemData>) data.getItems());

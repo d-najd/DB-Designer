@@ -1,6 +1,5 @@
 package com.umldesigner.activities.uml_activity.foreign_key;
 
-import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import com.umldesigner.Message;
@@ -32,6 +31,7 @@ class SFKRequestHandler extends AbstractRequestHandler<SFKPojo> {
     /**
      * this method gets called once we are sure that all sfk's exist
      */
+    /*
     synchronized public void continueSetup(List<SFKPojo> requestedData, ApiController<SFKPojo> controller, RequestTypes request){
         Log.d("Execute", "continueSetup");
 
@@ -58,6 +58,7 @@ class SFKRequestHandler extends AbstractRequestHandler<SFKPojo> {
 
     }
 
+     */
     private static class CheckTablesExist {
         private final SFKRequestHandler parent;
         private final List<SFKPojo> requestedData;
@@ -124,8 +125,8 @@ class SFKRequestHandler extends AbstractRequestHandler<SFKPojo> {
                             }
                         } else {
                             //getting the main thread and forwarding the request to it
-                            new Handler(controller.getContainer().getContext().getMainLooper()).post(()
-                                    -> parent.continueSetup(requestedData, controller, request));
+                            //new Handler(controller.getContainer().getContext().getMainLooper()).post(()
+                            //        -> parent.continueSetup(requestedData, controller, request));
                             return;
                         }
                     }

@@ -108,7 +108,7 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
      * converted into java objects and then sent to the receiver along with the current controller and getAll as the
      * request type, if the request fails then {{@link ApiUtils#getErrorListener()}} is used to handle the error
      */
-    final public void getAll() {
+    public void getAll() {
         Log.d("Execute", "getAll on class, " + this.getClass().getSimpleName());
         
         JsonArrayRequest request = new JsonArrayRequest(
@@ -230,7 +230,7 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
      * @see #objectToJSON(MyCloneable)
      * @see #objectPrep(MyCloneable)
      */
-     final public void put(T o){
+    public void put(T o){
         Log.d("Execute", "update on object " + o.getClass() + ", with class" + this.getClass().getSimpleName());
 
         //cleaning up the object
