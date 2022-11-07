@@ -1,6 +1,6 @@
 # DB Designer
 
-![Repo Size](https://img.shields.io/github/repo-size/d-najd/UmlDesigner)
+![Repo Size](https://img.shields.io/github/repo-size/d-najd/DB-Designer)
 
 App used for designing uml diagams for sql databases from your phone
 
