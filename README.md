@@ -1,4 +1,4 @@
-# Uml Designer
+# DB Designer
 
 ![Repo Size](https://img.shields.io/github/repo-size/d-najd/UmlDesigner)
 
@@ -26,5 +26,5 @@ After the cloning of the repository is done open android studio and go to File->
  (todo build the app automatically and send a link here, jenkins and gitlab might be used for this?)
 
 ## Related Projects
- - Backend for the app: https://github.com/d-najd/UmlDesignerAppApi
- - Shared repository (submodule) which is used to store shared data in the projects: https://github.com/d-najd/UmlDesignerShared
+- [Backend](https://github.com/d-najd/DB-Designer-Backend)
+- [Shared Repository](https://github.com/d-najd/DB-Designer-Shared/)
