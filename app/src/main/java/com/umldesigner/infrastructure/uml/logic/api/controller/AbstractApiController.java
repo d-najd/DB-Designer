@@ -123,11 +123,12 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
                             pojos.add(curObject);
                         }
                         
-                        requestHandler.receiveData(pojos, this, ApiRequest.getAll);
+                        requestHandler.receiveData(pojos, this, ApiRequest.GetAll);
                     } catch (JSONException e){
                         e.printStackTrace();
                     }
                 },
+
                 apiUtils.getErrorListener()
         ) {
             @Override
@@ -185,7 +186,7 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
                 Request.Method.POST,
                 curUrl,
                 response -> {
-                    requestHandler.receiveData(null, this, ApiRequest.post);
+                    requestHandler.receiveData(null, this, ApiRequest.Post);
                 },
                 apiUtils.getErrorListener()
         ) {
@@ -248,7 +249,7 @@ public abstract class AbstractApiController<T extends MyCloneable<T>> implements
                     pojos.add(
                             gson.fromJson(response, tClass));
     
-                    requestHandler.receiveData(pojos, this, ApiRequest.put);
+                    requestHandler.receiveData(pojos, this, ApiRequest.Put);
                 },
                 apiUtils.getErrorListener()
         ) {

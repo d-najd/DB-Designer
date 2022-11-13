@@ -30,7 +30,7 @@ class STableRequestHandler implements RequestHandler<STablePojo> {
 
         if (controller.getEndpoint().equals(Endpoints.TABLE)){
             switch (request){
-                case getAll:
+                case GetAll:
                     SUtils.getInstance().clearViews();
                     for(STablePojo pojo : requestedData){
 
@@ -51,8 +51,8 @@ class STableRequestHandler implements RequestHandler<STablePojo> {
                                 .build();
                     }
                     break;
-                case post:
-                case put:
+                case Post:
+                case Put:
                     break;
                 default:
                     throw new IllegalStateException("the current receiver is unable to handle the current state");

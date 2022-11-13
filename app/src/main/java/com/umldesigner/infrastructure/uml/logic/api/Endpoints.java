@@ -6,25 +6,38 @@ public class Endpoints {
         // Suppress default constructor for noninsatiability
         throw new AssertionError();
     }
-    
+    /**
+     * endpoint for all schema related stuff
+     */
     public static final String SCHEMA = "/s";
+    /**
+     * Project endpoint which doesn't contain {@value #SCHEMA} before it
+     */
+    public static final String PROJECT_RAW = "/project";
+    /**
+     * Project endpoint which comtains {@value #SCHEMA} and {@value #PROJECT_RAW}
+     */
+    public static final String PROJECT = SCHEMA + "/project";
     /**
      * Table endpoint which doesn't contain {@value #SCHEMA} before it
      */
     public static final String TABLE_RAW = "/table";
     /**
-     * Item endpoint which doesn't contain {@value #SCHEMA} before it
+     * Table endpoint which contains {@value #PROJECT} and {@value #TABLE_RAW}
+     */
+    public static final String TABLE = PROJECT + TABLE_RAW;
+    /**
+     * Item endpoint which doesn't contain {@value #PROJECT} before it
      */
     public static final String ITEM_RAW = "/item";
     /**
-     * Table endpoint which contains {@value #SCHEMA} and {@value #TABLE_RAW}
+     * Item endpoint which contains {@value #PROJECT} and {@value #ITEM_RAW}
      */
-    public static final String TABLE = SCHEMA + TABLE_RAW;
+    public static final String ITEM = PROJECT + ITEM_RAW;
     /**
-     * Item endpoint which contains {@value #SCHEMA} and {@value #ITEM_RAW}
+     * The info for the item like if it is a primary key and other stuff
      */
-    public static final String ITEM = SCHEMA + ITEM_RAW;
-    
+    public static final String ITEM_INFO = ITEM + "/info";
     /**
      * Foreign key between SItems endpoint contains {@value #ITEM} before it
      */
